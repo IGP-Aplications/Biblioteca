@@ -756,9 +756,9 @@
                 
 		<div class='clear'></div>
 
-		<div class='campo-buscador'>CALL NUMBER</div>
+		<div class='campo-buscador'>Codigo de ubicación</div>
        	<div class='contenedor-caja-buscador-1'>
-       	<input type='text'  placeholder='Ingrese CallNumber(codigo de ubicación) aqui' onchange='xajax_registerCallNumber(this.value); return false;' value='$CallNumber' id='CallNumber' name='CallNumber' class='caja-buscador-1' /><div id='call-back-error'></div></div>
+       	<input type='text'  placeholder='Ingrese código de ubicación física aqui' onchange='xajax_registerCallNumber(this.value); return false;' value='$CallNumber' id='CallNumber' name='CallNumber' class='caja-buscador-1' /><div id='call-back-error'></div></div>
                 
 		<div class='clear'></div>
 

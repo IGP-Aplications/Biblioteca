@@ -458,9 +458,9 @@ elseif(isset($_SESSION["tmp"])){
                         }
                     }
                     else{
-		    $_SESSION["tmp"]["authorPRI"]["idauthor"]=$idauthor;
-		    $_SESSION["tmp"]["authorPRI"]["author_name"]=$author_name;
-		    $_SESSION["tmp"]["authorPRI"]["author_surname"]=$author_surname;
+						    $_SESSION["tmp"]["authorPRI"]["idauthor"]=$idauthor;
+						    $_SESSION["tmp"]["authorPRI"]["author_name"]=$author_name;
+						    $_SESSION["tmp"]["authorPRI"]["author_surname"]=$author_surname;
                     }
                     
 		    //$objResponse->script("xajax_arrayAuthor()");
@@ -468,7 +468,7 @@ elseif(isset($_SESSION["tmp"])){
 		    $html='<table class="tablacebra-2" cellspacing="0" cellpadding="0" border="0" align="center" width="200px">
 					<tr class="cab" style="text-align: left;">';    
 		    $html.= "<td width='40px'>Nro</td>";
-		    $html.= "<td width='120px'>Nombres</td>";
+		    $html.= "<td width='120px'>Apellidos y Nombres</td>";
 		    $html.= "<td width='40px'>Borrar</td>";
 		    $html.= "</tr>";
 		
@@ -625,7 +625,7 @@ elseif(isset($_SESSION["tmp"])){
 		    $html='<table class="tablacebra-2" cellspacing="0" cellpadding="0" border="0" align="center" width="200px">
 					<tr class="cab" style="text-align: left;">';    
 		    $html.= "<td width='40px'>Nro</td>";
-		    $html.= "<td width='120px'>Nombres</td>";
+		    $html.= "<td width='120px'>Apellidos y  Nombres</td>";
 		    $html.= "<td width='40px'>Borrar</td>";
 		    $html.= "</tr>";
 		
@@ -706,7 +706,7 @@ elseif(isset($_SESSION["tmp"])){
 		    $query=$result["Query"];
 		    $count=$result["Count"];
 		    $idauthor = $result["idauthor"];
-		    $author_first_name = $result["author_first_name"];
+		    $author_first_name = $result["author_name"];
 		    $author_second_name = $result["author_second_name"];
 		    $author_surname =$result["author_surname"];
                     
@@ -729,7 +729,7 @@ elseif(isset($_SESSION["tmp"])){
 		    $html='<table class="tablacebra-2" cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
 						<tr class="cab" style="text-align: left;">';    
 		    $html.= "<td>Nro</td>";
-		    $html.= "<td>Nombres</td>";
+		    $html.= "<td>Apellidos y Nombres</td>";
 		    $html.= "<td>Borrar</td>";
 		    $html.= "</tr>";
 		
@@ -883,14 +883,14 @@ elseif(isset($_SESSION["tmp"])){
 		    $html='<table class="tablacebra-2" cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
 						<tr class="cab" style="text-align: left;">';    
 		    $html.= "<td>Nro</td>";
-		    $html.= "<td>Nombres</td>";
+		    $html.= "<td>Apellidos Nombres</td>";
 		    $html.= "<td>Borrar</td>";
 		    $html.= "</tr>";
 		
 		    for($i=0;$i<$count;$i++){
 		            $nro=$i+1;
 		            $html.= "<tr class='impar'>";
-		            $html.= "<td>".$nro."</td>";
+		            $html.= "<td>".$nro." </td>";
 		            $html.= "<td>".ucfirst($author_surname[$i]).", ".ucfirst($author_first_name[$i])."</td>";
 		
 		            $html.= "<td><a href='#formulario'><img alt='selet' style='cursor: pointer; border:0;' onclick='xajax_delSearchAuthorSesionSecShow(\"$idauthor[$i]\"); return false;' src='img/usersDEL.png'/></a></td>";
@@ -1338,7 +1338,7 @@ function verificaArchivo($url)
 		    $html.= '<table class="tablacebra-2" cellspacing="0" cellpadding="0" border="0" width="380px">';
 			$html.= '<tr style="text-align: left;" class="cab">';
 		    $html.= "<td width='40px'>Nro</td>";
-		    $html.= "<td width='200px'>Nombres</td>";
+		    $html.= "<td width='200px'>Apelidos Nombres</td>";
 		    $html.= "<td width='60px'>Principal</td>";
 		    $html.= "<td width='60px'>Secundario</td>";
 		    $html.= "</tr>";
@@ -1362,7 +1362,7 @@ else{
 }
 
 		            //$html.= "<td>".ucfirst($author_surname[$i]).", ".ucfirst(substr($author_first_name[$i],0,2))."</td>";
-                            $html.= "<td>".$apellido.", ".ucfirst(substr($author_name[$i],0,2))."</td>";
+                            $html.= "<td>".$apellido.", ".$author_name[$i]."</td>";
                             
 		            $html.= "<td><a href=\"#formulario\" style=\"cursor: pointer;\"><img alt=\"autor primario\" style=\"cursor: pointer; border:0;\" onclick=\"xajax_auxAuthorPriShow(5,$currentPage,xajax.getFormValues('autorPRI'),$idauthor[$i],'$apellidoArray'); return false;\" src=\"img/iconos/userPRI.png\" /></a></td>";
 		            $html.= "<td>
