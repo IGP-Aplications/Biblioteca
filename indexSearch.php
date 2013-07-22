@@ -516,14 +516,14 @@
 	
 				//libxml_use_internal_errors(true);
 				$xmlt = simplexml_load_string($xmldata);
-				// if (!$xmlt) {
+				if (!$xmlt) {
 					
-				// 	foreach(libxml_get_errors() as $error) {
-				// 		echo "\t", $error->message;
-				// 	}
-				// 	return "Error cargando XML (searchPublication)\n";
+					foreach(libxml_get_errors() as $error) {
+						echo "\t", $error->message;
+					}
+					return "Error cargando XML (searchPublication)\n";
 						
-				// }
+				}
 
 				// $autorSEC="";
 				// if(isset($xmlt->authorSEC)){
@@ -564,18 +564,18 @@
 	                        
 				// eval('if (isset($xmlt->enlace)){$xmlflag=TRUE; $enlace=(string)$xmlt->enlace;} else {$xmlflag=FALSE;}');
                                 $titulo=ucfirst((string)$xmlt->title);
-                                $titulo=(str_replace("*","'",$titulo));
+                                $author=ucfirst((string)$xmlt->authorPRI->author_surname0);
 				// if(($xmlflag) and ($enlace!="")){
 				// 	$titulo="<a href='$enlace' target='_blank'>".$titulo."</a>";
 				// }
 				// else{
-					$titulo="<a class='resultado' >".$titulo."</a>";
+					$titulo="<a  href='#' onclick='xajax_editBook(".$result["idbook"][$i].",1); return false;' class='resultado' >".$titulo."</a>";
 					// $titulo="<a class='resultado' onclick='xajax_editShow(".$result["idbook"][$i].", 2)' >".$titulo."</a>";
 				// }
 
 				$html.="<div class='resultado-busqueda'>";
 
-				$html.= $titulo;
+				$html.= $titulo." - ".$author;
 
 
 

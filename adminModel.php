@@ -439,11 +439,11 @@
 	
 	function searchPublication_iddataSQL($idcategory,$searchText,$iddata=0){
 	
-		$dbh=conx("DB_ITS","wmaster","igpwmaster");
+		$dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
 		$dbh->query("SET NAMES 'utf8'");
 	
 	        if($iddata!=0){
-	            $sql = "SELECT * FROM book b WHERE idbook=$iddata";
+	            $sql = "SELECT * FROM book WHERE idbook=$iddata";
 	        }
 	        else{
 	            $sql = "SELECT * FROM data d, subcategory s WHERE d.idsubcategory=s.idsubcategory";

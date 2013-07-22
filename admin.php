@@ -595,7 +595,7 @@
 		    if($_SESSION["editar"]==1){
 		        $action="UPD";
 		        $tituloBoton="ACTUALIZAR";
-		        $tituloGeneral="Editar ponencia";
+		        $tituloGeneral="Editar Libro";
 				//$linkRegresar='<span style="float:right;"><a class="negro" href=# onclick="xajax_abstractHide(\'formulario\'); xajax_abstractShow(\'consultas\'); xajax_abstractShow(\'resultSearch\'); xajax_abstractShow(\'paginator\'); return false;"><img style="cursor: pointer; border:0;" width="20px" src="img/flecha-izq.jpg">&nbsp;&nbsp; Retornar a resultados </a></span>';
 				//$objResponse->assign("botonRegresar","innerHTML",$linkRegresar);
 		    }
@@ -669,11 +669,12 @@
 				<div id="archivo" style="display:none"></div>
 			</div>
 			
-            <div class="action-btn"><input class="btn"  type="button" onclick="xajax_newPonencia('.$iddata.',\''.$action.'\');" value='.$tituloBoton.' rel="popover" data-content="tienes un contenido genial. ¿verdad que es atractivo?" data-original-title="Un titulo" /></div>
+            <div class="action-btn"><input class="btn"  type="button" onclick="xajax_newPonencia('.$iddata.',\''.$action.'\');" value='.$tituloBoton.'  /></div>
 			';
 
     	//###############################################################
 		//PRIMERO COLOCAMOS EL FORMULARIO QUE CONTIENE LAS DEMAS CAPAS
+		// $objResponse->alert(print_r($_SESSION["editar"],TRUE));
 	    $objResponse->assign("formulario","innerHTML","$html");	    
 	    
 		// Muestra los tabs por default
@@ -690,41 +691,42 @@
 		    $recuperar=$_SESSION["tmp"];
 		 }
 	
-        // if(isset($recuperar["titulo"])){
-        //     $tit=$recuperar["titulo"];
-        // }
-        // else{
-        //     $tit="";
-        // }
+        if(isset($recuperar["titulo"])){
+            $title=$recuperar["titulo"];
+        }
+        else{
+            $title="";
+        }
 	
         //Presentado por
-        if(isset($recuperar["prePorNombre"])){
-            $prePorNombre=$recuperar["prePorNombre"];
-        }
-        else{
-            $prePorNombre="";
-        }
+        // if(isset($recuperar["prePorNombre"])){
+        //     $prePorNombre=$recuperar["prePorNombre"];
+        // }
+        // else{
+        //     $prePorNombre="";
+        // }
 
-        if(isset($recuperar["prePorApellido"])){
-            $prePorApellido=$recuperar["prePorApellido"];
-        }
-        else{
-            $prePorApellido="''";
-        }
+        // if(isset($recuperar["prePorApellido"])){
+        //     $prePorApellido=$recuperar["prePorApellido"];
+        // }
+        // else{
+        //     $prePorApellido="''";
+        // }
         
-        if(isset($recuperar["idtipoPonencia"])){
-            $tipoPonencia_id=$recuperar["idtipoPonencia"];
-        }
-        else{
-            $tipoPonencia_id=0;
-        }
+        // if(isset($recuperar["idtipoPonencia"])){
+        //     $tipoPonencia_id=$recuperar["idtipoPonencia"];
+        // }
+        // else{
+        //     $tipoPonencia_id=0;
+        // }
 
-        if(isset($recuperar["tipoPonencia_description"])){
-            $tipoPonencia_description=$recuperar["tipoPonencia_description"];
-        }
-        else{
-            $tipoPonencia_description="";
-        }
+        // if(isset($recuperar["tipoPonencia_description"])){
+        //     $tipoPonencia_description=$recuperar["tipoPonencia_description"];
+        // }
+        // else{
+        //     $tipoPonencia_description="";
+        // }
+        
 		$tipoPonencia="";
 		$tipoPonencia=comboTipoPonencia($tipoPonencia_id);
 		
@@ -736,56 +738,56 @@
         
         
 		$html="
-       	<div class='clear'></div>  
+	       	<div class='clear'></div>  
 
-       	
-       	<input type='hidden' value='tipoPonencia_description' id='tipoPonencia_txt' name='tipoPonencia_txt' class='field'>
-		<div class='clear'></div>
-		<div class='campo-buscador'>Título:&nbsp;</div>
-       	<div class='contenedor-caja-buscador-1'>
-       	<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' /><div id='titulo_error'></div></div>
-                
-		<div class='clear'></div>
+	       	
+	       	<input type='hidden' value='tipoPonencia_description' id='tipoPonencia_txt' name='tipoPonencia_txt' class='field'>
+			<div class='clear'></div>
+			<div class='campo-buscador'>Título:&nbsp;</div>
+	       	<div class='contenedor-caja-buscador-1'>
+	       	<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$title' id='title' name='title' class='caja-buscador-1' /><div id='titulo_error'></div></div>
+	                
+			<div class='clear'></div>
 
-		<div class='campo-buscador' id='tit_tipoPonencia'>Formato</div>
-       	<div class='contenedor-combo-buscador-1' id='tipoPonencia'>$formatBook</div>
-       	<div class='clear'></div>
-		<div class='campo-buscador'>Codigo ISBN:&nbsp;</div>
-       	<div class='contenedor-caja-buscador-1'>
-       	<input type='text' placeholder='ej. 0385342586' onchange='xajax_registerISBN(this.value); return false;' value='$ISBN' id='ISBN' name='ISBN' class='caja-buscador-1' /><div id='titulo_error'></div></div>
-                
-		<div class='clear'></div>
+			<div class='campo-buscador' id='tit_tipoPonencia'>Formato</div>
+	       	<div class='contenedor-combo-buscador-1' id='tipoPonencia'>$formatBook</div>
+	       	<div class='clear'></div>
+			<div class='campo-buscador'>Codigo ISBN:&nbsp;</div>
+	       	<div class='contenedor-caja-buscador-1'>
+	       	<input type='text' placeholder='ej. 0385342586' onchange='xajax_registerISBN(this.value); return false;' value='$ISBN' id='ISBN' name='ISBN' class='caja-buscador-1' /><div id='titulo_error'></div></div>
+	                
+			<div class='clear'></div>
 
-		<div class='campo-buscador'>Codigo de ubicación</div>
-       	<div class='contenedor-caja-buscador-1'>
-       	<input type='text'  placeholder='Ingrese código de ubicación física aqui' onchange='xajax_registerCallNumber(this.value); return false;' value='$CallNumber' id='CallNumber' name='CallNumber' class='caja-buscador-1' /><div id='call-back-error'></div></div>
-                
-		<div class='clear'></div>
+			<div class='campo-buscador'>Codigo de ubicación</div>
+	       	<div class='contenedor-caja-buscador-1'>
+	       	<input type='text'  placeholder='Ingrese código de ubicación física aqui' onchange='xajax_registerCallNumber(this.value); return false;' value='$CallNumber' id='CallNumber' name='CallNumber' class='caja-buscador-1' /><div id='call-back-error'></div></div>
+	                
+			<div class='clear'></div>
 
-		<div class='campo-buscador'>Publicación</div>
-       	<div class='contenedor-caja-buscador-1'>
-       	<input type='text' placeholder='ej. Lima,2002 ' onchange='xajax_registerPublication(this.value); return false;' value='$publication' id='publication' name='publication' class='caja-buscador-1' /><div id='publication-error'></div></div>                
-		<div class='clear'></div>
+			<div class='campo-buscador'>Publicación</div>
+	       	<div class='contenedor-caja-buscador-1'>
+	       	<input type='text' placeholder='ej. Lima,2002 ' onchange='xajax_registerPublication(this.value); return false;' value='$publication' id='publication' name='publication' class='caja-buscador-1' /><div id='publication-error'></div></div>                
+			<div class='clear'></div>
 
-		<div class='campo-buscador'>Descripción Física</div>
-       	<div class='contenedor-caja-buscador-1'>
-       	<input type='text' placeholder='ej. 719 p. ; 21 cm' onchange='xajax_registerDescription_Physical(this.value); return false;' value='$description_physical' id='description_physical' name='publication' class='caja-buscador-1' /><div id='description_physical-error'></div></div>                
-		<div class='clear'></div>
+			<div class='campo-buscador'>Descripción Física</div>
+	       	<div class='contenedor-caja-buscador-1'>
+	       	<input type='text' placeholder='ej. 719 p. ; 21 cm' onchange='xajax_registerDescription_Physical(this.value); return false;' value='$description_physical' id='description_physical' name='publication' class='caja-buscador-1' /><div id='description_physical-error'></div></div>                
+			<div class='clear'></div>
 
-		<div class='campo-buscador'>Edición</div>
-       	<div class='contenedor-caja-buscador-1'>
-       	<input type='text' placeholder='ej. 1ra ed' value='$edition' onchange='xajax_registerEdition(this.value); return false;' id='edition' name='edition' class='caja-buscador-1' /><div id='edition-error'></div></div>                
-		<div class='clear'></div>
+			<div class='campo-buscador'>Edición</div>
+	       	<div class='contenedor-caja-buscador-1'>
+	       	<input type='text' placeholder='ej. 1ra ed' value='$edition' onchange='xajax_registerEdition(this.value); return false;' id='edition' name='edition' class='caja-buscador-1' /><div id='edition-error'></div></div>                
+			<div class='clear'></div>
 
-		<div class='campo-buscador'>Temas</div>
-       	<div class='contenedor-caja-buscador-1'>
-       	<input type='text' placeholder='ej. tema1, tema2' onchange='xajax_registerSubject(this.value); return false;' value='$subject' id='subject' name='publication' class='caja-buscador-1' /><div id='subject-error'></div></div>                
-		<div class='clear'></div>	
+			<div class='campo-buscador'>Temas</div>
+	       	<div class='contenedor-caja-buscador-1'>
+	       	<input type='text' placeholder='ej. tema1, tema2' onchange='xajax_registerSubject(this.value); return false;' value='$subject' id='subject' name='publication' class='caja-buscador-1' /><div id='subject-error'></div></div>                
+			<div class='clear'></div>	
 
-		<div class='campo-buscador'>Resumen</div>
-       	<div class='contenedor-caja-buscador-1'>
-       	<textarea placeholder='Escriba aqui el resumen' onchange='xajax_registerSumary(this.value); return false;' value='$summary' id='summary' name='summary' rows='3' ></textarea><div id='summary-error'></div></div>                
-		<div class='clear'></div>	
+			<div class='campo-buscador'>Resumen</div>
+	       	<div class='contenedor-caja-buscador-1'>
+	       	<textarea placeholder='Escriba aqui el resumen' onchange='xajax_registerSumary(this.value); return false;' value='$summary' id='summary' name='summary' rows='3' ></textarea><div id='summary-error'></div></div>                
+			<div class='clear'></div>	
 		
        		
        	";
@@ -1800,6 +1802,7 @@ function delete_file($namefile){
     $xajax->registerFunction('save_files');
     $xajax->registerFunction('delete_file');
     $xajax->registerFunction('registerDescription_Physical');
+    $xajax->registerFunction('editBook');
 
 
 

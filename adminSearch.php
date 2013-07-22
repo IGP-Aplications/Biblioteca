@@ -4,7 +4,9 @@
 		$respuesta= new xajaxResponse();
 		
 		$result=searchPublication_iddataSQL(0,"",$iddata);
-		$idCategory=$result["idcategory"][0];
+		// $idCategory=$result["idcategory"][0];
+		$idCategory=2;
+
 		$idSubcategory=$result["idsubcategory"][0];                
                 
                 $_SESSION["edit"]["idbook"]=$idbook;
@@ -92,7 +94,7 @@
                         
                         
 		        //$date_ing_tesis=(string)$xmlt->date_ing;
-		        //$date_pub_tesis=(string)$xmlt->date_pub;
+		        //$date_pub_tesis=(string)$xmlt->date_pub;$idbook=0,$currentPage
                         
 		        $status=(string)$xmlt->status;
 		
@@ -135,8 +137,8 @@
 		        }
 		
 		
-		////////////////////////////////////////////////////
-		////////////////Recupera Claves/////////////////////
+			////////////////////////////////////////////////////
+			////////////////Recupera Claves/////////////////////
 					$claves="";
 					if(isset($xmlt->claves)){
 						//Preguntamos si hay mas de un autor secundario
@@ -191,9 +193,9 @@
 					else{
 						$claves="";
 					}
-		////////////////////////////////////////////////////
+			////////////////////////////////////////////////////
 		
-		////////////////Recupera Areas/////////////////////
+			////////////////Recupera Areas/////////////////////
 					$areasSEC="";
 					if(isset($xmlt->areasSEC)){
 						//Preguntamos si hay mas de un autor secundario
@@ -222,8 +224,8 @@
 						$areasSEC="";
 					}
 		
-		////////////////////////////////////////////////////
-		////////////////Recupera Areas Administrativas/////////////////////
+			////////////////////////////////////////////////////
+			////////////////Recupera Areas Administrativas/////////////////////
 					$areasAdministrativas="";
 					if(isset($xmlt->areasAdministrativas)){
 						//Preguntamos si hay mas de un autor secundario
@@ -251,9 +253,9 @@
 					else{
 						$areasAdministrativas="";
 					}
-		////////////////////////////////////////////////////
+			////////////////////////////////////////////////////
 		
-		////////////////Recupera Temas/////////////////////
+			////////////////Recupera Temas/////////////////////
 					$theme="";
 					if(isset($xmlt->theme)){
 						//Preguntamos si hay mas de un autor secundario
@@ -383,6 +385,58 @@
 		
 		return $respuesta;
 		
+	}
+	function editBook($idbook=0,$currentPage){
+		$objResponse = new xajaxResponse();
+		$result=searchPublication_iddataSQL(0,"",$idbook);
+		// $idCategory=$result["idcategory"][0];
+		$idCategory=2;
+
+		// $idSubcategory=$result["idsubcategory"][0];                
+		$idSubcategory=0;                
+                
+        // $_SESSION["edit"]["idbook"]=$idbook;
+                
+		if($result["Count"]>0){
+		    $_SESSION["editar"]=1;
+
+            if (isset($_SESSION["publicaciones"]["authorPRI"])){
+                unset($_SESSION["publicaciones"]["authorPRI"]);
+            }
+
+            if (isset($_SESSION["publicaciones"]["authorSEC"])){
+                unset($_SESSION["publicaciones"]["authorSEC"]);
+            }                    
+                              
+		
+			if(isset($_SESSION["edit"]["authorPRI"])){
+		        //Limpiamos los valores de la sesión
+		        unset($_SESSION["edit"]["authorPRI"]);
+			}
+		
+			if(isset($_SESSION["edit"]["authorSEC"])){
+		        //Limpiamos los valores de la sesión
+		        unset($_SESSION["edit"]["authorSEC"]);
+			}
+			
+			foreach ($result["book_data"] as $xmldata){
+		        $xmlt = simplexml_load_string($xmldata);
+		        $title=(string)$xmlt->title;
+                $title=(str_replace("*","'",$title));
+                
+
+            }
+
+
+		}
+
+		// $_SESSION["edit"]["titulo"]=$title;
+		$objResponse->script("xajax_formPonenciasShow(); return false;");
+		$objResponse->assign('paginator', 'style.display',"none");
+		$objResponse->assign('resultSearch', 'style.display',"none");
+		// $objResponse->alert(print_r($_SESSION["edit"],TRUE));
+
+		return $objResponse;
 	}
 
 function categoryResult($sessionidarea=0){
