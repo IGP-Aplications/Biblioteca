@@ -395,7 +395,7 @@
 		// $idSubcategory=$result["idsubcategory"][0];                
 		$idSubcategory=0;                
                 
-        // $_SESSION["edit"]["idbook"]=$idbook;
+        $_SESSION["edit"]["idbook"]=$idbook;
                 
 		if($result["Count"]>0){
 		    $_SESSION["editar"]=1;
@@ -421,8 +421,13 @@
 			
 			foreach ($result["book_data"] as $xmldata){
 		        $xmlt = simplexml_load_string($xmldata);
-		        $title=(string)$xmlt->title;
-                $title=(str_replace("*","'",$title));
+		        $titulo = (string)$xmlt->title;
+		        $ISBN = (string)$xmlt->ISBN;  
+		        $CallNumber = (string)$xmlt->CallNumber;		        
+		        $description_physical = (string)$xmlt->description_physical; 
+		        $edition = (string)$xmlt->edition;   
+		        $subject = (string)$xmlt->subject;  
+		        $summary = (string)$xmlt->summary;  
                 
 
             }
@@ -430,11 +435,18 @@
 
 		}
 
-		// $_SESSION["edit"]["titulo"]=$title;
-		$objResponse->script("xajax_formPonenciasShow(); return false;");
+		$_SESSION["edit"]["titulo"]=$titulo;
+		$_SESSION["edit"]["ISBN"]=$ISBN;
+		$_SESSION["edit"]["CallNumber"]=$CallNumber;
+		$_SESSION["edit"]["description_physical"]=$description_physical;
+		$_SESSION["edit"]["edition"]=$edition;
+		$_SESSION["edit"]["subject"]=$subject;
+		$_SESSION["edit"]["summary"]=$summary;
+
+		$objResponse->script("xajax_formPonenciasShow($idbook,$idSubcategory)");
 		$objResponse->assign('paginator', 'style.display',"none");
-		$objResponse->assign('resultSearch', 'style.display',"none");
-		// $objResponse->alert(print_r($_SESSION["edit"],TRUE));
+		$objResponse->assign('resultSearch', 'style.display',"none");    
+
 
 		return $objResponse;
 	}

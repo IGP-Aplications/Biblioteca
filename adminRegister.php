@@ -957,7 +957,7 @@ elseif(isset($_SESSION["tmp"])){
             
            
 	    if($title==""){
-	        $objResponse->alert("Ingreseee título");
+	        $objResponse->alert("Ingresee título");
 	        $objResponse->script("$('#title').focus()");                
 	    }
 	    else{

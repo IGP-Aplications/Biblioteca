@@ -607,7 +607,8 @@
 		}
                 
                 $objResponse->script("xajax_registerDateIng()");
-
+                // $objResponse->alert(print_r($_SESSION["edit"],TRUE));
+		unset($_SESSION["tmp"]);
 	    $tipoDocumento="ponencias";
 	
 	    $_SESSION["tipoDocumento"]="ponencias";
@@ -675,12 +676,11 @@
     	//###############################################################
 		//PRIMERO COLOCAMOS EL FORMULARIO QUE CONTIENE LAS DEMAS CAPAS
 		// $objResponse->alert(print_r($_SESSION["editar"],TRUE));
+	    $objResponse->assign("formulario","style.display","block");	    
 	    $objResponse->assign("formulario","innerHTML","$html");	    
 	    
 		// Muestra los tabs por default
-	    $objResponse->script("xajax_displaydiv('titulo_tipo_prepor','titulo1')");
-
-	    
+	    $objResponse->script("xajax_displaydiv('titulo_tipo_prepor','titulo1')");        
 	    
 
 	    $titulo="Detalle";
@@ -690,14 +690,60 @@
 		elseif(isset($_SESSION["tmp"])){
 		    $recuperar=$_SESSION["tmp"];
 		 }
+
 	
         if(isset($recuperar["titulo"])){
-            $title=$recuperar["titulo"];
+            $tit=$recuperar["titulo"];
         }
         else{
-            $title="";
+            $tit="";
         }
-	
+
+        if(isset($recuperar["ISBN"])){
+            $ISBN=$recuperar["ISBN"];
+        }
+        else{
+            $ISBN="";
+        }
+
+        if(isset($recuperar["CallNumber"])){
+            $CallNumber=$recuperar["CallNumber"];
+        }
+        else{
+            $CallNumber="";
+        }
+
+        if(isset($recuperar["description_physical"])){
+            $description_physical=$recuperar["description_physical"];
+        }
+        else{
+            $description_physical="";
+        }
+
+        if(isset($recuperar["edition"])){
+            $edition=$recuperar["edition"];
+        }
+        else{
+            $edition="";
+        }
+
+        if(isset($recuperar["subject"])){
+            $subject=$recuperar["subject"];
+        }
+        else{
+            $subject="";
+        }
+
+        if(isset($recuperar["summary"])){
+            $summary=$recuperar["summary"];
+        }
+        else{
+            $summary="";
+        }
+
+
+
+		
         //Presentado por
         // if(isset($recuperar["prePorNombre"])){
         //     $prePorNombre=$recuperar["prePorNombre"];
@@ -735,7 +781,7 @@
 		$fbook_options = array("Libros","Mapas","Otros");
 		$fbook_values = array(1,2,3);
 		$formatBook = $listformat->comboList($fbook_options,$fbook_values,"OnChange","xajax_obtenerIdDescripcion('list_fbook','registerfbook')","","0","list_fbook"," ","list_fbook");
-        
+
         
 		$html="
 	       	<div class='clear'></div>  
@@ -745,7 +791,7 @@
 			<div class='clear'></div>
 			<div class='campo-buscador'>Título:&nbsp;</div>
 	       	<div class='contenedor-caja-buscador-1'>
-	       	<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$title' id='title' name='title' class='caja-buscador-1' /><div id='titulo_error'></div></div>
+	       	<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' /><div id='titulo_error'></div></div>
 	                
 			<div class='clear'></div>
 
@@ -781,12 +827,12 @@
 
 			<div class='campo-buscador'>Temas</div>
 	       	<div class='contenedor-caja-buscador-1'>
-	       	<input type='text' placeholder='ej. tema1, tema2' onchange='xajax_registerSubject(this.value); return false;' value='$subject' id='subject' name='publication' class='caja-buscador-1' /><div id='subject-error'></div></div>                
+	       	<input type='text' placeholder='ej. tema1, tema2' onchange='xajax_registerSubject(this.value); return false;' value='$subject' id='subject' name='subject' class='caja-buscador-1' /><div id='subject-error'></div></div>                
 			<div class='clear'></div>	
 
 			<div class='campo-buscador'>Resumen</div>
 	       	<div class='contenedor-caja-buscador-1'>
-	       	<textarea placeholder='Escriba aqui el resumen' onchange='xajax_registerSumary(this.value); return false;' value='$summary' id='summary' name='summary' rows='3' ></textarea><div id='summary-error'></div></div>                
+	       	<textarea placeholder='Escriba aqui el resumen' onchange='xajax_registerSumary(this.value); return false;' id='summary' name='summary' rows='3' >$summary</textarea><div id='summary-error'></div></div>                
 			<div class='clear'></div>	
 		
        		
@@ -818,7 +864,7 @@
 		$link="<a onclick=\"xajax_displaydiv('area_tema','titulo5'); return false;\" class='tab-title' href='#' rel='tooltip' title='Temas Relacionados'>&Aacute;rea y Tema</a>";
 		$objResponse->assign('titulo5',"innerHTML",$link);
 	
-	        //Temas del area 
+	     //   Temas del area 
 	    $objResponse->script("xajax_iniAreaShow('".$_SESSION["idarea"]."')");
 	
 	        //Asociar a otras areas
@@ -848,6 +894,7 @@
 
         list($htmlArchivo,$link)=iniArchivoShow();
         $objResponse->Assign('titulo7',"innerHTML","<a class='tab-title' href=#1 onclick=\"xajax_displaydiv('archivo','titulo7'); return false;\" rel='tooltip' title='Imagen de Portada'>Imagen</a>");
+        // $objResponse->alert(print_r($htmlArchivo, true));
     	$objResponse->Assign("archivo","innerHTML",$htmlArchivo);
     	
                     if($link!=""){
@@ -861,15 +908,14 @@
 		$objResponse->Assign("estadisticas", "style.display", "none");
                 $objResponse->script("xajax_cargaScriptDates()");
                 
-                if(isset($_SESSION["editar"])){
-		    if($_SESSION["editar"]==1){
-				$linkRegresar='<span style="float:right;"><a class="negro" href=# id="boton_actualizar"onclick="xajax_abstractHide(\'formulario\'); xajax_abstractShow(\'consultas\'); xajax_abstractShow(\'resultSearch\'); xajax_abstractShow(\'paginator\');"><img style="cursor: pointer; border:0;" width="20px" src="img/flecha-izq.jpg">&nbsp;&nbsp; Retornar a resultados </a></span>';
-				$objResponse->assign("botonRegresar","innerHTML",$linkRegresar);
-		    }
-		}
+    //             if(isset($_SESSION["editar"])){
+				//     if($_SESSION["editar"]==1){
+				// 		$linkRegresar='<span style="float:right;"><a class="negro" href=# id="boton_actualizar"onclick="xajax_abstractHide(\'formulario\'); xajax_abstractShow(\'consultas\'); xajax_abstractShow(\'resultSearch\'); xajax_abstractShow(\'paginator\');"><img style="cursor: pointer; border:0;" width="20px" src="img/flecha-izq.jpg">&nbsp;&nbsp; Retornar a resultados </a></span>';
+				// 		$objResponse->assign("botonRegresar","innerHTML",$linkRegresar);
+				//     }
+				// }
                 
-                $objResponse->script('	$(document).ready(function() {
-		$("input.file").si();});');
+                
                 
                 //upload file - image of portada
                 $objResponse->script("xajax_carga_archivo()");
@@ -877,6 +923,7 @@
         // $objResponse->alert(print_r($_SESSION["temp"],TRUE));
         
                 $objResponse->assign("imghome", "style.display", "none");
+
         
                 
 		return $objResponse;

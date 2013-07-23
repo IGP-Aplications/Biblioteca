@@ -142,7 +142,7 @@ return $objResponse;
                 $html='<div id="carga_archivo">files</div>';
                 
                 if(isset($_SESSION["edit"])){
-                    $sesion_iddata=$_SESSION["edit"]["iddata"];
+                    $sesion_iddata=$_SESSION["edit"]["idbook"];
                     $html.="<div class='blue' id='linkUpload' name='linkUpload'> &nbsp; &nbsp; &nbsp; ".downloadLink($sesion_iddata,"admin","form")."</div>";
                     
                     $link=downloadLink($sesion_iddata,"admin","form");
