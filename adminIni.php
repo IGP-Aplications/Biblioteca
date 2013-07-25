@@ -1451,7 +1451,7 @@ return $resultSql;
 	    $funcion="";
 		switch($subcategory){
 		    case "ponencia":
-                        $fecha_txt="Fecha de Registro:";
+                        $fecha_txt="Fecha de adquisición:";
                         break;
 		    case "charlas_internas":
 		        $fecha_txt="Fecha de Presentaci&oacute;n:";
@@ -1467,7 +1467,7 @@ return $resultSql;
         $comboMonth=comboMonth($month_pub,'xajax_obtenerIdDescripcion("month","registerMonthPub")');
 		$comboYear=comboYear($year_pub,'xajax_registerYearPub(this.value)');
     
-		$html='<div class="campo-buscador">Fecha de Adquisición:</div>';
+		$html='<div class="campo-buscador">Fecha de Registro:</div>';
 		$html.='<div class="contenedor-caja-buscador-1">';
 		$html.="<input type='text' class='caja-buscador-4' name='date_ing' id='date_ing' READONLY value='$date_ing' />";
 		$html.='</div>';

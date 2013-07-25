@@ -778,7 +778,7 @@
 		
 		$listformat = new combo();		
 		
-		$fbook_options = array("Libros","Mapas","Otros");
+		$fbook_options = array("Libros","Mapas","Nuevo Formato");
 		$fbook_values = array(1,2,3);
 		$formatBook = $listformat->comboList($fbook_options,$fbook_values,"OnChange","xajax_obtenerIdDescripcion('list_fbook','registerfbook')","","0","list_fbook"," ","list_fbook");
 
@@ -796,8 +796,10 @@
 			<div class='clear'></div>
 
 			<div class='campo-buscador' id='tit_tipoPonencia'>Formato</div>
-	       	<div class='contenedor-combo-buscador-1' id='tipoPonencia'>$formatBook</div>
+	       	<div class='fleft' id='tipoPonencia'>$formatBook</div>
+	       	<span class='divnone' id='newformat'><input type='text'  placeholder='Ingrese Nuevo Formato'  value='$newformat' id='newformat' name='newformat' class='input-large' /></span>
 	       	<div class='clear'></div>
+
 			<div class='campo-buscador'>Codigo ISBN:&nbsp;</div>
 	       	<div class='contenedor-caja-buscador-1'>
 	       	<input type='text' placeholder='ej. 0385342586' onchange='xajax_registerISBN(this.value); return false;' value='$ISBN' id='ISBN' name='ISBN' class='caja-buscador-1' /><div id='titulo_error'></div></div>
@@ -919,6 +921,21 @@
                 
                 //upload file - image of portada
                 $objResponse->script("xajax_carga_archivo()");
+                $objResponse->script("
+                					$('#list_fbook').change(function(){
+                						var sel_html = $('#list_fbook option:selected').html();
+                						if (sel_html == 'Nuevo Formato') {
+                							$('#newformat').removeClass('divnone');
+                							$('#newformat').addClass('divblock');               							      							
+                							              							
+                						}
+                						else{
+                							$('#newformat').removeClass('divblock');
+                							$('#newformat').addClass('divnone');  
+                						}
+
+                					});
+                					");
                 
         // $objResponse->alert(print_r($_SESSION["temp"],TRUE));
         

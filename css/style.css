@@ -8,7 +8,7 @@
     background-repeat: repeat-x;
     color: #FFFFFF;
     /*height: 70px;*/
-	text-align: center;
+    text-align: center;
 }
 
 a.mostaza {
@@ -16,11 +16,11 @@ a.mostaza {
 }
 
 .txt-blanco-30{
-	color:#FFFFFF; font-size:30px; font-weight:bold; text-align:left; padding-left:10px;	
+    color:#FFFFFF; font-size:30px; font-weight:bold; text-align:left; padding-left:10px;    
 }
 
 .txt-blanco-16{
-	color:#FFFFFF; font-size:16px; font-weight:bold; text-align:left; padding-left:10px;	
+    color:#FFFFFF; font-size:16px; font-weight:bold; text-align:left; padding-left:10px;    
 }
 
 .caja-login {
@@ -28,11 +28,11 @@ a.mostaza {
 }
 
 .banner-left {
-	text-align: left; padding-left: 10px;
+    text-align: left; padding-left: 10px;
 }
 
 .banner-right {
-	text-align: right; padding-right: 10px;
+    text-align: right; padding-right: 10px;
 }
 body .tabactive {
     background: #F0F0F0;
@@ -96,3 +96,15 @@ body .tabactive a{
     margin: 10px 0;
 }
 
+.divnone {
+    display: none;}
+
+.divblock {
+    display: block;}
+
+.fleft {
+    float: left;
+}
+.fright {
+    float: right;
+}
