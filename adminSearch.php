@@ -427,14 +427,51 @@
 		        $description_physical = (string)$xmlt->description_physical; 
 		        $edition = (string)$xmlt->edition;   
 		        $subject = (string)$xmlt->subject;  
-		        $summary = (string)$xmlt->summary;  
+		        $summary = (string)$xmlt->summary;
+
+		         $date_ing=(string)$xmlt->date_ing;
+
+		        $year_pub=(string)$xmlt->year_pub;
+                        $month_pub=(string)$xmlt->month_pub;
+                        $desc_month_pub=(string)$xmlt->desc_month_pub;
+		        //----------
+		        $autorPRI=(string)$xmlt->authorPRI->idauthor0;
+		        $autorSEC="";
+		        if(isset($xmlt->authorSEC)){
+		                //Preguntamos si hay mas de un autor secundario		
+		            if(isset($xmlt->authorSEC->idauthor1)){
+		                    for($j=0;$j<100;$j++){
+		                            eval('if (isset($xmlt->authorSEC->idauthor'.$j.')){$xmlflag=TRUE;} else {$xmlflag=FALSE;}');
+		                            if($xmlflag){
+		                                    eval('$xmlidauthor=$xmlt->authorSEC->idauthor'.$j.';');
+		                                    $autorSEC=(string)$xmlidauthor;
+		                                    //se inicializa el array para que no de error scalar
+		                                    //$_SESSION["edit"]["authorSEC"]=array();
+		                                    $_SESSION["edit"]["authorSEC"][$autorSEC]=1;
+		
+		                            }
+		                    }
+		
+		            }
+		            //Solo un autor secundario
+		            else{                   
+		                    $autorSEC=(string)$xmlt->authorSEC->idauthor0;
+		                    $_SESSION["edit"]["authorSEC"][$autorSEC]=1;
+		            }
+		
+		        }
+		        else{
+		                $autorSEC="";
+		        }
+		        //--------  
                 
 
             }
 
 
 		}
-
+		$_SESSION["edit"]["date_ing"]=$date_ing;
+		$_SESSION["edit"]["authorPRI"][$autorPRI]=1;
 		$_SESSION["edit"]["titulo"]=$titulo;
 		$_SESSION["edit"]["ISBN"]=$ISBN;
 		$_SESSION["edit"]["CallNumber"]=$CallNumber;
@@ -442,6 +479,9 @@
 		$_SESSION["edit"]["edition"]=$edition;
 		$_SESSION["edit"]["subject"]=$subject;
 		$_SESSION["edit"]["summary"]=$summary;
+		$_SESSION["edit"]["year_pub"]=$year_pub;
+        $_SESSION["edit"]["month_pub"]=$month_pub;
+        $_SESSION["edit"]["desc_month_pub"]=$desc_month_pub;
 
 		$objResponse->script("xajax_formPonenciasShow($idbook,$idSubcategory)");
 		$objResponse->assign('paginator', 'style.display',"none");

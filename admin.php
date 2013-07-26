@@ -638,7 +638,9 @@
 				        <div id="newFormAuthor"></div>
 		            </div>
 	
-	                <div id="referencia" style="display:none"></div>              
+	                <div id="referencia" style="display:none"></div>
+	
+	                
 	
 	                
 	
@@ -795,7 +797,7 @@
 
 			<div class='campo-buscador' id='tit_tipoPonencia'>Formato</div>
 	       	<div class='fleft' id='tipoPonencia'>$formatBook</div>
-	       	<span class='divnone' id='newformat'><input type='text'  onchange= 'xajax_new_registerfbook(this.value); return false;' placeholder='Ingrese Nuevo Formato'  value='$new_fbook' id='$new_fbook' name='$new_fbook' class='input-large' /></span>
+	       	<span class='divnone' id='newformat'><input type='text'  placeholder='Ingrese Nuevo Formato'  value='$newformat' id='newformat' name='newformat' class='input-large' /></span>
 	       	<div class='clear'></div>
 
 			<div class='campo-buscador'>Codigo ISBN:&nbsp;</div>
@@ -849,7 +851,7 @@
 
     	$objResponse->assign("titulo2","innerHTML","<a class='tab-title' href='#' onclick=\"xajax_displaydiv('author','titulo2'); return false;\" rel='tooltip' data-toggle='tooltip' title='Gestione Autores aqui!' >Autor</a>");
     	$objResponse->script("xajax_searchAuthorSesionPriShow()");
-    	$objResponse->script("xajax_searchAuthorSesionSecShow()");
+    	$objResponse->script("xajax_searchAuthorSesionSecShow()"); 
 
     	
     	$objResponse->assign("search_authorPRI","innerHTML",iniAuthorPriShow());    		
@@ -903,7 +905,9 @@
                     }
         
 		$objResponse->Assign("formulario","style.display","block");
-		
+		$objResponse->Assign("resultSearch","style.display","none");
+
+		$objResponse->Assign("estadisticas", "style.display", "none");
                 $objResponse->script("xajax_cargaScriptDates()");
                 
     //             if(isset($_SESSION["editar"])){
@@ -934,8 +938,7 @@
                 					");
                 
         // $objResponse->alert(print_r($_SESSION["temp"],TRUE));
-        		$objResponse->Assign("resultSearch","style.display","none");
-				$objResponse->Assign("estadisticas", "style.display", "none");
+        
                 $objResponse->assign("imghome", "style.display", "none");
                 $objResponse->assign("consultas", "style.display", "none");    
 
@@ -1026,14 +1029,14 @@
                                     '.$formArea.'				    
 
 				    <label class="checkbox inline">
-					  <input type="radio" id="query_type_1" name="query_type" value="content" checked> Que contenga
+					  <input type="radio" id="query_type_1" name="query_type" value="content"> Que contenga
 					</label>
 
 					<label class="checkbox inline">
 					  <input type="radio" id="query_type_2" name="query_type" value="empieza"> Empieza por
 					</label>
 					<label class="checkbox inline">
-					  <input type="radio" id="query_type_3" name="query_type" value="exacta" > Exacta
+					  <input type="radio" id="query_type_3" name="query_type" value="exacta" checked> Exacta
 					</label>
 				    
 									
@@ -1049,7 +1052,7 @@
 							</div>
 				</div>'.$formAutor.' '.$fieldhidden.'            
                 <button id="btn-search">Buscar</button>
-                <span class="text-right"><a href="#" id="search_adv">Busqueda Avanzada</a></span>
+                <span class="text-right">Right aligned text.</span>
 				<div class="clear"></div>
 				<div id="msj_query_type"> Buscará la palabra o frase que esté contenido en todo registro</div>				
 				
@@ -1849,8 +1852,6 @@ function delete_file($namefile){
         $xajax->registerFunction('sendemail');
 
     $xajax->registerFunction('registerfbook');
-    $xajax->registerFunction('new_registerfbook');
-
     $xajax->registerFunction('registerISBN');
     $xajax->registerFunction('registerCallNumber');
     $xajax->registerFunction('registerPublication');
