@@ -981,7 +981,8 @@ elseif(isset($_SESSION["tmp"])){
 	    if($fbook_id==0){
 	        $respuesta->alert("Seleccione un formato");
 	    }
-	    else{
+	    
+	    elseif($fbook_id!=2){
 	        if(isset($_SESSION["edit"])){
 	            $_SESSION["edit"]["idfbook"]=$fbook_id;
 	            $_SESSION["edit"]["fbook_descripcion"]=$fbook_des;
@@ -995,6 +996,24 @@ elseif(isset($_SESSION["tmp"])){
 
 	    return $objResponse;
 	}
+	function new_registerfbook($new_fbook){
+		 $objResponse = new xajaxResponse();
+		 if ($new_fbook=="") {
+		 	$objResponse->alert("Debe ingresar nuevo formato");
+		 }
+		 else{
+		 	if (isset($_SESSION["edit"])) {
+		 		$_SESSION["edit"]["fbook_descripcion"]=$new_fbook;
+		 	}
+		 	else{
+		 		$_SESSION["tmp"]["fbook_descripcion"]=$new_fbook;
+		 	}		 	
+		 }
+		 
+		 return $objResponse;
+
+	}
+
 	function registerISBN($ISBN){
 		$objResponse = new xajaxResponse();
 
