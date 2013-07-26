@@ -980,9 +980,9 @@ else{
 	    }
 	
 	    if ($action=="UPD"){
-	        $sql="UPDATE data SET";
-	        $sql.="book_data='$xml'";
-	        $sql.="WHERE iddata=$iddata";
+	        $sql="UPDATE book SET";
+	        $sql.=" book_data='$xml'";
+	        $sql.="WHERE idbook=$iddata";
 	    }
 		
 	    if($dbh->query($sql)){

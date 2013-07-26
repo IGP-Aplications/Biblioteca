@@ -371,7 +371,7 @@ return $objResponse;
 	    $respuesta = new xajaxResponse();
 	
 	    if($year_pub==0){
-	        $respuesta->alert("Ingrese Año de Publicación");
+	        //$respuesta->alert("Ingrese Año de Publicación");
 	    }
 	    else{
 	        if(isset($_SESSION["edit"])){

@@ -108,3 +108,10 @@ body .tabactive a{
 .fright {
     float: right;
 }
+#msj_query_type
+{
+    font-size: .9em;
+    margin-bottom: 1.875em;
+    line-height: 1.875em;
+    color: #bd852d;
+    }

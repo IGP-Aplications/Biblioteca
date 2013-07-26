@@ -766,12 +766,12 @@
         //     $tipoPonencia_id=0;
         // }
 
-        // if(isset($recuperar["tipoPonencia_description"])){
-        //     $tipoPonencia_description=$recuperar["tipoPonencia_description"];
-        // }
-        // else{
-        //     $tipoPonencia_description="";
-        // }
+        if(isset($recuperar["tipoPonencia_description"])){
+            $tipoPonencia_description=$recuperar["tipoPonencia_description"];
+        }
+        else{
+            $tipoPonencia_description="";
+        }
         
 		$tipoPonencia="";
 		$tipoPonencia=comboTipoPonencia($tipoPonencia_id);
@@ -926,7 +926,7 @@
                 						var sel_html = $('#list_fbook option:selected').html();
                 						if (sel_html == 'Nuevo Formato') {
                 							$('#newformat').removeClass('divnone');
-                							$('#newformat').addClass('divblock');               							      							
+                							$('#newformat').addClass('divblock');
                 							              							
                 						}
                 						else{
@@ -940,10 +940,10 @@
         // $objResponse->alert(print_r($_SESSION["temp"],TRUE));
         
                 $objResponse->assign("imghome", "style.display", "none");
+                $objResponse->assign("consultas", "style.display", "none");    
 
-        
-                
 		return $objResponse;
+
 	}   
 
 
@@ -1050,15 +1050,12 @@
                             <div class="contenedor-combo-buscador-1" id="divCategory">
 							'.$comboTipoPublicacion.'						
 							</div>
-				</div>'.$formAutor.'
-	                        '.$fieldhidden.'
-	            
-	            
-                                <button id="btn-search">Buscar</button>
-				<div style="clear:both;"></div>
-				<div id="msj_query_type"> </div>
-				<br/>
-				<div class="txt-azul"><p>Opciones avanzadas</p></div>
+				</div>'.$formAutor.' '.$fieldhidden.'            
+                <button id="btn-search">Buscar</button>
+                <span class="text-right">Right aligned text.</span>
+				<div class="clear"></div>
+				<div id="msj_query_type"> Buscará la palabra o frase que esté contenido en todo registro</div>				
+				
 				<div id="optionsSubcategory"></div>
 				<div id="moreOptions"></div>
 

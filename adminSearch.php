@@ -543,15 +543,16 @@ elseif(isset($_SESSION["tmp"])){
 		            $nro=$i+1;
                             $html.= "<tr class='impar'>";            
 		            $html.= "<td>".$nro."</td>";
-if(ereg("'",$author_surname[$i])){
-    $apellido=explode("'",$author_surname[$i]);
-    $antes_caracter=ucfirst($apellido[0]);
-    $despues_caracter=ucfirst($apellido[1]);
-    $apellido=$antes_caracter."'".$despues_caracter;
-}
-else{
-    $apellido=ucfirst($author_surname[$i]);
-}
+
+				if(ereg("'",$author_surname[$i])){
+				    $apellido=explode("'",$author_surname[$i]);
+				    $antes_caracter=ucfirst($apellido[0]);
+				    $despues_caracter=ucfirst($apellido[1]);
+				    $apellido=$antes_caracter."'".$despues_caracter;
+				}
+				else{
+				    $apellido=ucfirst($author_surname[$i]);
+				}
                             
 		            $html.= "<td>".$apellido.", ".ucfirst($author_name[$i])."</td>";
 		            $html.= "<td><a href='#formulario'><img alt='Eliminar' style='cursor: pointer; border:0;' onclick='xajax_delSearchAuthorSesionPriShow(\"$idauthor[$i]\"); return false;' src='img/iconos/userDEL.png' /></a></td>";
@@ -562,86 +563,86 @@ else{
 		}
 
                     /********arrayAuthor*************/
-if(isset($_SESSION["edit"])){
-    $recuperar=$_SESSION["edit"];
-}
-elseif(isset($_SESSION["tmp"])){
-    $recuperar=$_SESSION["tmp"];
-}
+		if(isset($_SESSION["edit"])){
+		    $recuperar=$_SESSION["edit"];
+		}
+		elseif(isset($_SESSION["tmp"])){
+		    $recuperar=$_SESSION["tmp"];
+		}
     
-	$objResponse = new xajaxResponse();
-	if (isset($recuperar["authorPRI"]["idauthor"])){
-            if (isset($_SESSION["publicaciones"]["authorPRI"])){
-                unset($_SESSION["publicaciones"]["authorPRI"]);
-            }
-                
-            $idx=$recuperar["authorPRI"]["idauthor"];
-            $i=0;
-            foreach($idx as $key => $idauthor){
-                $_SESSION["publicaciones"]["authorPRI"]["idauthor$i"]=$idauthor;
-                $i++;
-            }
+		$objResponse = new xajaxResponse();
+		if (isset($recuperar["authorPRI"]["idauthor"])){
+	            if (isset($_SESSION["publicaciones"]["authorPRI"])){
+	                unset($_SESSION["publicaciones"]["authorPRI"]);
+	            }
+	                
+	            $idx=$recuperar["authorPRI"]["idauthor"];
+	            $i=0;
+	            foreach($idx as $key => $idauthor){
+	                $_SESSION["publicaciones"]["authorPRI"]["idauthor$i"]=$idauthor;
+	                $i++;
+	            }
 
-            $firstx=$recuperar["authorPRI"]["author_first_name"];
-            $i=0;
-            foreach($firstx as $key => $author_first_name){
-                $_SESSION["publicaciones"]["authorPRI"]["author_first_name$i"]=$author_first_name;
-                $i++;
-            }
+	            $firstx=$recuperar["authorPRI"]["author_first_name"];
+	            $i=0;
+	            foreach($firstx as $key => $author_first_name){
+	                $_SESSION["publicaciones"]["authorPRI"]["author_first_name$i"]=$author_first_name;
+	                $i++;
+	            }
 
-            $secondx=$recuperar["authorPRI"]["author_second_name"];
-            $i=0;
-            foreach($secondx as $key => $author_second_name){
-                $_SESSION["publicaciones"]["authorPRI"]["author_second_name$i"]=$author_second_name;
-                $i++;
-            }
-                
-            $surnamex=$recuperar["authorPRI"]["author_surname"];
-            $i=0;
-            foreach($surnamex as $key => $author_surname_name){
-                $author_surname_name=(str_replace("'","*",$author_surname_name));
-                $_SESSION["publicaciones"]["authorPRI"]["author_surname$i"]=$author_surname_name;
-                $i++;
-            }
+	            $secondx=$recuperar["authorPRI"]["author_second_name"];
+	            $i=0;
+	            foreach($secondx as $key => $author_second_name){
+	                $_SESSION["publicaciones"]["authorPRI"]["author_second_name$i"]=$author_second_name;
+	                $i++;
+	            }
+	                
+	            $surnamex=$recuperar["authorPRI"]["author_surname"];
+	            $i=0;
+	            foreach($surnamex as $key => $author_surname_name){
+	                $author_surname_name=(str_replace("'","*",$author_surname_name));
+	                $_SESSION["publicaciones"]["authorPRI"]["author_surname$i"]=$author_surname_name;
+	                $i++;
+	            }
 
-        }
+	        }
 
-	if (isset($recuperar["authorSEC"]["idauthor"])){
-            if (isset($_SESSION["publicaciones"]["authorSEC"])){
-                unset($_SESSION["publicaciones"]["authorSEC"]);
-            }
+		if (isset($recuperar["authorSEC"]["idauthor"])){
+	            if (isset($_SESSION["publicaciones"]["authorSEC"])){
+	                unset($_SESSION["publicaciones"]["authorSEC"]);
+	            }
 
 
-                $idx=$recuperar["authorSEC"]["idauthor"];
-                $i=0;
-                foreach($idx as $key => $idauthor){
-                    $_SESSION["publicaciones"]["authorSEC"]["idauthor$i"]=$idauthor;
-                    $i++;
-                }
-              
-                $firstx=$recuperar["authorSEC"]["author_first_name"];
-                $i=0;
-                foreach($firstx as $key => $author_first_name){
-                    $_SESSION["publicaciones"]["authorSEC"]["author_first_name$i"]=$author_first_name;
-                    $i++;
-                }
-                
-                $secondx=$recuperar["authorSEC"]["author_second_name"];
-                $i=0;
-                foreach($secondx as $key => $author_second_name){
-                    $_SESSION["publicaciones"]["authorSEC"]["author_second_name$i"]=$author_second_name;
-                    $i++;
-                }
-                                
-                $surnamex=$recuperar["authorSEC"]["author_surname"];
-                $i=0;
-                foreach($surnamex as $key => $author_surname_name){
-                    $author_surname_name=(str_replace("'","*",$author_surname_name));
-                    $_SESSION["publicaciones"]["authorSEC"]["author_surname$i"]=$author_surname_name;
-                    $i++;
-                }
-                
-        }
+	                $idx=$recuperar["authorSEC"]["idauthor"];
+	                $i=0;
+	                foreach($idx as $key => $idauthor){
+	                    $_SESSION["publicaciones"]["authorSEC"]["idauthor$i"]=$idauthor;
+	                    $i++;
+	                }
+	              
+	                $firstx=$recuperar["authorSEC"]["author_first_name"];
+	                $i=0;
+	                foreach($firstx as $key => $author_first_name){
+	                    $_SESSION["publicaciones"]["authorSEC"]["author_first_name$i"]=$author_first_name;
+	                    $i++;
+	                }
+	                
+	                $secondx=$recuperar["authorSEC"]["author_second_name"];
+	                $i=0;
+	                foreach($secondx as $key => $author_second_name){
+	                    $_SESSION["publicaciones"]["authorSEC"]["author_second_name$i"]=$author_second_name;
+	                    $i++;
+	                }
+	                                
+	                $surnamex=$recuperar["authorSEC"]["author_surname"];
+	                $i=0;
+	                foreach($surnamex as $key => $author_surname_name){
+	                    $author_surname_name=(str_replace("'","*",$author_surname_name));
+	                    $_SESSION["publicaciones"]["authorSEC"]["author_surname$i"]=$author_surname_name;
+	                    $i++;
+	                }
+	                
+	        }
             /*****************arrayAuthor**************/                    
                 
                 //$objResponse->alert(print_r($_SESSION["tmp"], true));
@@ -662,10 +663,12 @@ elseif(isset($_SESSION["tmp"])){
 		//Verificamos el array es null
 		if($result["Error"]==2){
 		    $html="<table align='center'><tr><td>Añadir autor de la lista.</td></tr></table>";
+		    //$objResponse->alert(print_r($result,TRUE));
 		}
 
 		if($result["Error"]==0){				
 		    $query=$result["Query"];
+		    
 		    $count=$result["Count"];
 		    $idauthor = $result["idauthor"];
 		    $author_first_name = $result["author_first_name"];
@@ -2798,7 +2801,7 @@ function newPonencia($iddata=0,$action){
 $idsubcategory=isset($_SESSION["idsubcategory"])?$_SESSION["idsubcategory"]:0;               
 $resultCheck=validarPonencias($idsubcategory,$areaPRI);
 
-// $objResponse->alert(print_r($_SESSION["publicaciones"],TRUE));
+ // $objResponse->alert(print_r($_SESSION["edit"],TRUE));
 
 if ($resultCheck["Error"]==1){
         $objResponse->alert($resultCheck["Msg"]);
@@ -2813,6 +2816,15 @@ else{
         $_SESSION["publicaciones"]["year_pub"]=$resultCheck["year_pub"];
         
         $_SESSION["publicaciones"]["title"]=$resultCheck["title"];
+
+        //format book
+        if ($resultCheck["idfbook"]==3) {
+	        $_SESSION["publicaciones"]["idfbook"]=$resultCheck["idfbook"];
+        }
+        else{
+        	$_SESSION["publicaciones"]["idfbook"]=$resultCheck["idfbook"];	
+        }
+
         $_SESSION["publicaciones"]["idfbook"]=$resultCheck["idfbook"];
         $_SESSION["publicaciones"]["formatbook"]=$resultCheck["fbook_descripcion"];
         $_SESSION["publicaciones"]["idtipoPonencia"]=$resultCheck["idtipoPonencia"];
@@ -2826,8 +2838,6 @@ else{
         $_SESSION["publicaciones"]["summary"]=$resultCheck["summary"];
 
 
-
-        
         // $_SESSION["publicaciones"]["idclaseEvento"]=$resultCheck["idclaseEvento"];
         // $_SESSION["publicaciones"]["claseEvento_description"]=$resultCheck["claseEvento_description"];
         
@@ -2895,10 +2905,10 @@ else{
 	    }
 	}
                 
-		$xml= arrayToXml($_SESSION["publicaciones"],"book");
-		$demo=  $_SESSION["publicaciones"];
+		$xml= arrayToXml($_SESSION["publicaciones"],"book");		
 		
 		$newPonenciaSQL=newPonenciaSQL($action,$iddata,4,$xml);
+		//$objResponse->alert(print_r($newPonenciaSQL,TRUE));
                 
                 if ($newPonenciaSQL["Error"]==1){
                     //$objResponse->alert(print_r($newPublicationSQL,true));
@@ -2906,7 +2916,7 @@ else{
                     $objResponse->alert($newPonenciaSQL["Msg"]);
                 }
                 else{
-                    //$objResponse->alert($xml);
+                    
                     $objResponse->alert("Ponencia guardado satisfactoriamente");
 
                     $objResponse->script("xajax_formPonenciasShow()");
@@ -2928,7 +2938,7 @@ else{
                 
                 }
      
-
+	
 	return $objResponse;
 }
 
