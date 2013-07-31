@@ -572,10 +572,17 @@
 					$titulo="<a  href='#' onclick='xajax_editBook(".$result["idbook"][$i].",1); return false;' class='resultado' >".$titulo."</a>";
 					// $titulo="<a class='resultado' onclick='xajax_editShow(".$result["idbook"][$i].", 2)' >".$titulo."</a>";
 				// }
+				$class_list ="";
+				if (($i+1)%2==0) {
+					$class_list="list_block";
+					}
+				else{
+					$class_list = "list_block_0";
+				}	
+					
+				$html.="<div class='resultado-busqueda ".$class_list."'>";
 
-				$html.="<div class='resultado-busqueda'>";
-
-				$html.= $titulo." - ".$author;
+				$html.="<span class='list_number'>" .($i+1).".</span> ".$titulo." - ".$author;
 
 
 

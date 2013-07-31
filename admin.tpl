@@ -263,7 +263,7 @@ function verFile(){
                                 
                                        
                                         <div class="span12">
-                                            <div class="txt-blanco-30" style="text-align: center;">Biblioteca Virtual IGP</div>                                            
+                                            <div class="txt-blanco-30" style="text-align: center;">Catálogo Virtual de Biblioteca - IGP</div>                                            
                                         </div>
                                 
                             </div>
@@ -283,7 +283,15 @@ function verFile(){
     
                     <div class=" span12">
                                 <hr class="space">
-                                <div id="imghome"></div>
+                                <div id="imghome">
+                                    <table>
+                                        <tr>
+                                            <td style="text-align: center;">
+                                            <img src="img/biblioteca.png" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
                         
                             <div id="formulario"></div>
                             <div id="consultas"></div>        

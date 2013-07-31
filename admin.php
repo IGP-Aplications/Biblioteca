@@ -133,6 +133,7 @@
   					<input class="input-small" id="clave" name="clave" type="password" placeholder="Contraseña">
 					</div>
 					<input type="submit" name="Login" class="btn" value="Ingresar">
+					<div id=>
 
                    
                 </form>                
@@ -775,13 +776,17 @@
         
 		$tipoPonencia="";
 		$tipoPonencia=comboTipoPonencia($tipoPonencia_id);
-		
+
+				
 		$listformat = new combo();		
 		
-		$fbook_options = array("Libros","Mapas","Nuevo Formato");
+		//$fbook_options = $datos["format"];
+		$result_format = select_format();
+		$fbook_options = $result_format["fdescription"];
+		// $fbook_options = array("Libros","Mapas","Tesis","Nuevo Formato");
 		$fbook_values = array(1,2,3);
-		$formatBook = $listformat->comboList($fbook_options,$fbook_values,"OnChange","xajax_obtenerIdDescripcion('list_fbook','registerfbook')","","0","list_fbook"," ","list_fbook");
-
+		$formatBook = $listformat->comboList($fbook_options,$fbook_values,"OnChange","xajax_obtenerIdDescripcion('list_fbook','registerfbook')","","1","list_fbook"," ","list_fbook");
+		
         
 		$html="
 	       	<div class='clear'></div>  
@@ -791,13 +796,13 @@
 			<div class='clear'></div>
 			<div class='campo-buscador'>Título:&nbsp;</div>
 	       	<div class='contenedor-caja-buscador-1'>
-	       	<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' /><div id='titulo_error'></div></div>
-	                
+	       	<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' /><div id='titulo_error'></div></div>	            
 			<div class='clear'></div>
 
 			<div class='campo-buscador' id='tit_tipoPonencia'>Formato</div>
 	       	<div class='fleft' id='tipoPonencia'>$formatBook</div>
-	       	<span class='divnone' id='newformat'><input type='text'  placeholder='Ingrese Nuevo Formato'  value='$newformat' id='newformat' name='newformat' class='input-large' /></span>
+	       	<span><a href='#' class='btnOpen'>Inserte nuevo Formato</a></span>
+	       	<span class='divnone' id='newformat'><input type='text'  placeholder='Ingrese Nuevo Formato' onchange='xajax_new_registerfbook(this.value); return false;'  value='$newformat' id='newformat' name='newformat' class='input-large' /></span>
 	       	<div class='clear'></div>
 
 			<div class='campo-buscador'>Codigo ISBN:&nbsp;</div>
@@ -812,10 +817,10 @@
 	                
 			<div class='clear'></div>
 
-			<div class='campo-buscador'>Publicación</div>
+			<!--div class='campo-buscador'>Publicación</div>
 	       	<div class='contenedor-caja-buscador-1'>
 	       	<input type='text' placeholder='ej. Lima,2002 ' onchange='xajax_registerPublication(this.value); return false;' value='$publication' id='publication' name='publication' class='caja-buscador-1' /><div id='publication-error'></div></div>                
-			<div class='clear'></div>
+			<div class='clear'></div-->
 
 			<div class='campo-buscador'>Descripción Física</div>
 	       	<div class='contenedor-caja-buscador-1'>
@@ -827,10 +832,10 @@
 	       	<input type='text' placeholder='ej. 1ra ed' value='$edition' onchange='xajax_registerEdition(this.value); return false;' id='edition' name='edition' class='caja-buscador-1' /><div id='edition-error'></div></div>                
 			<div class='clear'></div>
 
-			<div class='campo-buscador'>Temas</div>
+			<!--div class='campo-buscador'>Temas</div>
 	       	<div class='contenedor-caja-buscador-1'>
 	       	<input type='text' placeholder='ej. tema1, tema2' onchange='xajax_registerSubject(this.value); return false;' value='$subject' id='subject' name='subject' class='caja-buscador-1' /><div id='subject-error'></div></div>                
-			<div class='clear'></div>	
+			<div class='clear'></div-->	
 
 			<div class='campo-buscador'>Resumen</div>
 	       	<div class='contenedor-caja-buscador-1'>
@@ -921,13 +926,14 @@
                 
                 //upload file - image of portada
                 $objResponse->script("xajax_carga_archivo()");
+
+                //nuevo formato bibliográfico
                 $objResponse->script("
                 					$('#list_fbook').change(function(){
                 						var sel_html = $('#list_fbook option:selected').html();
                 						if (sel_html == 'Nuevo Formato') {
                 							$('#newformat').removeClass('divnone');
-                							$('#newformat').addClass('divblock');
-                							              							
+                							$('#newformat').addClass('divblock');                							              							
                 						}
                 						else{
                 							$('#newformat').removeClass('divblock');
@@ -940,13 +946,53 @@
         // $objResponse->alert(print_r($_SESSION["temp"],TRUE));
         
                 $objResponse->assign("imghome", "style.display", "none");
-                $objResponse->assign("consultas", "style.display", "none");    
+                $objResponse->assign("consultas", "style.display", "none");
+                $objResponse->script("
+									$('divNewFormat').dialog({
+									autoOpen: false,
+									modal: true,
+									title: 'Nuevo Formato',
+									show: 'fade',
+									hide: 'fade',
+						            height: 'auto',
+						            width: 500 });	
+                ");    
 
 		return $objResponse;
 
 	}   
 
+	function NewFormat(){
+		$objResponse = new xajaxResponse();
+		$html = "<form id='Newformat'>
+				<input type='text'>
+				<div class='btnActions'>
+				<input type=\"button\" value=\"Guardar\"
+              onclick=\"xajax_SaveFormat(xajax.getFormValues('Newformat'))\">   
+              
+              <input type=\"button\" value=\"Cancelar\" class='btnCancel'></div>  
 
+				</form>";
+		$objResponse->assign("divNewFormat","innerHTML",$html);
+		$objResponse->script("$('.btnCancel').click(function(){
+					$('#divNewFormat').dialog('close')					
+				});	");
+		return $objResponse;
+
+	}
+	function SaveFormat($form){
+		$objResponse = new xajaxResponse();
+		$result = insertFormat($form);
+		if ($result["Error"]==1) {
+			$html = "Nuevo formato guardado con exito";
+		}
+		else{
+			$html = "Intentalo mas tarde";
+		}
+		$objResponse->assign("divNewFormat","innerHTML",$html);
+		return $objResponse;
+
+	}
 		
 	
 	
@@ -1052,7 +1098,7 @@
 							</div>
 				</div>'.$formAutor.' '.$fieldhidden.'            
                 <button id="btn-search">Buscar</button>
-                <span class="text-right">Right aligned text.</span>
+                <span class="text-right"><a href="#">Busqueda Avanzada</a></span>
 				<div class="clear"></div>
 				<div id="msj_query_type"> Buscará la palabra o frase que esté contenido en todo registro</div>				
 				
@@ -1139,8 +1185,7 @@
                     }            
                 })
                 .click(function() {                                    
-                                    xajax_auxSearchShow(20,1,xajax.getFormValues(formSearch)); return false;
-                })  
+                                    xajax_auxSearchShow(20,1,xajax.getFormValues(formSearch)); return false;        })  
                                
 
 
@@ -1535,7 +1580,7 @@ function carga_archivo(){
                                     {
                                         alert("Todas las archivos han sido cargados");
                                         //var conteo=files.length 
-                                        alert(files);
+                                        //alert(files);
                                         //xajax_lista_archivos();
                                         
                                     },
@@ -1863,7 +1908,10 @@ function delete_file($namefile){
     $xajax->registerFunction('save_files');
     $xajax->registerFunction('delete_file');
     $xajax->registerFunction('registerDescription_Physical');
-    $xajax->registerFunction('editBook');
+    $xajax->registerFunction('editBook'); 
+    $xajax->registerFunction('NewFormat'); 
+    $xajax->registerFunction('SaveFormat'); 
+
 
 
 

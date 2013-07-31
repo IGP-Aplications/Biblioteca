@@ -241,6 +241,8 @@ elseif(isset($_SESSION["tmp"])){
          /* Formato de libro  descripcion*/
         $fbok_des = isset($recuperar["fbook_descripcion"])?$recuperar["fbook_descripcion"]:""; 
 
+        $new_fbook = isset($recuperar["fbook_descripcion"])?$recuperar["fbook_descripcion"]:""; 
+
         /* Codigo ISBN*/
         $ISBN = isset($recuperar["ISBN"])?$recuperar["ISBN"]:"";
 
@@ -324,15 +326,15 @@ elseif(isset($_SESSION["tmp"])){
                 $check["summary"] = $summary;
             }
 
-            if ($subject=="") {
-                $check["Error"] = 1;
-                $check["Msg"] = "Ingrese temas  relacionados";
-                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1')";
-                $check["focus"]="$('#subject').focus()";
-            }
-            else{
-                $check["subject"] = $subject;
-            }
+            // if ($subject=="") {
+            //     $check["Error"] = 1;
+            //     $check["Msg"] = "Ingrese temas  relacionados";
+            //     $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1')";
+            //     $check["focus"]="$('#subject').focus()";
+            // }
+            // else{
+            //     $check["subject"] = $subject;
+            // }
 
             if ($edition=="") {
                 $check["Error"] = 1;
@@ -354,18 +356,18 @@ elseif(isset($_SESSION["tmp"])){
                 $check["description_physical"] = $description_physical;
             }
 
-            if ($publication=="") {
-                $check["Error"]= 1;
-                $check["Msg"]= "Ingrese lugar y fecha de Publicación";                
-                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1')";
-                $check["focus"]="$('#publication').focus()";
-            }
-            else{
-                $check["publication"]=$publication;
-            }
+            // if ($publication=="") {
+            //     $check["Error"]= 1;
+            //     $check["Msg"]= "Ingrese lugar y fecha de Publicación";                
+            //     $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1')";
+            //     $check["focus"]="$('#publication').focus()";
+            // }
+            // else{
+            //     $check["publication"]=$publication;
+            // }
 
             if ($CallNumber=="") {
-                $check["Msg"]="Ingrese el codigo CallNumber";
+                $check["Msg"]="Ingrese el codigo de ubicación";
                 $check["Error"]=1;
                 $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1')";
                 $check["focus"]="$('#CallNumber').focus()";
@@ -384,8 +386,8 @@ elseif(isset($_SESSION["tmp"])){
             else{
                 $check["ISBN"]=$ISBN;
             }
-
-            if($idfbook==0){ 
+            //formato de material bibliografico
+            if($idfbook==1){ 
                 $check["Msg"]="Seleccione un formato del material bibliográfico";
                 $check["Error"]=1;
                 $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1'); return false;";
@@ -397,6 +399,20 @@ elseif(isset($_SESSION["tmp"])){
                 $check["fbook_descripcion"]=$fbok_des;
 
             }
+
+            // if (isset($new_fbook)) {
+            //     if ($new_fbook=="") {
+            //         $check["Msg"]="Ingrese nuevo formato del material bibliográficooo";
+            //         $check["Error"]=1;
+            //         $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1')";
+            //         $check["focus"]="$('#newformat').focus()";
+            //     }
+            //     else{
+            //         $check["CallNumber"]=$CallNumber;
+            //     }
+                
+            // }
+            
 
             if($title==""){ 
                 $check["Msg"]="Ingrese Título";

@@ -2841,7 +2841,7 @@ function newPonencia($iddata=0,$action){
 $idsubcategory=isset($_SESSION["idsubcategory"])?$_SESSION["idsubcategory"]:0;               
 $resultCheck=validarPonencias($idsubcategory,$areaPRI);
 
- // $objResponse->alert(print_r($_SESSION["edit"],TRUE));
+// $objResponse->alert(print_r($_SESSION["edit"],TRUE));
 
 if ($resultCheck["Error"]==1){
         $objResponse->alert($resultCheck["Msg"]);
@@ -2957,7 +2957,7 @@ else{
                 }
                 else{
                     
-                    $objResponse->alert("Ponencia guardado satisfactoriamente");
+                    $objResponse->alert("Material Bibliográfico guardado satisfactoriamente");
 
                     $objResponse->script("xajax_formPonenciasShow()");
 
@@ -2981,6 +2981,7 @@ else{
 	
 	return $objResponse;
 }
+
 
 
 /******************************************/

@@ -1688,6 +1688,34 @@ if ($action=="UPD"){
 	
 	    return $result;
 	}
+	function select_format(){
+
+		$dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
+		$dbh->query("SET NAMES 'utf8'");
+			
+	    $sql = "SELECT * FROM format";
+
+	    $i=0;
+	
+	    if($dbh->query($sql)){
+	        foreach($dbh->query($sql) as $row) {
+	        	$result["idformat"][$i]= $row["idformat"];
+	            $result["fdescription"][$i]= $row["fdescription"];	            
+	            $i++;
+	        }
+	        $result["Count"]=count($result["idformat"]);
+	        $result["Error"]=0;
+	
+	    }
+	    else{
+	        $result["Error"]=1;
+	    }
+	
+	    $dbh = null;
+	    $result["Query"]=$sql;
+	
+	    return $result;
+	}
 
 
 ?>

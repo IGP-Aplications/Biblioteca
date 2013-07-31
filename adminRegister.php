@@ -398,7 +398,7 @@ return $objResponse;
             }
             
 	    if($month_pub==0){
-	        //$respuesta->alert("Ingrese mes");
+	        $respuesta->alert("Ingrese mes");
                 if(isset($_SESSION["edit"])){
                     $_SESSION["edit"]["month_pub"]=0;
                     $_SESSION["edit"]["desc_month_pub"]="";
@@ -978,11 +978,11 @@ elseif(isset($_SESSION["tmp"])){
            
 	    
 
-	    if($fbook_id==0){
+	    if($fbook_id==1){
 	        $respuesta->alert("Seleccione un formato");
 	    }
 	    
-	    elseif($fbook_id!=2){
+	    elseif($fbook_id!=4){
 	        if(isset($_SESSION["edit"])){
 	            $_SESSION["edit"]["idfbook"]=$fbook_id;
 	            $_SESSION["edit"]["fbook_descripcion"]=$fbook_des;
@@ -1037,7 +1037,7 @@ elseif(isset($_SESSION["tmp"])){
 	function registerCallNumber($CallNumber){
 			$objResponse = new xajaxResponse();
 			if($CallNumber==""){
-	        	$objResponse->alert("Debe Ingresar código CallNumber");
+	        	$objResponse->alert("Debe Ingresar código de ubicación física");
    		        $objResponse->script("$('#CallNumber').focus()");
 	   		 }
 	    	else{
@@ -1054,25 +1054,25 @@ elseif(isset($_SESSION["tmp"])){
 		}
 
 
-	function registerPublication($publication){
-		$objResponse = new xajaxResponse();
+	// function registerPublication($publication){
+	// 	$objResponse = new xajaxResponse();
 
-		if($publication==""){
-	        $objResponse->alert("Debe Ingrese lugar y fecha de publicación");
-	        $objResponse->script("$('#publication').focus()");
-	    }
-	    else{
-	        if(isset($_SESSION["edit"])){
-	            $_SESSION["edit"]["publication"]=addslashes($publication);
-	        }
-	        else{
-	            $_SESSION["tmp"]["publication"]=addslashes($publication);
-	        }
+	// 	if($publication==""){
+	//         $objResponse->alert("Debe Ingrese lugar y fecha de publicación");
+	//         $objResponse->script("$('#publication').focus()");
+	//     }
+	//     else{
+	//         if(isset($_SESSION["edit"])){
+	//             $_SESSION["edit"]["publication"]=addslashes($publication);
+	//         }
+	//         else{
+	//             $_SESSION["tmp"]["publication"]=addslashes($publication);
+	//         }
 	        
-	    }
+	//     }
 
-		return $objResponse ;
-	}
+	// 	return $objResponse ;
+	// }
 
 	function registerEdition($edition){
 		$objResponse = new xajaxResponse();
@@ -1093,25 +1093,25 @@ elseif(isset($_SESSION["tmp"])){
 
 		return $objResponse ;
 	}
-	function registerSubject($subject){
-		$objResponse = new xajaxResponse();
+	// function registerSubject($subject){
+	// 	$objResponse = new xajaxResponse();
 
-		if($subject==""){
-	        $objResponse->alert("Debe Ingresar temas relacionados");                
-	        $objResponse->script("$('#subject').focus()");
-	    }
-	    else{
-	        if(isset($_SESSION["edit"])){
-	            $_SESSION["edit"]["subject"]=addslashes($subject);
-	        }
-	        else{
-	            $_SESSION["tmp"]["subject"]=addslashes($subject);
-	        }
+	// 	if($subject==""){
+	//         $objResponse->alert("Debe Ingresar temas relacionados");                
+	//         $objResponse->script("$('#subject').focus()");
+	//     }
+	//     else{
+	//         if(isset($_SESSION["edit"])){
+	//             $_SESSION["edit"]["subject"]=addslashes($subject);
+	//         }
+	//         else{
+	//             $_SESSION["tmp"]["subject"]=addslashes($subject);
+	//         }
 	        
-	    }
+	//     }
 
-		return $objResponse ;
-	}
+	// 	return $objResponse ;
+	// }
 
 	function registerSumary($summary){
 		$objResponse = new xajaxResponse();
