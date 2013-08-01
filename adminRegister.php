@@ -371,7 +371,7 @@ return $objResponse;
 	    $respuesta = new xajaxResponse();
 	
 	    if($year_pub==0){
-	        //$respuesta->alert("Ingrese Año de Publicación");
+	        $respuesta->alert("Ingrese Año de Publicación");
 	    }
 	    else{
 	        if(isset($_SESSION["edit"])){
@@ -973,16 +973,29 @@ elseif(isset($_SESSION["tmp"])){
             
 	    return $objResponse;
 	}
-	function registerfbook($fbook_id, $fbook_des){
-	    $objResponse = new xajaxResponse();     
-           
-	    
+	function registerfbook($fbook_id, $fbook_des=""){
+	    $objResponse = new xajaxResponse();           
+	    if(isset($_SESSION["edit"])){
+                $recuperar=$_SESSION["edit"];
+            }
+        elseif(isset($_SESSION["tmp"])){
+                $recuperar=$_SESSION["tmp"];
+            }
 
-	    if($fbook_id==1){
-	        $respuesta->alert("Seleccione un formato");
+	    if($fbook_id==999){
+	        $objResponse->alert(print_r("Seleccione un formato",TRUE));
+	        if(isset($_SESSION["edit"])){
+                    $_SESSION["edit"]["idfbook"]=999;
+                    $_SESSION["edit"]["fbook_descripcion"]="";
+                }
+                else{
+                    $_SESSION["tmp"]["idfbook"]=999;
+                    $_SESSION["tmp"]["fbook_descripcion"]="";
+
+                }
 	    }
 	    
-	    elseif($fbook_id!=4){
+	    else{
 	        if(isset($_SESSION["edit"])){
 	            $_SESSION["edit"]["idfbook"]=$fbook_id;
 	            $_SESSION["edit"]["fbook_descripcion"]=$fbook_des;
@@ -994,6 +1007,8 @@ elseif(isset($_SESSION["tmp"])){
 	
 		}
 
+		//$objResponse->alert(print_r($_SESSION["tmp"], true));
+		//$objResponse->alert(print_r($fbook_id,TRUE));
 	    return $objResponse;
 	}
 	function new_registerfbook($new_fbook){

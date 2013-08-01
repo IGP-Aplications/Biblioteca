@@ -432,8 +432,11 @@
 		         $date_ing=(string)$xmlt->date_ing;
 
 		        $year_pub=(string)$xmlt->year_pub;
-                        $month_pub=(string)$xmlt->month_pub;
-                        $desc_month_pub=(string)$xmlt->desc_month_pub;
+                $month_pub=(string)$xmlt->month_pub;
+                $desc_month_pub=(string)$xmlt->desc_month_pub;
+                
+                $idfbook=(string)$xmlt->idfbook;
+                $fbook_descripcion=(string)$xmlt->formatbook;
 		        //----------
 		        $autorPRI=(string)$xmlt->authorPRI->idauthor0;
 		        $autorSEC="";
@@ -470,6 +473,9 @@
 
 
 		}
+		$_SESSION["edit"]["idfbook"]=$idfbook;
+		$_SESSION["edit"]["fbook_descripcion"]=$fbook_descripcion;
+
 		$_SESSION["edit"]["date_ing"]=$date_ing;
 		$_SESSION["edit"]["authorPRI"][$autorPRI]=1;
 		$_SESSION["edit"]["titulo"]=$titulo;
@@ -487,7 +493,7 @@
 		$objResponse->assign('paginator', 'style.display',"none");
 		$objResponse->assign('resultSearch', 'style.display',"none");    
 
-
+		$objResponse->alert(print_r($fbook_descripcion,TRUE));
 		return $objResponse;
 	}
 

@@ -239,9 +239,7 @@ elseif(isset($_SESSION["tmp"])){
         /* Formato de libro - id*/
         $idfbook = isset($recuperar["idfbook"])?$recuperar["idfbook"]:""; 
          /* Formato de libro  descripcion*/
-        $fbok_des = isset($recuperar["fbook_descripcion"])?$recuperar["fbook_descripcion"]:""; 
-
-        $new_fbook = isset($recuperar["fbook_descripcion"])?$recuperar["fbook_descripcion"]:""; 
+        $fbook_des = isset($recuperar["fbook_descripcion"])?$recuperar["fbook_descripcion"]:"";         
 
         /* Codigo ISBN*/
         $ISBN = isset($recuperar["ISBN"])?$recuperar["ISBN"]:"";
@@ -249,17 +247,12 @@ elseif(isset($_SESSION["tmp"])){
         //codigo CallNumber
         $CallNumber = isset($recuperar["CallNumber"])?$recuperar["CallNumber"]:"";
 
-        /*publicacion*/
-        $publication = isset($recuperar["publication"])?$recuperar["publication"]:"";
-        
+             
         /*descripcion phisica*/
         $description_physical = isset($recuperar["description_physical"])?$recuperar["description_physical"]:"";
 
         /*edition*/
-        $edition = isset($recuperar["edition"])?$recuperar["edition"]:"";
-
-        /* subject*/
-        $subject = isset($recuperar["subject"])?$recuperar["subject"]:"";
+        $edition = isset($recuperar["edition"])?$recuperar["edition"]:"";        
 
         /*description*/
         $summary = isset($recuperar["summary"])?$recuperar["summary"]:"";
@@ -287,7 +280,7 @@ elseif(isset($_SESSION["tmp"])){
 
  
             if($year_pub==""){
-                $check["Msg"]="Seleccione el Año";
+                $check["Msg"]="Seleccione el Año de Aquisición";
                 $check["Error"]=1;
                 $check["funcion"]="xajax_displaydiv('fecha_permisos','titulo6')";
             }           
@@ -296,7 +289,7 @@ elseif(isset($_SESSION["tmp"])){
             }
     
             if($month_pub==""){
-                $check["Msg"]="Seleccione el Mes";
+                $check["Msg"]="Seleccione el Mes de Aquisición";
                 $check["Error"]=1;
                 $check["funcion"]="xajax_displaydiv('fecha_permisos','titulo6')";
             }           
@@ -387,37 +380,23 @@ elseif(isset($_SESSION["tmp"])){
                 $check["ISBN"]=$ISBN;
             }
             //formato de material bibliografico
-            if($idfbook==1){ 
-                $check["Msg"]="Seleccione un formato del material bibliográfico";
+            if($idfbook=="" or $idfbook==999){ 
+                $check["Msg"]="Seleccione un formato del material bibliográfico ";
                 $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1'); return false;";
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
                 $check["focus"]="$('#list_fbook').val('').focus()";
                 
             }
             else{
                 $check["idfbook"]=$idfbook;
-                $check["fbook_descripcion"]=$fbok_des;
+                $check["fbook_descripcion"]=$fbook_des;
 
-            }
-
-            // if (isset($new_fbook)) {
-            //     if ($new_fbook=="") {
-            //         $check["Msg"]="Ingrese nuevo formato del material bibliográficooo";
-            //         $check["Error"]=1;
-            //         $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1')";
-            //         $check["focus"]="$('#newformat').focus()";
-            //     }
-            //     else{
-            //         $check["CallNumber"]=$CallNumber;
-            //     }
-                
-            // }
+            }         
             
-
             if($title==""){ 
                 $check["Msg"]="Ingrese Título";
                 $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1'); return false;";
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
                 $check["focus"]="$('#title').focus()";
             }
             else{

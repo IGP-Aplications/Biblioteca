@@ -1716,6 +1716,25 @@ if ($action=="UPD"){
 	
 	    return $result;
 	}
+	function insertFormat($form){
+		$dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
+		$dbh->query("SET NAMES 'utf8'");
+		$sql = "insert into format(fdescription) values(";
+		$sql .= "'".$form["fdescription"]."'";
+		$sql .=")";
+		
+		if($dbh->query($sql)){
+			$result["Error"]=0;
+		}
+		else{
+			$result["Error"]=1;
+		}
+	
+		$dbh = null;
+		$result["Query"]=$sql;
+		return $result;
+
+	}
 
 
 ?>

@@ -639,12 +639,9 @@
 				        <div id="newFormAuthor"></div>
 		            </div>
 	
-	                <div id="referencia" style="display:none"></div>
+	                <div id="referencia" style="display:none"></div>             
 	
 	                
-	
-	                
-	
 	            <div id="area_tema" style="display:none">
 	                <div class="txt-azul" id="titArea"></div>
 	                <div id="area_propietaria"></div>
@@ -775,18 +772,14 @@
         }
         
 		$tipoPonencia="";
-		$tipoPonencia=comboTipoPonencia($tipoPonencia_id);
+		$tipoPonencia=comboTipoPonencia($tipoPonencia_id);			
+		
 
-				
-		$listformat = new combo();		
-		
-		//$fbook_options = $datos["format"];
-		$result_format = select_format();
-		$fbook_options = $result_format["fdescription"];
-		// $fbook_options = array("Libros","Mapas","Tesis","Nuevo Formato");
-		$fbook_values = array(1,2,3);
-		$formatBook = $listformat->comboList($fbook_options,$fbook_values,"OnChange","xajax_obtenerIdDescripcion('list_fbook','registerfbook')","","1","list_fbook"," ","list_fbook");
-		
+		// $listformat = new combo();
+		// $fbook_options = array("lunes","martes","miercoles");
+		// $fbook_values = array(1,2,3);
+		// $listdemo = $listformat->comboList($fbook_options,$fbook_values,"OnChange","xajax_obtenerIdDescripcion('list_fbook','registerfbook')","","2","list_demo"," ","list_fbook");
+
         
 		$html="
 	       	<div class='clear'></div>  
@@ -800,11 +793,13 @@
 			<div class='clear'></div>
 
 			<div class='campo-buscador' id='tit_tipoPonencia'>Formato</div>
-	       	<div class='fleft' id='tipoPonencia'>$formatBook</div>
-	       	<span><a href='#' class='btnOpen'>Inserte nuevo Formato</a></span>
+	       	<div class='fleft' id='tipoFormato'></div>
+	       	<span><a href='#' class='btnOpen small' onclick='xajax_NewFormat(); return false;'>&nbsp Nuevo Formato</a></span>
+	       	<div id='divNewFormat'></div>
+
 	       	<span class='divnone' id='newformat'><input type='text'  placeholder='Ingrese Nuevo Formato' onchange='xajax_new_registerfbook(this.value); return false;'  value='$newformat' id='newformat' name='newformat' class='input-large' /></span>
 	       	<div class='clear'></div>
-
+	       	
 			<div class='campo-buscador'>Codigo ISBN:&nbsp;</div>
 	       	<div class='contenedor-caja-buscador-1'>
 	       	<input type='text' placeholder='ej. 0385342586' onchange='xajax_registerISBN(this.value); return false;' value='$ISBN' id='ISBN' name='ISBN' class='caja-buscador-1' /><div id='titulo_error'></div></div>
@@ -840,11 +835,10 @@
 			<div class='campo-buscador'>Resumen</div>
 	       	<div class='contenedor-caja-buscador-1'>
 	       	<textarea placeholder='Escriba aqui el resumen' onchange='xajax_registerSumary(this.value); return false;' id='summary' name='summary' rows='3' >$summary</textarea><div id='summary-error'></div></div>                
-			<div class='clear'></div>	
-		
-       		
+			<div class='clear'></div>       		
        	";
-       	
+       	$objResponse->script("xajax_Combo_Format();");
+
 	    $objResponse->Assign("titulo_tipo_prepor","innerHTML",$html);
 		$objResponse->Assign('titulo1',"innerHTML","<a href=#1 onclick=\"xajax_displaydiv('titulo_tipo_prepor','titulo1'); return false;\"  rel='tooltip' data-toggle='tooltip' title='Información General!'>$titulo</a>");
 	    
@@ -920,8 +914,7 @@
 				// 		$linkRegresar='<span style="float:right;"><a class="negro" href=# id="boton_actualizar"onclick="xajax_abstractHide(\'formulario\'); xajax_abstractShow(\'consultas\'); xajax_abstractShow(\'resultSearch\'); xajax_abstractShow(\'paginator\');"><img style="cursor: pointer; border:0;" width="20px" src="img/flecha-izq.jpg">&nbsp;&nbsp; Retornar a resultados </a></span>';
 				// 		$objResponse->assign("botonRegresar","innerHTML",$linkRegresar);
 				//     }
-				// }
-                
+				// }       
                 
                 
                 //upload file - image of portada
@@ -947,15 +940,22 @@
         
                 $objResponse->assign("imghome", "style.display", "none");
                 $objResponse->assign("consultas", "style.display", "none");
+                
+                //Nuevo formato tipo modal
                 $objResponse->script("
-									$('divNewFormat').dialog({
+									$('#divNewFormat').dialog({
 									autoOpen: false,
 									modal: true,
 									title: 'Nuevo Formato',
 									show: 'fade',
 									hide: 'fade',
 						            height: 'auto',
-						            width: 500 });	
+						            width: 350 });
+
+						            $('.btnOpen').click(function() {
+										$('#divNewFormat').dialog('open');					
+										return false;
+									});	
                 ");    
 
 		return $objResponse;
@@ -965,38 +965,70 @@
 	function NewFormat(){
 		$objResponse = new xajaxResponse();
 		$html = "<form id='Newformat'>
-				<input type='text'>
-				<div class='btnActions'>
-				<input type=\"button\" value=\"Guardar\"
-              onclick=\"xajax_SaveFormat(xajax.getFormValues('Newformat'))\">   
-              
-              <input type=\"button\" value=\"Cancelar\" class='btnCancel'></div>  
-
+				<div id='newformat_content'>
+					<label for='fdescription'>Ingrese Nuevo Formato</label>
+					<input type='text' name='fdescription' id='fdescription'>
+					<div id='msj_Fdes'></div>
+					<div class='btnActions'>
+						<input class='btn' type=\"button\" value=\"Guardar\" onclick=\"xajax_SaveFormat(xajax.getFormValues('Newformat'))\">                 
+              			<input class='btn btnCancel' type=\"button\" value=\"Cancelar\" >
+              		</div> 
+              	</div> 
 				</form>";
 		$objResponse->assign("divNewFormat","innerHTML",$html);
 		$objResponse->script("$('.btnCancel').click(function(){
 					$('#divNewFormat').dialog('close')					
 				});	");
 		return $objResponse;
-
 	}
+
 	function SaveFormat($form){
 		$objResponse = new xajaxResponse();
-		$result = insertFormat($form);
-		if ($result["Error"]==1) {
-			$html = "Nuevo formato guardado con exito";
+		if ($form["fdescription"]=="") {
+			$objResponse->assign("msj_Fdes","innerHTML","<span class='alert small'>Debe ingresar un formato</span>");
+			$objResponse->script("$('#fdescription').focus();");
 		}
 		else{
-			$html = "Intentalo mas tarde";
-		}
-		$objResponse->assign("divNewFormat","innerHTML",$html);
-		return $objResponse;
+			$result = insertFormat($form);
+			if ($result["Error"]==0) {
+				$html = "<span class='ui-icon ui-icon-circle-check' style='float: left; margin: 0 7px 20px 0;'></span>Nuevo formato guardado con exito";
+				$objResponse->script("xajax_Combo_Format();");
+			}
+			else{
+				$html = "Intentalo mas tarde";
+			}
+			$objResponse->assign("newformat_content","innerHTML",$html);
 
-	}
+		}	
 		
-	
-	
-	
+		return $objResponse;
+	}	
+	function Combo_Format(){
+		$objResponse = new xajaxResponse();
+		$listformat = new combo();		
+		$result_format = select_format();
+		
+		$fbook_values = array();
+		for ($i=0; $i < $result_format["Count"]; $i++) { 
+			array_push($fbook_values, ($i+1));
+		}
+		
+		$fbook_options = $result_format["fdescription"];						
+		$formatBook = $listformat->comboList($fbook_options,$fbook_values,"OnChange","xajax_obtenerIdDescripcion('list_fbook','registerfbook')","","999","list_fbook"," ","list_fbook");
+		
+		$objResponse->assign("tipoFormato","innerHTML",$formatBook);
+
+
+		if (isset($_SESSION["edit"])) {
+			$idfbook = $_SESSION["edit"]["idfbook"];
+			$objResponse->script("									
+									var id_book = ".$_SESSION["edit"]["idfbook"].";									
+									$('#list_fbook option[value='+id_book+']').attr('selected',true);  
+									");
+		}
+		return $objResponse;
+	}
+
 	function formConsultaShow($idbutton,$seccion="",$idarea=0){
 		$objResponse = new xajaxResponse();
 	
@@ -1911,6 +1943,7 @@ function delete_file($namefile){
     $xajax->registerFunction('editBook'); 
     $xajax->registerFunction('NewFormat'); 
     $xajax->registerFunction('SaveFormat'); 
+    $xajax->registerFunction('Combo_Format'); 
 
 
 
