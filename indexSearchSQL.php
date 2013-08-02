@@ -4,10 +4,25 @@
 	Contiene funciones para la busqueda de datos
 	
 	***************************************************/
-	function searchBookSQL() {
+	function searchBookSQL($form, $currentPage="", $pageSize="") {
 		$dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
 		$dbh->query("SET NAMES 'utf8'");
 		$sql = "Select * from book";
+
+		
+		if(isset($form["tituloSearch"])){
+			if(strlen($form["tituloSearch"])>0){
+                                $form["tituloSearch"]=(str_replace("'","*",$form["tituloSearch"]));
+				$sql .=	" WHERE ExtractValue(book_data,'book/title') LIKE '%".$form["tituloSearch"]."%'";
+			}
+		}
+		//paginar
+		if($currentPage<>"" and $pageSize<>""){
+			$limitIni = ($currentPage-1)*$pageSize;
+	        $limitLon = $pageSize;
+			$sql .=	" LIMIT $limitIni,$limitLon";
+		}
+
 		if($dbh->query($sql)){
 			$i=0;
 			foreach($dbh->query($sql) as $row) {
@@ -40,22 +55,24 @@
 	
 	function searchPublicationSQL($idcategory,$form,$idfrom,$currentPage= '', $pageSize= '', $idarea=0){
 	
-		$dbh=conx("DB_ITS","wmaster","igpwmaster");
+		$dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
 		$dbh->query("SET NAMES 'utf8'");
-	
-		if($idfrom==2){
+		
+		//ponencia: idfrom=2  idarea=0  
+		if($idfrom==2){			
 		    if($idarea==1){
 		      $sql = "SELECT * FROM data d, subcategory s, category c WHERE d.idsubcategory=s.idsubcategory AND s.idcategory=c.idcategory";
 		      }
+
 		    else{
-		      $sql = "SELECT * FROM data d, subcategory s, category c WHERE d.idsubcategory=s.idsubcategory AND s.idcategory=c.idcategory ";
-		      //$sql = "SELECT idbook, book_data FROM book ";
+		      // $sql = "SELECT * FROM data d, subcategory s, category c WHERE d.idsubcategory=s.idsubcategory AND s.idcategory=c.idcategory ";
+		      $sql = "SELECT idbook, book_data FROM book ";
 		    }
 		}
 	
 		if($idfrom==1){
-			$sql = "SELECT * FROM data d, subcategory s, category c WHERE d.idsubcategory=s.idsubcategory and s.idcategory=c.idcategory ";
-			//$sql = "SELECT * FROM book ";
+			// $sql = "SELECT * FROM data d, subcategory s, category c WHERE d.idsubcategory=s.idsubcategory and s.idcategory=c.idcategory ";
+			$sql = "SELECT * FROM book ";
                         //$sql .=	" and ExtractValue(data_content,'publicaciones/pdf')!="."''";
 		}
 	
@@ -102,7 +119,7 @@
 		if(isset($form["tituloSearch"])){
 			if(strlen($form["tituloSearch"])>0){
                                 $form["tituloSearch"]=(str_replace("'","*",$form["tituloSearch"]));
-				$sql .=	" AND ExtractValue(data_content,'publicaciones/titulo') LIKE '%".$form["tituloSearch"]."%'";
+				$sql .=	" AND ExtractValue(data_content,'book/title') LIKE '%".$form["tituloSearch"]."%'";
 			}
 		}
 		// AUTOR
@@ -609,16 +626,16 @@
 	   //      	$result["book_data"][$i]= $row["book_data"];
 				// $result["idbook"][$i]= $row["idbook"];
 	            
-	            $result["iddata"][$i]= $row["iddata"];
-	            $result["data_content"][$i]= $row["data_content"];
-	            $result["idcategory"][$i]= $row["idcategory"];
-	            $result["idsubcategory"][$i]= $row["idsubcategory"];
+	            $result["idbook"][$i]= $row["idbook"];
+	            $result["book_data"][$i]= $row["book_data"];
+	            // $result["idcategory"][$i]= $row["idcategory"];
+	            // $result["idsubcategory"][$i]= $row["idsubcategory"];
 	
 	            $i++;
 	        }
 	
-	        if(isset($result["iddata"])){
-	            $result["Count"]=count($result["iddata"]);
+	        if(isset($result["idbook"])){
+	            $result["Count"]=count($result["idbook"]);
 	        }
 	        else{
 	            $result["Count"]=0;

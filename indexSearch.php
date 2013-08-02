@@ -289,7 +289,7 @@
 	
 		$respuesta = new xajaxResponse();
 		//$respuesta->Alert("ipp=$pageSize and page=$currentPage");	
-                //$respuesta->alert($form["tip_inf"]);
+                
 	        
 	        
 		if(isset($_SESSION["idfrom"])){
@@ -303,15 +303,17 @@
 				$respuesta->script("xajax_searchPublicationShow(xajax.getFormValues('formSearch'),'".$_SESSION["idfrom"]."','$currentPage','$pageSize','$idarea')");
 				$respuesta->script("xajax_paginatorSearch($currentPage,$pageSize,$total,'',$idarea)");
 				// $respuesta->alert($_SESSION["idfrom"]);
+
 	
 			}
 			else{
                 
-				//$result=searchPublicationSQL("",$form,$_SESSION["idfrom"],"","",$idarea);
-				//$total=$result["Count"];                                
+				$result=searchPublicationSQL("",$form,$_SESSION["idfrom"],"","",$idarea);
+				$total=$result["Count"]; 
+
 				$respuesta->script("xajax_searchPublicationShow(xajax.getFormValues('formSearch'),'".$_SESSION["idfrom"]."','$currentPage','$pageSize','$idarea')");
-				// $respuesta->script("xajax_paginatorSearch($currentPage,$pageSize,$total,xajax.getFormValues('formSearch'),$idarea)");
-	                        
+				$respuesta->script("xajax_paginatorSearch($currentPage,$pageSize,$total,xajax.getFormValues('formSearch'),$idarea)");
+	            // $respuesta->alert(print_r($result,TRUE));  	                         
 			}
 	
 		}
@@ -329,7 +331,7 @@
 		//$objResponse->alert(arrayToXml($form,"search"));
                 
                 //$objResponse->alert($form["tip_inf"]);
-
+		
 		if($searchFrom==1){
 			
 			list($html,$strModal2, $strAutor2,$md5iddata,$count)=searchPublication(0,$form,1,$currentPage, $pageSize, $idarea,$tip_inf);
@@ -338,8 +340,8 @@
 	
 		if($searchFrom==2){
 			//list($html,$strModal2, $strAutor2,$md5iddata,$count)=searchPublication(0,$form,2,$currentPage, $pageSize, $idarea,$tip_inf);
-			$html=searchbook();
-
+			$html=searchbook($form, $currentPage, $pageSize);
+			
 		}
 	
 		if($searchFrom==3){
@@ -349,57 +351,8 @@
 	        
 		//$objResponse->Alert("ipp=$pageSize and page=$currentPage");
 		$objResponse->assign("resultSearch","style.display","block");
-		$objResponse->assign("resultSearch","innerHTML",$html);
-		// $objResponse->alert(print_r('hola mundo'));
-	
-		
-                
-                
-                /***modal***/
-                $objResponse->script('	
-	
-		$.fx.speeds._default = 1000;
-		$(function() {
-
-			$( "'.$strModal2.'" ).dialog({
-				autoOpen: false,
-				/*show: "fade",
-				hide: "fade",*/
-	                        height: 118,
-	                        width: 300,
-	                        resizable: "destroy"
-	                        /*modal: true*/
-			});
-	                
-	                var txtarray = ['.$md5iddata.'];
-
-	                $.each(txtarray,function(clave,valor) {
-			$( "#autor_"+valor ).click(function() {                        
-				$( "#modal_"+valor).dialog( "open" );
-				return false;
-			});
-	                });
-
-
-
-
-	                /*
-			$( "#autor_e97ee2054defb209c35fe4dc94599061" ).click(function() {                        
-				$( "#modal_e97ee2054defb209c35fe4dc94599061").dialog( "open" );
-				return false;
-			});
-	                
-			$( "#autor_b86e8d03fe992d1b0e19656875ee557c" ).click(function() {
-				$( "#modal_b86e8d03fe992d1b0e19656875ee557c" ).dialog( "open" );
-				return false;
-			});
-	                */
-
-		});
-		');
-                
-                
-                
+		$objResponse->assign("resultSearch","innerHTML",$html);	             
+       
                 
 		return $objResponse;
 	}
@@ -502,14 +455,15 @@
 	}
 	
 	
-	function searchbook(){
+	function searchbook($form, $currentPage='', $pageSize=''){
 		
 	
 		//$text=$form["author"];
 	
 		//$result=searchPublicationSQL($idcategory,$form,$idfrom,$currentPage, $pageSize, $idarea,$tip_inf);
-		$result = searchBookSQL();
+		$result = searchBookSQL($form, $currentPage, $pageSize);
 		$html = "";
+		$sql = $result["Query"];
 		$i = 0;
 		if($result["Count"]>0){
 			foreach ($result["book_data"] as $xmldata){
@@ -586,13 +540,13 @@
 
 
 
-				$html .= "</div>";
+				$html .= "</div><div>".$result["Query"]."</div>";
 
 			$i++;
 			}
 		}
 		else{
-			$html .= "error";
+			$html .= "<p>NO SE ENCONTRARON RESULTADOS <div>".$result["Query"]."</div></p>";
 		}
 
         //return array($html, $strModal2, $strAutor2,$md5iddata2,$count);
