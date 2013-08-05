@@ -538,15 +538,13 @@
 
 				$html.="<span class='list_number'>" .($i+1).".</span> ".$titulo." - ".$author;
 
-
-
-				$html .= "</div><div>".$result["Query"]."</div>";
+				$html .= "</div>";
 
 			$i++;
 			}
 		}
 		else{
-			$html .= "<p>NO SE ENCONTRARON RESULTADOS <div>".$result["Query"]."</div></p>";
+			$html .= "<p>NO SE ENCONTRARON RESULTADOS </p>";
 		}
 
         //return array($html, $strModal2, $strAutor2,$md5iddata2,$count);

@@ -772,15 +772,8 @@
         }
         
 		$tipoPonencia="";
-		$tipoPonencia=comboTipoPonencia($tipoPonencia_id);			
+		$tipoPonencia=comboTipoPonencia($tipoPonencia_id);	
 		
-
-		// $listformat = new combo();
-		// $fbook_options = array("lunes","martes","miercoles");
-		// $fbook_values = array(1,2,3);
-		// $listdemo = $listformat->comboList($fbook_options,$fbook_values,"OnChange","xajax_obtenerIdDescripcion('list_fbook','registerfbook')","","2","list_demo"," ","list_fbook");
-
-        
 		$html="
 	       	<div class='clear'></div>  
 
@@ -1566,9 +1559,17 @@ function crea_form($accion){
 	
 	
 
-function carga_archivo(){
+function carga_archivo($img_portada=""){
     $respuesta = new xajaxResponse();
-    
+    if(isset($_SESSION["edit"])){
+
+    	$recuperar=$_SESSION["edit"];
+	}
+	elseif(isset($_SESSION["tmp"])){
+		$_SESSION["tmp"]["files"]= array();
+	    $recuperar=$_SESSION["tmp"];
+	}
+
     
     $html='
             <table class="options">
@@ -1580,21 +1581,30 @@ function carga_archivo(){
             </thead>
             <tbody>
                     <tr>
-                            <td>
-                                    <div id="up_files" style="width:500px"></div>
-                                    <!--<div id="report" style="overflow:auto;width:300px;height:200px;"></div>-->
+                            <td>';
+                            if (isset($_SESSION["tmp"])) {
+                            	$html .= '<div id="up_files" style="width:500px"></div>
+                                    <!--<div id="report" style="overflow:auto;width:300px;height:200px;"></div>-->';
+                            }
+                            elseif(isset($_SESSION["edit"])){
+                            	if ($gestor = opendir('librerias/ax-jquery-multiuploader/examples/uploaded')) {							           
+							        $html.="<ul>";
+							        while (false !== ($arch = readdir($gestor))) {
+							               if ($arch != "." && $arch != "..") {							                       
+							                       $html.="<li><a href=\"librerias/ax-jquery-multiuploader/examples/uploaded/".$arch."\" class=\"linkli\">".$arch."</a></li>\n";
+							               }
+							        }
+							        closedir($gestor);
+							            
+							        $html.="</ul>";							        
+							    }
+							    // $respuesta->alert(print_r($_SESSION["edit"],TRUE));
+                            	$html .= '<div id="edit_files" style="width:500px"></div>';
+                            }
+                                    
 
-                            </td>
-                            <!--
-                            <td>
-                                <table>
-                                  <tr>
-                                    <td id="lista_archivos" class="infsub">
-                                    </td>
-                                  </tr>
-                                </table>
-                            </td>
-                            -->
+$html .='					</td>
+                            
                     </tr>
             </tbody>
             </table>
@@ -1610,7 +1620,7 @@ function carga_archivo(){
 				remotePath:"uploaded/",
                                 finish:function(files)
                                     {
-                                        alert("Todas las archivos han sido cargados");
+                                        alert("Todas las archivos han sido cargados");                                        
                                         //var conteo=files.length 
                                         //alert(files);
                                         //xajax_lista_archivos();
@@ -1641,13 +1651,15 @@ function save_files($namefile){
     $texto = explode('.',$namefile);
     $name=$texto[0];
     
-    $str_name=(str_replace(" ","-",$name));
-    
+    $str_name=(str_replace(" ","-",$name));   
+	                  
+       //$_SESSION["publicaciones"]["files"] = array( ); 
+       array_push($_SESSION["tmp"]["files"],$namefile); 
+       //$_SESSION["publicaciones"]["files"]["img-".$str_name]= $namefile;
+       //$_SESSION["publicaciones"]["files"]["img-".$str_name]= $namefile;
         
-       $_SESSION["publicaciones"]["files"]["img-".$str_name]= $namefile;
         
-        
-    //$respuesta->alert(print_r($namefile, true));
+    // $respuesta->alert(print_r($namefile, true));
     
     return $respuesta;
 }

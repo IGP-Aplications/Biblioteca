@@ -420,7 +420,7 @@
 			}
 			
 			foreach ($result["book_data"] as $xmldata){
-		        $xmlt = simplexml_load_string($xmldata);
+				$xmlt = simplexml_load_string($xmldata);
 		        $titulo = (string)$xmlt->title;
 		        $ISBN = (string)$xmlt->ISBN;  
 		        $CallNumber = (string)$xmlt->CallNumber;		        
@@ -437,6 +437,15 @@
                 
                 $idfbook=(string)$xmlt->idfbook;
                 $fbook_descripcion=(string)$xmlt->formatbook;
+                if (isset($xmlt->files)) {
+                	// $_SESSION["edit"]["files"]=array();
+                	//$img_portada = $xmlt->files;
+     //            	$json_files = json_encode($xmlt->files);
+					// $array_files = json_decode($json,TRUE);
+					$array_files = $xmlt->files;
+					// $objResponse->alert(print_r($array_files,TRUE));
+                }
+               
 		        //----------
 		        $autorPRI=(string)$xmlt->authorPRI->idauthor0;
 		        $autorSEC="";
@@ -488,12 +497,17 @@
 		$_SESSION["edit"]["year_pub"]=$year_pub;
         $_SESSION["edit"]["month_pub"]=$month_pub;
         $_SESSION["edit"]["desc_month_pub"]=$desc_month_pub;
+        if(isset($xmlt->files)){        	
+        		$_SESSION["edit"]["files"] = $array_files;
+        		$objResponse->alert(print_r($_SESSION["edit"],TRUE));
+		     
+		}
 
 		$objResponse->script("xajax_formPonenciasShow($idbook,$idSubcategory)");
 		$objResponse->assign('paginator', 'style.display',"none");
 		$objResponse->assign('resultSearch', 'style.display',"none");    
 
-		$objResponse->alert(print_r($fbook_descripcion,TRUE));
+		// $objResponse->alert(print_r($fbook_descripcion,TRUE));
 		return $objResponse;
 	}
 
@@ -2847,7 +2861,7 @@ function newPonencia($iddata=0,$action){
 $idsubcategory=isset($_SESSION["idsubcategory"])?$_SESSION["idsubcategory"]:0;               
 $resultCheck=validarPonencias($idsubcategory,$areaPRI);
 
-// $objResponse->alert(print_r($_SESSION["edit"],TRUE));
+// $objResponse->alert(print_r($_SESSION["tmp"],TRUE));
 
 if ($resultCheck["Error"]==1){
         $objResponse->alert($resultCheck["Msg"]);
@@ -2862,6 +2876,7 @@ else{
         $_SESSION["publicaciones"]["year_pub"]=$resultCheck["year_pub"];
         
         $_SESSION["publicaciones"]["title"]=$resultCheck["title"];
+
 
         //format book
         if ($resultCheck["idfbook"]==3) {
@@ -2939,7 +2954,14 @@ else{
 	            }
 	        }
             }
-            
+
+        //multi upload files
+        $files_array = isset($recuperar["files"])?$recuperar["files"]:$_SESSION['edit']['files'];
+        if (isset($_SESSION["tmp"]["files"])) {
+        	$_SESSION["publicaciones"]["files"] = $files_array;
+        }
+        //---
+
 		arrayTheme();
 		arrayAreas();
 		arrayPermission();
