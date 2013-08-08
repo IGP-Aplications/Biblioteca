@@ -442,7 +442,7 @@
                 	//$img_portada = $xmlt->files;
      //            	$json_files = json_encode($xmlt->files);
 					// $array_files = json_decode($json,TRUE);
-					$array_files = $xmlt->files;
+					$array_files = (array)$xmlt->files;
 					// $objResponse->alert(print_r($array_files,TRUE));
                 }
                
@@ -2958,6 +2958,9 @@ else{
         //multi upload files
         $files_array = isset($recuperar["files"])?$recuperar["files"]:$_SESSION['edit']['files'];
         if (isset($_SESSION["tmp"]["files"])) {
+        	$_SESSION["publicaciones"]["files"] = $files_array;
+        }
+        elseif (isset($_SESSION["edit"]["files"])) {
         	$_SESSION["publicaciones"]["files"] = $files_array;
         }
         //---

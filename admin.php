@@ -1562,7 +1562,7 @@ function crea_form($accion){
 function carga_archivo($img_portada=""){
     $respuesta = new xajaxResponse();
     if(isset($_SESSION["edit"])){
-
+    	// $_SESSION["edit"]["files"]= array()
     	$recuperar=$_SESSION["edit"];
 	}
 	elseif(isset($_SESSION["tmp"])){
@@ -1587,19 +1587,35 @@ function carga_archivo($img_portada=""){
                                     <!--<div id="report" style="overflow:auto;width:300px;height:200px;"></div>-->';
                             }
                             elseif(isset($_SESSION["edit"])){
-                            	if ($gestor = opendir('librerias/ax-jquery-multiuploader/examples/uploaded')) {							           
-							        $html.="<ul>";
-							        while (false !== ($arch = readdir($gestor))) {
-							               if ($arch != "." && $arch != "..") {							                       
-							                       $html.="<li><a href=\"librerias/ax-jquery-multiuploader/examples/uploaded/".$arch."\" class=\"linkli\">".$arch."</a></li>\n";
-							               }
-							        }
-							        closedir($gestor);
+           //                  	if ($gestor = opendir('librerias/ax-jquery-multiuploader/examples/uploaded')) {							           
+							    //     $html.="<ul>";
+							    //     while (false !== ($arch = readdir($gestor))) {
+							    //            if ($arch != "." && $arch != "..") {							                       
+							    //                    $html.="<li><a href=\"librerias/ax-jquery-multiuploader/examples/uploaded/".$arch."\" class=\"linkli\">".$arch."</a></li>\n";
+							    //            }
+							    //     }
+							    //     closedir($gestor);
 							            
-							        $html.="</ul>";							        
-							    }
+							    //     $html.="</ul>";							        
+							    // }
 							    // $respuesta->alert(print_r($_SESSION["edit"],TRUE));
-                            	$html .= '<div id="edit_files" style="width:500px"></div>';
+							    
+							    if (isset($recuperar["files"])) {
+							    	$html .= '<div id="edit_files" style="width:500px">
+                            			<ul>';
+	                            	for ($i=0; $i < count($recuperar["files"]); $i++) { 
+	                            	    $html.="<li id='file_".$i."'><a href=\"librerias/ax-jquery-multiuploader/examples/uploaded/".$recuperar["files"][$i]."\" class=\"linkli\">".$recuperar["files"][$i]."</a> 
+	                            	    			<span> <a href='#' id='del-file' onclick='xajax_DeleteImg(\"".$recuperar["files"][$i]."\",\"".$i."\")'>Eliminar</a></span></li>\n";
+
+
+	                            	}
+	                            	$html .= '<div id="msj-del-file" title="Eliminar Imagen"> <span>Esta seguro que desea eliminar </span> </div>';
+	                            	$html .= '</ul></div>';							    	
+							    }
+							    else{
+							    	$html .= '<div id="up_files" style="width:500px"></div>';
+							    }
+                            	
                             }
                                     
 
@@ -1610,8 +1626,30 @@ $html .='					</td>
             </table>
 
     ';
+
     
     $respuesta->assign("carga_archivo", "innerHTML", $html);
+    $respuesta->script("
+							    	$(function(){
+							    		 $('#msj-del-file').dialog({
+											autoOpen: false,											
+											width: 350,
+											modal: true,
+											buttons:{
+												'Eliminar file': function(){
+													$(this).click('xajax_')
+												},
+												Cancel: function() {
+													$( this ).dialog('close');
+												}
+
+											}
+											});
+							    		$('#del-file').click(function(){
+							    			$('#msj-del-file').dialog('open');
+							    		});
+							    	});
+							    	");
     
     $respuesta->script('
 			$("#up_files").ajaxupload({
@@ -1653,11 +1691,18 @@ function save_files($namefile){
     
     $str_name=(str_replace(" ","-",$name));   
 	                  
-       //$_SESSION["publicaciones"]["files"] = array( ); 
-       array_push($_SESSION["tmp"]["files"],$namefile); 
-       //$_SESSION["publicaciones"]["files"]["img-".$str_name]= $namefile;
-       //$_SESSION["publicaciones"]["files"]["img-".$str_name]= $namefile;
+       //$_SESSION["publicaciones"]["files"] = array( );
+    	if(isset($_SESSION["edit"])){
+    		array_push($_SESSION["edit"]["files"],$namefile);
+
+		}
+		elseif(isset($_SESSION["tmp"])){
+			array_push($_SESSION["tmp"]["files"],$namefile);
+		}
+
         
+       //$_SESSION["publicaciones"]["files"]["img-".$str_name]= $namefile;
+       //$_SESSION["publicaciones"]["files"]["img-".$str_name]= $namefile;
         
     // $respuesta->alert(print_r($namefile, true));
     
@@ -1667,24 +1712,22 @@ function save_files($namefile){
 
 
 function delete_file($namefile){
-    $respuesta = new xajaxResponse;
+    $respuesta = new xajaxResponse();
     
     //$respuesta->alert($namefile);
         
-    $pos = array_search($namefile,$_SESSION["files"]);
+    // $pos = array_search($namefile,$_SESSION["files"]);
     
-    unset($_SESSION["files"][$pos]);
-    //$respuesta->alert(print_r($_SESSION, true));
-    
-    
+    // unset($_SESSION["files"][$pos]);
+      
     $dir="librerias/ax-jquery-multiuploader/examples/uploaded/";
-    if (is_file($dir.$namefile)) {
-      if ( unlink($dir.$namefile) ){
-        $respuesta->assign($namefile, "value", "");
-      }
+   
+    	if (is_file($dir.$namefile)) {
+	      if ( unlink($dir.$namefile) ){
+	        $respuesta->assign($namefile, "value", "");
+	        
+	      }
      }
-
-     
     $texto = explode('.',$namefile);
     $name=$texto[0];
      
@@ -1696,6 +1739,52 @@ function delete_file($namefile){
     */
     		
     return $respuesta;
+}
+
+function DeleteImg($namefile,$id){
+    $respuesta = new xajaxResponse();
+    $html = "<span>
+    		Está seguro que desea eliminar </span>
+    		<div><input type=></div>";
+    $dir="librerias/ax-jquery-multiuploader/examples/uploaded/";
+
+    if (is_file($dir.$namefile)) {
+	      if ( unlink($dir.$namefile) ){
+	        $respuesta->assign($namefile, "value", "");
+	        unset($_SESSION["edit"]["files"][$id]);
+	        //var_dump($_SESSION["edit"]["files"]);
+
+	        $respuesta->script("
+	        		$('#file_".$id."').remove();
+	        	");
+
+	        if (count($_SESSION["edit"]["files"]) ==0) {
+	        	unset($_SESSION["edit"]["files"]);
+	         	$respuesta->script("xajax_carga_archivo()");
+				}
+	        
+	        $respuesta->alert(print_r($_SESSION["edit"], true));
+	      }
+     }
+    	
+    
+    else{
+    	$respuesta->script("xajax_carga_archivo()");
+    }
+
+    
+
+     
+    $texto = explode('.',$namefile);
+    $name=$texto[0];   
+    		
+    return $respuesta;
+}
+
+function confirmDeleteImg($value='')
+{
+	$objResponse = new xajaxResponse();
+
 }
 
 	/*******************************************************************
@@ -1955,7 +2044,9 @@ function delete_file($namefile){
     $xajax->registerFunction('editBook'); 
     $xajax->registerFunction('NewFormat'); 
     $xajax->registerFunction('SaveFormat'); 
-    $xajax->registerFunction('Combo_Format'); 
+    $xajax->registerFunction('Combo_Format');
+    $xajax->registerFunction('DeleteImg') ;
+    $xajax->registerFunction('ConfirmDeleteImg') ;
 
 
 

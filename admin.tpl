@@ -263,7 +263,7 @@ function verFile(){
                                 
                                        
                                         <div class="span12">
-                                            <div class="txt-blanco-30" style="text-align: center;">Catálogo Virtual de Biblioteca - IGP</div>                                            
+                                            <div class="txt-blanco-30" style="text-align: center;">Módulo de Catálogo Virtual - Biblioteca IGP</div>                                            
                                         </div>
                                 
                             </div>
