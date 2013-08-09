@@ -8,7 +8,7 @@
 	require ('../class/xajax_core/xajax.inc.php');
 	$xajax=new xajax();
         //$xajax->configure("debug", true);
-	$xajax->configure('javascript URI', '../class/');
+	$xajax->configure('javascript URI', 'js/');
  	date_default_timezone_set('America/Lima');
 
 	require("adminIni.php");
@@ -133,7 +133,7 @@
   					<input class="input-small" id="clave" name="clave" type="password" placeholder="Contraseña">
 					</div>
 					<input type="submit" name="Login" class="btn" value="Ingresar">
-					<div id=>
+					<div id="error"></div>
 
                    
                 </form>                
@@ -183,9 +183,8 @@
         switch($NroRegistros){
             case 0:
                 $divError="error";
-                $respuesta->Assign("error","style.display","block");
-				$respuesta->Assign("error","style.color","red");
-                $respuesta->assign("error", "innerHTML","Usuario y/o clave incorrectos");
+                $respuesta->Assign("error","style.display","block");				
+                $respuesta->assign("error", "innerHTML","<span class='span3 offset7 alert alert-error'><span class='add-on i-error'></span>Usuario y/o clave incorrectos</span>");
             break;
 			case 1:
                                 $idusers=$result["idusers"];
@@ -1561,9 +1560,11 @@ function crea_form($accion){
 
 function carga_archivo($img_portada=""){
     $respuesta = new xajaxResponse();
-    if(isset($_SESSION["edit"])){
-    	// $_SESSION["edit"]["files"]= array()
+    if(isset($_SESSION["edit"])){    	
     	$recuperar=$_SESSION["edit"];
+    	if (count($recuperar["files"])==0) {
+    		$_SESSION["edit"]["files"]= array();
+    	}
 	}
 	elseif(isset($_SESSION["tmp"])){
 		$_SESSION["tmp"]["files"]= array();
@@ -1605,11 +1606,11 @@ function carga_archivo($img_portada=""){
                             			<ul>';
 	                            	for ($i=0; $i < count($recuperar["files"]); $i++) { 
 	                            	    $html.="<li id='file_".$i."'><a href=\"librerias/ax-jquery-multiuploader/examples/uploaded/".$recuperar["files"][$i]."\" class=\"linkli\">".$recuperar["files"][$i]."</a> 
-	                            	    			<span> <a href='#' id='del-file' onclick='xajax_DeleteImg(\"".$recuperar["files"][$i]."\",\"".$i."\")'>Eliminar</a></span></li>\n";
+	                            	    			<span> <a href='#' id='del-file' class='del-file' onclick='xajax_DeleteImg(\"".$recuperar["files"][$i]."\",\"".$i."\")'>Eliminar</a></span></li>\n";
 
 
 	                            	}
-	                            	$html .= '<div id="msj-del-file" title="Eliminar Imagen"> <span>Esta seguro que desea eliminar </span> </div>';
+	                            	$html .= '<div id="msj-del-file" title="Eliminar Imagen"> </div>';
 	                            	$html .= '</ul></div>';							    	
 							    }
 							    else{
@@ -1634,18 +1635,9 @@ $html .='					</td>
 							    		 $('#msj-del-file').dialog({
 											autoOpen: false,											
 											width: 350,
-											modal: true,
-											buttons:{
-												'Eliminar file': function(){
-													$(this).click('xajax_')
-												},
-												Cancel: function() {
-													$( this ).dialog('close');
-												}
-
-											}
+											modal: true											
 											});
-							    		$('#del-file').click(function(){
+							    		$('.del-file').click(function(){
 							    			$('#msj-del-file').dialog('open');
 							    		});
 							    	});
@@ -1685,6 +1677,14 @@ $html .='					</td>
 
 function save_files($namefile){
     $respuesta = new xajaxResponse();
+    if(isset($_SESSION["edit"])){
+    	
+    	$recuperar=$_SESSION["edit"];
+	}
+	elseif(isset($_SESSION["tmp"])){
+		
+	    $recuperar=$_SESSION["tmp"];
+	}
 
     $texto = explode('.',$namefile);
     $name=$texto[0];
@@ -1741,49 +1741,52 @@ function delete_file($namefile){
     return $respuesta;
 }
 
-function DeleteImg($namefile,$id){
-    $respuesta = new xajaxResponse();
-    $html = "<span>
-    		Está seguro que desea eliminar </span>
-    		<div><input type=></div>";
-    $dir="librerias/ax-jquery-multiuploader/examples/uploaded/";
+function DeleteImg($namefile="",$id=""){
+    $objResponse = new xajaxResponse();
+    $html = "<p class='msj'>Está seguro que desea eliminar el programa.</p>
+		   <div class='btnActions'>
+		   	<input type='button' value='Eliminar' onclick='xajax_ConfirmDeleteImg(\"".$namefile."\", \"".$id."\")' class='btn btnCancel'>
+		   	<input type='button' value='Cancelar' class='btn btnCancel'>
+		   </div>";
+    
+    $objResponse->assign("msj-del-file","innerHTML",$html);
+		$objResponse->script("
+					$('.btnCancel').click(function(){
+						$('#msj-del-file').dialog('close')
+					});
+		");
+    		
+    return $objResponse;
+}
+
+function ConfirmDeleteImg($namefile,$id){
+	$objResponse = new xajaxResponse();
+	$dir="librerias/ax-jquery-multiuploader/examples/uploaded/";
 
     if (is_file($dir.$namefile)) {
 	      if ( unlink($dir.$namefile) ){
-	        $respuesta->assign($namefile, "value", "");
+	        $objResponse->assign($namefile, "value", "");
 	        unset($_SESSION["edit"]["files"][$id]);
 	        //var_dump($_SESSION["edit"]["files"]);
 
-	        $respuesta->script("
+	        $objResponse->script("
 	        		$('#file_".$id."').remove();
 	        	");
 
 	        if (count($_SESSION["edit"]["files"]) ==0) {
 	        	unset($_SESSION["edit"]["files"]);
-	         	$respuesta->script("xajax_carga_archivo()");
+	         	$objResponse->script("xajax_carga_archivo()");
 				}
 	        
-	        $respuesta->alert(print_r($_SESSION["edit"], true));
+	        $objResponse->alert(print_r($_SESSION["edit"], true));
 	      }
      }
     	
     
     else{
-    	$respuesta->script("xajax_carga_archivo()");
+    	$objResponse->script("xajax_carga_archivo()");
     }
-
-    
-
-     
-    $texto = explode('.',$namefile);
-    $name=$texto[0];   
-    		
-    return $respuesta;
-}
-
-function confirmDeleteImg($value='')
-{
-	$objResponse = new xajaxResponse();
+    return $objResponse;
 
 }
 
@@ -2046,7 +2049,7 @@ function confirmDeleteImg($value='')
     $xajax->registerFunction('SaveFormat'); 
     $xajax->registerFunction('Combo_Format');
     $xajax->registerFunction('DeleteImg') ;
-    $xajax->registerFunction('ConfirmDeleteImg') ;
+    $xajax->registerFunction('ConfirmDeleteImg');
 
 
 

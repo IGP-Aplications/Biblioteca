@@ -244,10 +244,9 @@ function verFile(){
                 
                     <div class="navbar navbar-inverse">
                         <div class="navbar-inner">
-                            <button type="button" class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
-                              <span class="icon-bar"></span>
-                              <span class="icon-bar"></span>
-                              <span class="icon-bar"></span>
+                            <button type="button" class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse"> 
+                                <span class="caret"></span>
+                               <span>Menu</span>                          
                             </button>
                             <div class="nav-collapse collapse">
                                 <ul id="menu" class=" nav"></ul>
@@ -258,16 +257,16 @@ function verFile(){
 		
 			</div>
                         <div id="saludo"></div>
-            <div class="container ">
-                            <div class="slideshow" >
+            
+        </div>
+        <div class="container main-title">
+                            <div class="row" >
                                 
-                                       
                                         <div class="span12">
-                                            <div class="txt-blanco-30" style="text-align: center;">Módulo de Catálogo Virtual - Biblioteca IGP</div>                                            
+                                            <div class="container-fluid"> <h1 class="cblanco fcenter"> Módulo de Catálogo Virtual - Biblioteca IGP</h2></div>                                            
                                         </div>
                                 
                             </div>
-	        </div>
         </div>
         <div class="container div-login-main">
 

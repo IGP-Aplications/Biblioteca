@@ -1,6 +1,8 @@
 @charset "utf-8";
 /*body{text-align:center;}*/
-.cabecera{height:190px; background-image:url(../img/001c.jpg);background-repeat:repeat-x;}
+.cabecera, .main-title{ background-image:url(../img/001c.jpg);background-repeat:repeat-x;}
+.main-title {background-position: 0 -170px; }
+.main-title h1 {margin-top: 0.5em;}
 .cabecera1{height:120px; background-image:url(../img/001c.jpg);background-repeat:repeat-x;}
 
 .contenedor-pie {
@@ -15,9 +17,9 @@ a.mostaza {
     color: #BD852D; text-decoration: none;
 }
 
-.txt-blanco-30{
+/*.txt-blanco-30{
     color:#FFFFFF; font-size:30px; font-weight:bold; text-align:left; padding-left:10px;    
-}
+}*/
 
 .txt-blanco-16{
     color:#FFFFFF; font-size:16px; font-weight:bold; text-align:left; padding-left:10px;    
@@ -141,4 +143,29 @@ body .tabactive a{
     padding-right: 8px;
     color: #ACAAAA;
     font-weight: bold;
+}
+.cblanco{
+    color:#fff;
+}
+.fcenter{
+    text-align: center;
+
+}
+/*bootstrap de twitter*/
+.container .navbar {
+    margin-bottom: 0;
+}
+.container .navbar-inverse .btn-navbar,
+.container .navbar-inverse .nav-collapse .nav>li>a:hover{
+    background: #333231;
+}
+.container .navbar-inverse .nav-collapse .nav>li>a:hover{
+    color:#fff;
+}
+.navbar .caret{
+    border-top-color: #ffffff;
+    border-bottom-color: #ffffff;
+}
+.i-error{
+background-position: -326px -958.5px;
 }
