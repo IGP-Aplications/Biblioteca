@@ -936,11 +936,12 @@ function iniTypeTesisCountryUniversity(){
 
 
 
-function iniAreaResult($type,$idarea){
-    $resultSql= searchThemeSQL($type,$idarea);
-return $resultSql;
-}
+	function iniAreaResult($type,$idarea){
+	    $resultSql= searchThemeSQL($type,$idarea);
+	return $resultSql;
+	}
 
+	/* --
 	function iniAreaShow($idarea){
 	
 	    if(isset($_SESSION["subcategory"])){
@@ -966,40 +967,40 @@ return $resultSql;
             }
             
         $session_area_description=isset($_SESSION["area_description"])?$_SESSION["area_description"]:"sin &aacute;rea";    
-	$titulo="Asociar la $tipo_txt a un tema del &aacute;rea de ".$session_area_description;
-		$respuesta = new xajaxResponse();
-	
-	if(isset($_SESSION["edit"])){
-	    $recuperar=$_SESSION["edit"];
-	}
-	elseif(isset($_SESSION["tmp"])){
-	    $recuperar=$_SESSION["tmp"];
-	 }
-	
-	    $result=iniAreaResult("single",$idarea);
-	    $html="";
-	    if($result["Error"]==0){
-	
-	        for($i=0;$i<count($result["idtheme"]);$i++){
-	            $key = $result["idtheme"][$i];
-	            if(isset($recuperar["themes"][$key])){
-	                $html.="<p><input type=checkbox checked onclick=\"xajax_registerTheme('".$result["idtheme"][$i]."','".$result["theme_description"][$i]."');\" />&nbsp;".$result["theme_description"][$i]."</p>";
-	            }
-	            else{
-	                $html.="<p><input type=checkbox onclick=\"xajax_registerTheme('".$result["idtheme"][$i]."','".$result["theme_description"][$i]."');\"  />&nbsp;".$result["theme_description"][$i]."</p>";
-	            }
-	        }
-	
-	    }
-	    else{
-	        $html="<font color='red'>No se ha registrado temas para esta &aacute;rea</font>";
-	    }
-	
-	    $respuesta->Assign("area_propietaria","innerHTML",$html);
-	    $respuesta->Assign("titArea","innerHTML",$titulo);
-	
-	    return $respuesta;
-	}
+		$titulo="Asociar la $tipo_txt a un tema del &aacute;rea de ".$session_area_description;
+			$respuesta = new xajaxResponse();
+		
+		if(isset($_SESSION["edit"])){
+		    $recuperar=$_SESSION["edit"];
+		}
+		elseif(isset($_SESSION["tmp"])){
+		    $recuperar=$_SESSION["tmp"];
+		 }
+		
+		    $result=iniAreaResult("single",$idarea);
+		    $html="";
+		    if($result["Error"]==0){
+		
+		        for($i=0;$i<count($result["idtheme"]);$i++){
+		            $key = $result["idtheme"][$i];
+		            if(isset($recuperar["themes"][$key])){
+		                $html.="<p><input type=checkbox checked onclick=\"xajax_registerTheme('".$result["idtheme"][$i]."','".$result["theme_description"][$i]."');\" />&nbsp;".$result["theme_description"][$i]."</p>";
+		            }
+		            else{
+		                $html.="<p><input type=checkbox onclick=\"xajax_registerTheme('".$result["idtheme"][$i]."','".$result["theme_description"][$i]."');\"  />&nbsp;".$result["theme_description"][$i]."</p>";
+		            }
+		        }
+		
+		    }
+		    else{
+		        $html="<font color='red'>No se ha registrado temas para esta &aacute;rea</font>";
+		    }
+		
+		    $respuesta->Assign("area_propietaria","innerHTML",$html);
+		    $respuesta->Assign("titArea","innerHTML",$titulo);
+		
+		    return $respuesta;
+	}*/
 
 	function iniOtrasAreasResult($idarea){
 	    $resultSql= searchOtherAreaSQL($idarea);
@@ -1064,6 +1065,7 @@ return $resultSql;
 	}
 
 
+	/* --
 	function iniOtrasAreasShow($idarea){
 	    
 		$respuesta = new xajaxResponse();
@@ -1140,7 +1142,7 @@ return $resultSql;
 	    $respuesta->Assign("$divContenido","innerHTML",$html);
 	    $respuesta->Assign("$divTitulo","innerHTML",$titulo);
 	    return $respuesta;
-	}
+	}*/
 
 
 	
@@ -1670,12 +1672,28 @@ return $resultSql;
 	}
 
 
-function iniOtrosTemasShow(){
+/* --n function iniOtrosTemasShow(){
 	$respuesta = new xajaxResponse();
     $titulo="Asociar a otros temas (debe de haber seleccionado por lo menos un área)";
 	$respuesta->Assign("titOtrosTemas","innerHTML",$titulo);
 	return $respuesta;
-}
-	
+}*/
+	function iniThemes_Book(){
+		$objResponse = new xajaxResponse();
+		$result = SelectThemeBoook();
+		$html = "error al cargar themas de base de datos";
+		if ($result["Error"]==0) {
+			$html = "";
+			for ($i=0; $i < $result["Count"]; $i++) { 
+				$html .= '<label class="checkbox">
+							<input type="checkbox" value="'.$result["idtheme"][$i].'">'.$result["destheme"][$i].'
+						</label>';
+			}
+			
+		}		
+
+		$objResponse->assign("conte_temas","innerHTML",$html);
+		return $objResponse;
+	}
 
 ?>

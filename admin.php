@@ -642,20 +642,16 @@
 	
 	                
 	            <div id="area_tema" style="display:none">
-	                <div class="txt-azul" id="titArea"></div>
-	                <div id="area_propietaria"></div>
-					<div  class="linea-separacion"></div>	                    
+	                <div class="txt-azul" id="conte_temas">
+	                
 
-					<div class="txt-azul" id="titOtrasAreas"></div>
-	                <div id="otrasAreas"></div>
+	                </div>
+	                
 					<div  class="linea-separacion"></div>
-						                
-	                <div class="txt-azul" id="titOtrosTemas"></div>
-	                <div id="otrosTemas"></div>
-					<div  class="linea-separacion"></div>
-						                
-	                <div class="txt-azul" id="titNuevoTema"></div>
-	                <div id="nuevo_tema_publicacion"></div>
+					<a class="showdiv txt-azul" onclick="$(\'.showdiv\').toggle()"> <i class="icon-chevron-right"></i>  Nuevo Tema</a>                
+					<a class="showdiv hide txt-azul divactive" onclick="$(\'.showdiv\').toggle()"> <i class="icon-chevron-down"></i> Nuevo Tema</a>
+	                <!--div class="txt-azul" id="titNuevoTema"></div-->
+	                <div class="hide showdiv" id="nuevo_tema_publicacion"></div>
 	            </div>
 	
 					<div id="fecha_permisos" style="display:none">
@@ -853,24 +849,26 @@
 	
     	//###############################################################    		
 	    //$objResponse->script("xajax_iniAreaTheme('titulo5')");
-	    // AREA Y TEMA
-		$link="<a onclick=\"xajax_displaydiv('area_tema','titulo5'); return false;\" class='tab-title' href='#' rel='tooltip' title='Temas Relacionados'>&Aacute;rea y Tema</a>";
+	    // Temas relacionados
+		$link="<a onclick=\"xajax_displaydiv('area_tema','titulo5'); return false;\" class='tab-title' href='#' rel='tooltip' title='Temas Relacionados'>Temas Relacionados</a>";
 		$objResponse->assign('titulo5',"innerHTML",$link);
 	
 	     //   Temas del area 
-	    $objResponse->script("xajax_iniAreaShow('".$_SESSION["idarea"]."')");
+	    // --n $objResponse->script("xajax_iniAreaShow('".$_SESSION["idarea"]."')");
 	
 	        //Asociar a otras areas
-	    $objResponse->script("xajax_iniOtrasAreasShow('".$_SESSION["idarea"]."')");
+	    // --n $objResponse->script("xajax_iniOtrasAreasShow('".$_SESSION["idarea"]."')");
 	
 	        //Asociar a otros temas
-		$range=readSessionArea();
-		$objResponse->script("xajax_otrosTemasShow('$range')");
+		// --n $range=readSessionArea();
+		// --n $objResponse->script("xajax_otrosTemasShow('$range')");
 	
 	        //Asociar a otros temas
-		$objResponse->script("xajax_iniOtrosTemasShow()");
+		// --n $objResponse->script("xajax_iniOtrosTemasShow()");
 	
 	        //Ingresar nuevo tema
+		$objResponse->script("xajax_iniThemes_Book();");
+
 		$objResponse->script("xajax_newThemeShow();");	    
 	    
     	
@@ -2050,6 +2048,7 @@ function ConfirmDeleteImg($namefile,$id){
     $xajax->registerFunction('Combo_Format');
     $xajax->registerFunction('DeleteImg') ;
     $xajax->registerFunction('ConfirmDeleteImg');
+    $xajax->registerFunction('iniThemes_Book');
 
 
 

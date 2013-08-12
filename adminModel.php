@@ -1735,6 +1735,55 @@ if ($action=="UPD"){
 		return $result;
 
 	}
+	// --- Themes book
+	function SelectThemeBoook($form){
+
+		$dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
+		$dbh->query("SET NAMES 'utf8'");
+			
+	    $sql = "SELECT * FROM theme_book";
+
+	    $i=0;
+	
+	    if($dbh->query($sql)){
+	        foreach($dbh->query($sql) as $row) {
+	        	$result["idtheme"][$i]= $row["idtheme"];
+	            $result["destheme"][$i]= $row["destheme"];	            
+	            $i++;
+	        }
+	        $result["Count"]=count($result["idtheme"]);
+	        $result["Error"]=0;
+	
+	    }
+	    else{
+	        $result["Error"]=1;
+	    }
+	
+	    $dbh = null;
+	    $result["Query"]=$sql;
+	
+	    return $result;
+	}
+
+	function InsertThemeBoook($form){
+		$dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
+		$dbh->query("SET NAMES 'utf8'");
+		$sql = "insert into theme_book(destheme) values(";
+		$sql .= "'".$form["theme_description"]."'";
+		$sql .=")";
+		
+		if($dbh->query($sql)){
+			$result["Error"]=0;
+		}
+		else{
+			$result["Error"]=1;
+		}
+	
+		$dbh = null;
+		$result["Query"]=$sql;
+		return $result;
+
+	}
 
 
 ?>

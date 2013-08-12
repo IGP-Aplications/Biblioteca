@@ -1981,7 +1981,7 @@ elseif(isset($_SESSION["tmp"])){
 function newThemeShow(){
 
     $respuesta = new xajaxResponse();
-
+     /*
     $result=searchOtherAreaSQL();
     $html="";
     if($result["Error"]==0){
@@ -1993,52 +1993,52 @@ function newThemeShow(){
     }
     else{
         $html="Error SQL";
-    }
+    }*/
 
-    $html="<form name='newTheme' id='newTheme' onsubmit='xajax_newThemeRegister(\"INS\",xajax.getFormValues(\"newTheme\")); return false;'>";
-	$html.="<div class='campo-buscador'>&Aacute;rea:</div>";
-	$html.='<div class="contenedor-combo-buscador-1">'.$combo.'</div>';
-	$html.='<div style="clear:both"></div>';
-
+    $html="<form name='newTheme' id='newTheme' onsubmit='xajax_newThemeRegister(xajax.getFormValues(\"newTheme\")); return false;'>";
+	//$html.="<div class='campo-buscador'>&Aacute;rea:</div>";
+	//$html.='<div class="contenedor-combo-buscador-1">'.$combo.'</div>';	
+	$html.='<div id="msj-theme"> </div>';
 	$html.="<div class='campo-buscador'>Nuevo Tema:</div>";
-	$html.='<div class="contenedor-caja-buscador-1"><input id="theme_description" name="theme_description" type=text class="caja-buscador-1" /></div>';
-	$html.='<div style="clear:both"></div>';	
-	$html.="<input class='ui-state-default ui-corner-all' type=submit value='Registrar' /></form> ";
+	$html.='<div class="contenedor-caja-buscador-1"><input id="theme_description" name="theme_description" type=text class="caja-buscador-1" /></div>';	
+	$html.='<div class="clear"></div>';	
+	$html.="<input class='ui-state-default ui-corner-all' type=submit value='Registrar' />
+			</form> ";
     $respuesta->Assign("titNuevoTema","innerHTML","Ingresar nuevo tema");
 	$respuesta->Assign("nuevo_tema_publicacion","innerHTML",$html);
+	
 
     return $respuesta;
 }
 
 
-function newThemeRegister($action,$form){
+function newThemeRegister($form){
     $objResponse = new xajaxResponse();
     //Check data
-    $resultCheck=newThemeCheck($form);
-
-    if ($resultCheck["Error"]==1){
-        $objResponse->alert($resultCheck["Msg"]);
+    
+    if (strlen(trim($form["theme_description"]))==0) {
+    	$objResponse->script("
+    					$('#theme_description').addClass('input-error');
+    					$('#theme_description').focus();
+    		");    	
+    	$objResponse->alert(print_r("Debe ingresar un tema",TRUE));   	
+    	
     }
     else{
-        //Insert data
-        $result= registerThemeSQL($action,$form);
-        if($action=="INS"){
-		    if($result["Error"]==0){
-                        $objResponse->alert("Registro ingresado correctamente");
-                        $range=readSessionArea();
-                        //$script="xajax_otrosTemasShow('$range')";
-                        $area=$_SESSION['idarea'];
-                        $script="xajax_iniAreaShow($area)";
-                        $objResponse->script($script);
-                        //$objResponse->alert($range);
-                        //$objResponse->Assign("nuevo_tema_publicacion","innerHTML",'');
+    	//insert data
+    	$resultCheck=InsertThemeBoook($form);
+    	if ($result["Error"]==0) {
+    		 //$objResponse->alert(print_r("Registro ingresado correctamente",TRUE));             
 
-                    }
-                    else{
-                        $objResponse->alert("Error: NewThemeRegister");
-                    }
-        }
-
+             $objResponse->script("
+             					$('#msj-theme').html('<span class=\"msj exito\"><i class=\"icon-ok-sign\"></i>El nuevo tema se ha registrado correctamente</span>');
+             					setTimeout(function(){ $(\".msj\").fadeOut(800).fadeIn(800).fadeOut(500);}, 2000);              					
+             					$('#theme_description').val('').removeClass('input-error');             					
+             					xajax_iniThemes_Book()");
+    	}
+    	else{
+    		 $objResponse->alert("Error: NewThemeRegister");
+    	}
     }
 
     return $objResponse;
