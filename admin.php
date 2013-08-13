@@ -823,7 +823,137 @@
 			<div class='campo-buscador'>Resumen</div>
 	       	<div class='contenedor-caja-buscador-1'>
 	       	<textarea placeholder='Escriba aqui el resumen' onchange='xajax_registerSumary(this.value); return false;' id='summary' name='summary' rows='3' >$summary</textarea><div id='summary-error'></div></div>                
-			<div class='clear'></div>       		
+			<div class='clear'></div>
+
+
+			<div class='control-group'>
+			    <label class='control-label' for='ISSN'>Ingrese ISSN</label>
+			    <div class='controls'>
+			      <input type='text' id='ISSN' placeholder='Codigo ISSN' onchange='xajax_registerISSN(this.value); return false;' value='$ISSN'>
+			    </div>
+			</div>
+
+			<div class='control-group'>
+			    <label class='control-label' for='languaje'>Idiomas</label>
+			    <div class='controls'>
+			      <input type='text' id='languaje' placeholder='Idiomas' onchange='xajax_registerLanguaje(this.value); return false;' value='$Lzanguaje'>
+			    </div>
+			</div>
+
+			<div class='control-group'>
+			    <label class='control-label' for='numLC'>Número de Clasificacion LC</label>
+			    <div class='controls'>
+			      <input type='text' id='numLC' placeholder='Ejm. QE39 .P37 1986
+			' onchange='xajax_registerLC(this.value); return false;' value='$numLC'>
+			    </div>
+			</div>
+
+			<div class='control-group'>
+			    <label class='control-label' for='NumDewey'>Número de Clasificacion Dewey</label>
+			    <div class='controls'>
+			      <input type='text' id='NumDewey' placeholder='Ejm. 550.83 E5
+			' onchange='xajax_registerNumDewey(this.value); return false;' value='$NumDewey'>
+			    </div>
+			</div>
+
+			<div class='control-group'>
+			    <label class='control-label' for='Class_IGP'>Clasificacion IGP</label>
+			    <div class='controls'>
+			      <input type='text' id='Class_IGP' placeholder='Codigo de Clasificación IGP' onchange='xajax_registerClassIGP(this.value); return false;' value='$Class_IGP'>
+			    </div>
+			</div>
+
+			<div class='control-group'>
+			    <label class='control-label' for='congreso'>Encabezamiento de Materia</label>
+			    <div class='controls'>
+			      <input type='text' id='congreso' placeholder='Encabezameinto de Materia (congreso)' onchange='xajax_registerCongreso(this.value); return false;' value='$congreso'>
+			    </div>
+			</div>
+
+			<div class='control-group'>
+			    <label class='control-label' for='OtherTitles'>Otros Títulos 
+			</label>
+			    <div class='controls'>
+			      <input type='text' id='OtherTitles' placeholder='Título y mención de responsabilidad' onchange='xajax_registerOtherTitles(this.value); return false;' value='$OtherTitles'>
+			    </div>
+			</div>
+
+			<div class='control-group'>
+			    <label class='control-label' for='Periodicidad'>Periodicidad</label>
+			    <div class='controls'>
+			      <input type='text' id='Periodicidad' placeholder='Periodicidad' onchange='xajax_registerSerie(this.value); return false;' value='$Periodicidad'>
+			    </div>
+			</div>
+
+			<div class='control-group'>
+			    <label class='control-label' for='Serie'>Serie</label>
+			    <div class='controls'>
+			      <input type='text' id='Serie' placeholder='Serie' onchange='xajax_registerSerie(this.value); return false;' value='$Serie'>
+			    </div>
+			</div>
+
+			<div class='control-group'>
+			    <label class='control-label' for='NoteGeneral'>Notas Generales</label>
+			    <div class='controls'>
+			      <input type='text' id='NoteGeneral' placeholder='Notas Generales' onchange='xajax_registerNoteGeneral(this.value); return false;' value='$NoteGeneral'>
+			    </div>
+			</div>
+
+			<div class='control-group'>
+			    <label class='control-label' for='NoteTesis'>Notas Tesis</label>
+			    <div class='controls'>
+			      <input type='text' id='NoteTesis' placeholder='Notas de Tesis' onchange='xajax_registerNoteTesis(this.value); return false;' value='$NoteTesis'>
+			    </div>
+			</div>
+
+			<div class='control-group'>
+			    <label class='control-label' for='NoteBiblio'>Notas de bibliografía</label>
+			    <div class='controls'>
+			      <input type='text' id='NoteBiblio' placeholder='Notas de Tesis' onchange='xajax_registerNoteBiblio(this.value); return false;' value='$NoteBiblio'>
+			    </div>
+			</div>
+
+			<div class='control-group'>
+			    <label class='control-label' for='NoteConte'>Notas de contenido</label>
+			    <div class='controls'>
+			      <input type='text' id='NoteConte' placeholder='Notas de contenidp' onchange='xajax_registerNoteConte(this.value); return false;' value='$NoteConte'>
+			    </div>
+			</div>
+
+			<div class='control-group'>
+			    <label class='control-label' for='DesPersonal'>Descripción Personal</label>
+			    <div class='controls'>
+			      <input type='text' id='DesPersonal' placeholder='Descripción Personal' onchange='xajax_registerDesPersonal(this.value); return false;' value='$DesPersonal'>
+			    </div>
+			</div>
+
+			<div class='control-group'>
+			    <label class='control-label' for='MatEntidad'>Materia como entidad</label>
+			    <div class='controls'>
+			      <input type='text' id='MatEntidad' placeholder='Materia como entidad' onchange='xajax_registerMatEntidad(this.value); return false;' value='$MatEntidad'>
+			    </div>
+			</div>
+
+			<div class='control-group'>
+			    <label class='control-label' for='Descriptor'>Descriptor</label>
+			    <div class='controls'>
+			      <input type='text' id='Descriptor' placeholder='Ingrese Descriptor' onchange='xajax_registerDescriptor(this.value); return false;' value='$Descriptor'>
+			    </div>
+			</div>
+
+			<div class='control-group'>
+			    <label class='control-label' for='Descriptor_geo'>Descriptor_geo geográfico</label>
+			    <div class='controls'>
+			      <input type='text' id='Descriptor_geo' placeholder='Ingrese Descriptor Geografico' onchange='xajax_registerDescriptor_geo(this.value); return false;' value='$Descriptor_geo'>
+			    </div>
+			</div>
+
+			<div class='control-group'>
+			    <label class='control-label' for='Descriptor_geo'>Descriptor Geográfico</label>
+			    <div class='controls'>
+			      <input type='text' id='Descriptor_geo' placeholder='Ingrese Descriptor Geografico' onchange='xajax_registerDescriptor_geo(this.value); return false;' value='$Descriptor_geo'>
+			    </div>
+			</div>       		
        	";
        	$objResponse->script("xajax_Combo_Format();");
 
