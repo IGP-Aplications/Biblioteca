@@ -623,19 +623,62 @@
 	    		<form id="ListCampos" name="ListCampos">
 				  <fieldset>
 				    <legend>Lita de Campos </legend>
-				    <p>
-	  				<small>Seleccione un campo para añadir al formulario.</small>
-					</p>
+				    <p><small>Seleccione un campo para añadir al formulario.</small> </p>
 				   	<label class="checkbox checkbox1">
-			      		<input class="ActionInput" type="checkbox" value="0001"> campo 01
+			      		<input class="ActionInput" type="checkbox" value="001"> ISSN
 			    	</label>
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="0002"> campo 02
+			      		<input class="ActionInput" type="checkbox" value="002"> Idiomas
 			    	</label>
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="003"> campo 03
+			      		<input class="ActionInput" type="checkbox" value="003"> Número de Clasificacion LC
 			    	</label>
-			    	<a href="#" onclick="xajax_ListCampos()" >check</a>
+			    	<label class="checkbox checkbox1">
+			      		<input class="ActionInput" type="checkbox" value="004"> Número de Clasificacion Dewey
+			    	</label>
+			    	<label class="checkbox">
+			      		<input class="ActionInput" type="checkbox" value="005"> Clasificacion IGP
+			    	</label>
+			    	<label class="checkbox">
+			      		<input class="ActionInput" type="checkbox" value="006"> Encabezamiento de Materia
+			    	</label>
+			    	<label class="checkbox checkbox1">
+			      		<input class="ActionInput" type="checkbox" value="007"> Otros Títulos
+			    	</label>
+			    	<label class="checkbox">
+			      		<input class="ActionInput" type="checkbox" value="008"> Periodicidad
+			    	</label>
+			    	<label class="checkbox">
+			      		<input class="ActionInput" type="checkbox" value="009"> Serie
+			    	</label>
+			    	<label class="checkbox checkbox1">
+			      		<input class="ActionInput" type="checkbox" value="010"> Notas Generales
+			    	</label>
+			    	<label class="checkbox">
+			      		<input class="ActionInput" type="checkbox" value="011"> Notas Tesis
+			    	</label>
+			    	<label class="checkbox">
+			      		<input class="ActionInput" type="checkbox" value="012"> Notas de bibliografía
+			    	</label>
+			    	<label class="checkbox">
+			      		<input class="ActionInput" type="checkbox" value="013"> Notas de contenido
+			    	</label>
+			    	<label class="checkbox">
+			      		<input class="ActionInput" type="checkbox" value="014"> Descripción Personal
+			    	</label>
+			    	<label class="checkbox">
+			      		<input class="ActionInput" type="checkbox" value="015"> Materia como entidad
+			    	</label>
+			    	<label class="checkbox">
+			      		<input class="ActionInput" type="checkbox" value="016"> Descriptor
+			    	</label>
+			    	<label class="checkbox">
+			      		<input class="ActionInput" type="checkbox" value="017"> Descriptor_geo geográfico
+			    	</label>
+			    	<label class="checkbox">
+			      		<input class="ActionInput" type="checkbox" value="018"> Descriptor Geográfico
+			    	</label>			    	
+			    	
 				    <button type="submit" class="btn" >Añadir</button>
 				  </fieldset>
 				</form>
@@ -1103,8 +1146,145 @@
 
 	} 
 	function ListCampos($id){
-		$objResponse = new xajaxResponse();		
-		$objResponse->append("titulo_tipo_prepor","innerHTML","<input type='text' id='$id' value='texto prueba'>");					
+		$objResponse = new xajaxResponse();			
+		switch ($id) {
+				case '001':
+					$html = "<div class='control-group'>
+								<label class='control-label' for='title'>Ingrese ISSN</label>
+								<div class='controls'>
+								<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' />
+								</div>
+							 </div>";
+					break;
+				case '002':
+					$html = "<div class='control-group'>
+								<label class='control-label' for='title'>Idiomas</label>
+								<div class='controls'>
+								<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' />
+								</div>
+							 </div>";
+					break;
+				case '003':
+					$html = "<div class='control-group'>
+								<label class='control-label' for='title'>Número de Clasificacion LC</label>
+								<div class='controls'>
+								<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' />
+								</div>
+							 </div>";
+					break;
+				case '004':
+					$html ="<div class='control-group'>
+								<label class='control-label' for='title'>Número de Clasificacion Dewey</label>
+								<div class='controls'>
+								<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' />
+								</div>
+							 </div>";
+					break;
+				case '005':
+					$html ="<div class='control-group'>
+								<label class='control-label' for='title'>Clasificacion IGP</label>
+								<div class='controls'>
+								<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' />
+								</div>
+							 </div>";
+					break;
+				case '006':
+					$html ="<div class='control-group'>
+								<label class='control-label' for='title'>Encabezamiento de Materia</label>
+								<div class='controls'>
+								<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' />
+								</div>
+							 </div>";
+				case '007':
+					$html ="<div class='control-group'>
+								<label class='control-label' for='title'>Otros Títulos</label>
+								<div class='controls'>
+								<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' />
+								</div>
+							 </div>";
+				case '008':
+					$html ="<div class='control-group'>
+								<label class='control-label' for='title'>Periodicidad</label>
+								<div class='controls'>
+								<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' />
+								</div>
+							 </div>";
+				case '009':
+					$html ="<div class='control-group'>
+								<label class='control-label' for='title'>Serie</label>
+								<div class='controls'>
+								<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' />
+								</div>
+							 </div>";
+				case '010':
+					$html ="<div class='control-group'>
+								<label class='control-label' for='title'>Notas Generales</label>
+								<div class='controls'>
+								<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' />
+								</div>
+							 </div>";
+				case '011':
+					$html ="<div class='control-group'>
+								<label class='control-label' for='title'>Notas Tesis</label>
+								<div class='controls'>
+								<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' />
+								</div>
+							 </div>";
+				case '012':
+					$html ="<div class='control-group'>
+								<label class='control-label' for='title'>Notas de bibliografía</label>
+								<div class='controls'>
+								<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' />
+								</div>
+							 </div>";
+				case '013':
+					$html ="<div class='control-group'>
+								<label class='control-label' for='title'>Notas de contenido</label>
+								<div class='controls'>
+								<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' />
+								</div>
+							 </div>";
+				case '014':
+					$html ="<div class='control-group'>
+								<label class='control-label' for='title'>Descripción Personal</label>
+								<div class='controls'>
+								<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' />
+								</div>
+							 </div>";
+				case '015':
+					$html ="<div class='control-group'>
+								<label class='control-label' for='title'>Materia como entidad</label>
+								<div class='controls'>
+								<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' />
+								</div>
+							 </div>";
+				case '016':
+					$html ="<div class='control-group'>
+								<label class='control-label' for='title'>Descriptor</label>
+								<div class='controls'>
+								<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' />
+								</div>
+							 </div>";
+				case '017':
+					$html ="<div class='control-group'>
+								<label class='control-label' for='title'>Descriptor_geo geográfico</label>
+								<div class='controls'>
+								<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' />
+								</div>
+							 </div>";
+				case '018':
+					$html ="<div class='control-group'>
+							    <label class='control-label' for='Descriptor_geo'>Descriptor Geográfico</label>
+							    <div class='controls'>
+							      <input type='text' id='Descriptor_geo' placeholder='Ingrese Descriptor Geografico' onchange='xajax_registerDescriptor_geo(this.value); return false;' value='$Descriptor_geo'>
+							    </div>
+							</div>";
+					break;
+				default:
+					$html = "";
+					break;
+			}	
+		$objResponse->append("titulo_tipo_prepor","innerHTML",$html);					
 		return $objResponse;
 
 	} 
