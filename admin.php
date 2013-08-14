@@ -617,8 +617,34 @@
             $_SESSION["idsubcategory"]=0;
 	
 	    $html='<h2 class="txt-azul">'.$tituloGeneral.'</h2>
-	    		<span id="botonRegresar"></span>
 
+	    		<!-- List of register inputs -->
+	    		<div class="list-campos span2">
+	    		<form id="ListCampos" name="ListCampos">
+				  <fieldset>
+				    <legend>Lita de Campos </legend>
+				    <p>
+	  				<small>Seleccione un campo para añadir al formulario.</small>
+					</p>
+				   	<label class="checkbox checkbox1">
+			      		<input class="ActionInput" type="checkbox" value="0001"> campo 01
+			    	</label>
+			    	<label class="checkbox">
+			      		<input class="ActionInput" type="checkbox" value="0002"> campo 02
+			    	</label>
+			    	<label class="checkbox">
+			      		<input class="ActionInput" type="checkbox" value="003"> campo 03
+			    	</label>
+			    	<a href="#" onclick="xajax_ListCampos()" >check</a>
+				    <button type="submit" class="btn" >Añadir</button>
+				  </fieldset>
+				</form>
+	    		</div>
+	    		<!-- fin register inputs -->
+
+	    		<span id="botonRegresar"></span>
+	    		<!-- form conte-->
+	    		<div class="conte-form span9">
 				<div style="padding-top:20px;">
 		            <span class="tab" id="titulo1"></span>
 		            <span class="tab" id="titulo2"></span> 
@@ -627,8 +653,8 @@
 		            <span class="tab" id="titulo6"></span>
 		            <span class="tab" id="titulo7"></span>
 				</div>
-	
-	            <div id="idcontactform" class="listado-busqueda">
+				
+	            <div id="idcontactform" class="listado-busqueda form-horizontal">
 	                
 	                <div  id="titulo_tipo_prepor"></div>
 	        
@@ -664,6 +690,9 @@
 			</div>
 			
             <div class="action-btn"><input class="btn"  type="button" onclick="xajax_newPonencia('.$iddata.',\''.$action.'\');" value='.$tituloBoton.'  /></div>
+
+            </div> 
+            <!-- fin form conte -->
 			';
 
     	//###############################################################
@@ -735,36 +764,14 @@
         }
 
 
-
-		
-        //Presentado por
-        // if(isset($recuperar["prePorNombre"])){
-        //     $prePorNombre=$recuperar["prePorNombre"];
-        // }
-        // else{
-        //     $prePorNombre="";
-        // }
-
-        // if(isset($recuperar["prePorApellido"])){
-        //     $prePorApellido=$recuperar["prePorApellido"];
-        // }
-        // else{
-        //     $prePorApellido="''";
-        // }
         
-        // if(isset($recuperar["idtipoPonencia"])){
-        //     $tipoPonencia_id=$recuperar["idtipoPonencia"];
-        // }
-        // else{
-        //     $tipoPonencia_id=0;
-        // }
 
         if(isset($recuperar["tipoPonencia_description"])){
             $tipoPonencia_description=$recuperar["tipoPonencia_description"];
         }
         else{
             $tipoPonencia_description="";
-        }
+        }        
         
 		$tipoPonencia="";
 		$tipoPonencia=comboTipoPonencia($tipoPonencia_id);	
@@ -775,56 +782,54 @@
 	       	
 	       	<input type='hidden' value='tipoPonencia_description' id='tipoPonencia_txt' name='tipoPonencia_txt' class='field'>
 			<div class='clear'></div>
-			<div class='campo-buscador'>Título:&nbsp;</div>
-	       	<div class='contenedor-caja-buscador-1'>
-	       	<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' /><div id='titulo_error'></div></div>	            
-			<div class='clear'></div>
+			
+			<!--campos requeridos -->
+			<div class='control-group'>
+				<label class='control-label' for='title'>Ingrese Titulo</label>
+				<div class='controls'>
+				<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' />
+				</div>
+			</div>
+			<div class='control-group'>
+				<label class='control-label' for='list_fbook'>formato</label>
+				<div class='controls'>
+				<div class='fleft' id='tipoFormato'></div>
+				       	<span><a href='#' class='btnOpen small' onclick='xajax_NewFormat(); return false;'>&nbsp Nuevo Formato</a></span>
+				       	<div id='divNewFormat'></div>
+				</div>
+			</div>
 
-			<div class='campo-buscador' id='tit_tipoPonencia'>Formato</div>
-	       	<div class='fleft' id='tipoFormato'></div>
-	       	<span><a href='#' class='btnOpen small' onclick='xajax_NewFormat(); return false;'>&nbsp Nuevo Formato</a></span>
-	       	<div id='divNewFormat'></div>
-
-	       	<span class='divnone' id='newformat'><input type='text'  placeholder='Ingrese Nuevo Formato' onchange='xajax_new_registerfbook(this.value); return false;'  value='$newformat' id='newformat' name='newformat' class='input-large' /></span>
-	       	<div class='clear'></div>
-	       	
-			<div class='campo-buscador'>Codigo ISBN:&nbsp;</div>
-	       	<div class='contenedor-caja-buscador-1'>
-	       	<input type='text' placeholder='ej. 0385342586' onchange='xajax_registerISBN(this.value); return false;' value='$ISBN' id='ISBN' name='ISBN' class='caja-buscador-1' /><div id='titulo_error'></div></div>
-	                
-			<div class='clear'></div>
-
-			<div class='campo-buscador'>Codigo de ubicación</div>
-	       	<div class='contenedor-caja-buscador-1'>
-	       	<input type='text'  placeholder='Ingrese código de ubicación física aqui' onchange='xajax_registerCallNumber(this.value); return false;' value='$CallNumber' id='CallNumber' name='CallNumber' class='caja-buscador-1' /><div id='call-back-error'></div></div>
-	                
-			<div class='clear'></div>
-
-			<!--div class='campo-buscador'>Publicación</div>
-	       	<div class='contenedor-caja-buscador-1'>
-	       	<input type='text' placeholder='ej. Lima,2002 ' onchange='xajax_registerPublication(this.value); return false;' value='$publication' id='publication' name='publication' class='caja-buscador-1' /><div id='publication-error'></div></div>                
-			<div class='clear'></div-->
-
-			<div class='campo-buscador'>Descripción Física</div>
-	       	<div class='contenedor-caja-buscador-1'>
-	       	<input type='text' placeholder='ej. 719 p. ; 21 cm' onchange='xajax_registerDescription_Physical(this.value); return false;' value='$description_physical' id='description_physical' name='publication' class='caja-buscador-1' /><div id='description_physical-error'></div></div>                
-			<div class='clear'></div>
-
-			<div class='campo-buscador'>Edición</div>
-	       	<div class='contenedor-caja-buscador-1'>
-	       	<input type='text' placeholder='ej. 1ra ed' value='$edition' onchange='xajax_registerEdition(this.value); return false;' id='edition' name='edition' class='caja-buscador-1' /><div id='edition-error'></div></div>                
-			<div class='clear'></div>
-
-			<!--div class='campo-buscador'>Temas</div>
-	       	<div class='contenedor-caja-buscador-1'>
-	       	<input type='text' placeholder='ej. tema1, tema2' onchange='xajax_registerSubject(this.value); return false;' value='$subject' id='subject' name='subject' class='caja-buscador-1' /><div id='subject-error'></div></div>                
-			<div class='clear'></div-->	
-
-			<div class='campo-buscador'>Resumen</div>
-	       	<div class='contenedor-caja-buscador-1'>
-	       	<textarea placeholder='Escriba aqui el resumen' onchange='xajax_registerSumary(this.value); return false;' id='summary' name='summary' rows='3' >$summary</textarea><div id='summary-error'></div></div>                
-			<div class='clear'></div>
-
+			<div class='control-group'>
+				<label class='control-label' for='ISBN'>Codigo ISBN:&nbsp;</label>
+				<div class='controls'>
+				<input type='text' placeholder='ej. 0385342586' onchange='xajax_registerISBN(this.value); return false;' value='$ISBN' id='ISBN' name='ISBN' class='caja-buscador-1' />
+				</div>
+			</div>
+			<div class='control-group'>
+				<label class='control-label' for='CallNumber'>Codigo de ubicación</label>
+				<div class='controls'>
+				<input type='text'  placeholder='Ingrese código de ubicación física aqui' onchange='xajax_registerCallNumber(this.value); return false;' value='$CallNumber' id='CallNumber' name='CallNumber' class='caja-buscador-1' />
+				</div>
+			</div>
+			<div class='control-group'>
+				<label class='control-label' for='description_physical'>Descripción Física</label>
+				<div class='controls'>
+				<input type='text' placeholder='ej. 719 p. ; 21 cm' onchange='xajax_registerDescription_Physical(this.value); return false;' value='$description_physical' id='description_physical' name='publication' class='caja-buscador-1' />
+				</div>
+			</div>
+			<div class='control-group'>
+				<label class='control-label' for='edition'>Edición</label>
+				<div class='controls'>
+				<input type='text' placeholder='ej. 1ra ed' value='$edition' onchange='xajax_registerEdition(this.value); return false;' id='edition' name='edition' class='caja-buscador-1' />
+				</div>
+			</div>
+			<div class='control-group'>
+				<label class='control-label' for='summary'>Resumen</label>
+				<div class='controls'>
+				<textarea placeholder='Escriba aqui el resumen' onchange='xajax_registerSumary(this.value); return false;' id='summary' name='summary' rows='3' >$summary</textarea>
+				</div>
+			</div>
+			<!-- fin campos requeridos -->
 
 			<div class='control-group'>
 			    <label class='control-label' for='ISSN'>Ingrese ISSN</label>
@@ -1076,11 +1081,38 @@
 										$('#divNewFormat').dialog('open');					
 										return false;
 									});	
-                ");    
+                ");
+                //fin formato -modal
+                $objResponse->script("
+                	$('.ActionInput').change(function(){
+                		var val_0 = $(this).val();
+
+                		if($(this).is(':checked')) {
+				            
+				            alert('Está activado '+val_0);
+				            xajax_ListCampos(val_0);
+				            
+				        } else {  
+				            alert('No está activado');
+				            xajax_delCampos(val_0);  
+				        }  
+                	});
+		     ");    
 
 		return $objResponse;
 
-	}   
+	} 
+	function ListCampos($id){
+		$objResponse = new xajaxResponse();		
+		$objResponse->append("titulo_tipo_prepor","innerHTML","<input type='text' id='$id' value='texto prueba'>");					
+		return $objResponse;
+
+	} 
+	function delCampos($id){
+		$objResponse = new xajaxResponse();		
+		$objResponse->remove("$id");
+		return $objResponse;
+	} 
 
 	function NewFormat(){
 		$objResponse = new xajaxResponse();
@@ -1101,6 +1133,7 @@
 				});	");
 		return $objResponse;
 	}
+
 
 	function SaveFormat($form){
 		$objResponse = new xajaxResponse();
@@ -2179,8 +2212,8 @@ function ConfirmDeleteImg($namefile,$id){
     $xajax->registerFunction('DeleteImg') ;
     $xajax->registerFunction('ConfirmDeleteImg');
     $xajax->registerFunction('iniThemes_Book');
-
-
+    $xajax->registerFunction('ListCampos');
+    $xajax->registerFunction('delCampos');
 
 
 	$xajax->processRequest();	

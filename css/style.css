@@ -206,3 +206,29 @@ body .tabactive a{
     position: absolute;
     left:0;
 }
+@media (max-width: 480px){
+    #imghome img {
+        width: 300px;
+    }
+    #header .span2{
+        display:none;
+    }
+    .main-title h1 {
+        font-size:2em;
+    }
+}
+
+@media (max-width: 320px){
+    #imghome img {
+        width: 250px;
+    }
+}
+
+@media (max-width: 240px){
+    #imghome img {
+        width: 180px;
+    }
+    .main-title h1 {
+        font-size:1.5em;
+    }
+}
