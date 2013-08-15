@@ -2861,7 +2861,7 @@ function newPonencia($iddata=0,$action){
 $idsubcategory=isset($_SESSION["idsubcategory"])?$_SESSION["idsubcategory"]:0;               
 $resultCheck=validarPonencias($idsubcategory,$areaPRI);
 
-// $objResponse->alert(print_r($_SESSION["tmp"],TRUE));
+ $objResponse->alert(print_r($_SESSION["tmp"],TRUE));
 
 if ($resultCheck["Error"]==1){
         $objResponse->alert($resultCheck["Msg"]);
@@ -2897,6 +2897,8 @@ else{
         $_SESSION["publicaciones"]["subject"]=$resultCheck["subject"];
         $_SESSION["publicaciones"]["description_physical"]=$resultCheck["description_physical"];
         $_SESSION["publicaciones"]["summary"]=$resultCheck["summary"];
+        $_SESSION["publicaciones"]["ISSN"]=$resultCheck["ISSN"];
+        $_SESSION["publicaciones"]["languaje"]=$resultCheck["languaje"];
 
 
         // $_SESSION["publicaciones"]["idclaseEvento"]=$resultCheck["idclaseEvento"];

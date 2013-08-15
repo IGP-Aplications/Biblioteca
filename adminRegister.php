@@ -957,7 +957,7 @@ elseif(isset($_SESSION["tmp"])){
             
            
 	    if($title==""){
-	        $objResponse->alert("Ingresee título");
+	        $objResponse->alert("Ingrese título");
 	        $objResponse->script("$('#title').focus()");                
 	    }
 	    else{
@@ -1168,7 +1168,27 @@ elseif(isset($_SESSION["tmp"])){
 		return $objResponse ;
 	}
 
+	function registerISSN($ISSN){
+	    $objResponse = new xajaxResponse();
+            
+           
+	    if($ISSN==""){
+	        $objResponse->alert("Ingrese título");
+	        $objResponse->script("$('#ISSN').focus()");                
+	    }
+	    else{
+	        if(isset($_SESSION["edit"])){
+	            $_SESSION["edit"]["ISSN"]=addslashes($ISSN);
+	        }
+	        else{
+	            $_SESSION["tmp"]["ISSN"]=addslashes($ISSN);
+	        }
+	        
+	    }
 
+            
+	    return $objResponse;
+	}
 
 	function registraAuthorResult($form_entrada){
 	    $resultCheck=checkDataForm($form_entrada);

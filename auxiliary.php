@@ -256,6 +256,12 @@ elseif(isset($_SESSION["tmp"])){
 
         /*description*/
         $summary = isset($recuperar["summary"])?$recuperar["summary"]:"";
+        
+        /* ISSN*/
+        $ISSN = isset($recuperar["ISSN"])?$recuperar["ISSN"]:"";
+
+        /* Languaje*/
+        $languaje = isset($recuperar["languaje"])?$recuperar["languaje"]:"";
 
 
 		/*Lugar Pais */
@@ -401,6 +407,16 @@ elseif(isset($_SESSION["tmp"])){
             }
             else{
                 $check["title"]=$title;
+
+            }
+            if($ISSN==""){ 
+                $check["Msg"]="Ingrese ISSN";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#ISSN').focus()";
+            }
+            else{
+                $check["ISSN"]=$ISSN;
 
             }    
        
