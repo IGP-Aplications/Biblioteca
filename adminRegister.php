@@ -1168,26 +1168,117 @@ elseif(isset($_SESSION["tmp"])){
 		return $objResponse ;
 	}
 
-	function registerISSN($ISSN){
-	    $objResponse = new xajaxResponse();
-            
-           
-	    if($ISSN==""){
-	        $objResponse->alert("Ingrese título");
-	        $objResponse->script("$('#ISSN').focus()");                
-	    }
-	    else{
-	        if(isset($_SESSION["edit"])){
-	            $_SESSION["edit"]["ISSN"]=addslashes($ISSN);
-	        }
-	        else{
-	            $_SESSION["tmp"]["ISSN"]=addslashes($ISSN);
-	        }
-	        
-	    }
+	// function registerISSN($ISSN){
+	//     $objResponse = new xajaxResponse();
+ //        $_SESSION["required"]=1;
+	//     if($ISSN==""){
+	//         $objResponse->alert("Ingrese ISSN");
+	//         $objResponse->script("$('#ISSN').focus()");                
+	//     }
+	//     else{
+	//         if(isset($_SESSION["edit"])){
+	//             $_SESSION["edit"]["ISSN"]=addslashes($ISSN);
+	//         }
+	//         else{
 
-            
-	    return $objResponse;
+	//             $_SESSION["tmp"]["ISSN"]=addslashes($ISSN);
+	//         }
+	        
+	//     }
+
+	//     return $objResponse;
+	// }
+
+	// function registerlanguaje($languaje){
+	//     $objResponse = new xajaxResponse();
+        
+	//     if($languaje==""){
+	//         $objResponse->alert("Ingrese Idioma");
+	//         $objResponse->script("$('#languaje').focus()");                
+	//     }
+	//     else{
+	//         if(isset($_SESSION["edit"])){
+	//             $_SESSION["edit"]["languaje"]=addslashes($languaje);
+	//         }
+	//         else{
+	//             $_SESSION["tmp"]["languaje"]=addslashes($languaje);
+	//         }
+	        
+	//     }
+
+	//     return $objResponse;
+	// }
+
+	// function registerLC($numLC){
+	//     $objResponse = new xajaxResponse();
+        
+	//     if($numLC==""){
+	//         $objResponse->alert("Ingrese Numero de Clasificación LC");
+	//         $objResponse->script("$('#numLC').focus()");                
+	//     }
+	//     else{
+	//         if(isset($_SESSION["edit"])){
+	//             $_SESSION["edit"]["numLC"]=addslashes($numLC);
+	//         }
+	//         else{
+	//             $_SESSION["tmp"]["numLC"]=addslashes($numLC);
+	//         }
+	        
+	//     }
+
+	//     return $objResponse;
+	// }
+	// function registerNumDewey($numDewey){
+	//     $objResponse = new xajaxResponse();
+        
+	//     if($numDewey==""){
+	//         $objResponse->alert("Ingrese Número de Clasificación Dewey");
+	//         $objResponse->script("$('#numDewey').focus()");                
+	//     }
+	//     else{
+	//         if(isset($_SESSION["edit"])){
+	//             $_SESSION["edit"]["numDewey"]=addslashes($numDewey);
+	//         }
+	//         else{
+	//             $_SESSION["tmp"]["numDewey"]=addslashes($numDewey);
+	//         }
+	        
+	//     }
+
+	//     return $objResponse;
+	// }
+	// function registerClassIGP($ClassIGP){
+	//     $objResponse = new xajaxResponse();
+        
+	//     if($ClassIGP==""){
+	//         $objResponse->alert("Ingrese Número de Clasificación IGP");
+	//         $objResponse->script("$('#ClassIGP').focus()");                
+	//     }
+	//     else{
+	//         if(isset($_SESSION["edit"])){
+	//             $_SESSION["edit"]["ClassIGP"]=addslashes($ClassIGP);
+	//         }
+	//         else{
+	//             $_SESSION["tmp"]["ClassIGP"]=addslashes($ClassIGP);
+	//         }
+	        
+	//     }
+
+	//     return $objResponse;
+	// }
+	function register_input($val_input,$label,$idinput){
+		$respuesta = new RegisterInput();
+		$objresponse = new xajaxResponse();	
+		$_SESSION["$idinput"]["required"]=1; 	
+
+		$reg_response = $respuesta->register("$val_input",$label,$idinput);
+
+		if (isset($reg_response["msj"]) and $reg_response["msj"]!="") {
+			$objresponse->alert(print_r($reg_response["msj"],TRUE));			
+			$objresponse->script($reg_response["script"]);
+		}
+		
+		return $objresponse;
 	}
 
 	function registraAuthorResult($form_entrada){

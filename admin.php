@@ -6,6 +6,7 @@
         require ('../class/ClassPaginator.php');
 	require ('../class/dbconnect.php');
 	require ('../class/xajax_core/xajax.inc.php');
+	require ('../class/RegisterInput.php');
 	$xajax=new xajax();
         //$xajax->configure("debug", true);
 	$xajax->configure('javascript URI', 'js/');
@@ -677,7 +678,27 @@
 			    	</label>
 			    	<label class="checkbox">
 			      		<input class="ActionInput" type="checkbox" value="018"> Congresos Secundarios
-			    	</label>			    	
+			    	</label>
+
+			    	<label class="checkbox">
+			      		<input class="ActionInput" type="checkbox" value="019"> Titulos Secundarios
+			    	</label>
+			    	<label class="checkbox">
+			      		<input class="ActionInput" type="checkbox" value="020"> Fuente
+			    	</label>
+			    	<label class="checkbox">
+			      		<input class="ActionInput" type="checkbox" value="021"> Número de Ingreso
+			    	</label>
+			    	<label class="checkbox">
+			      		<input class="ActionInput" type="checkbox" value="022"> Ubicación Alectrónica
+			    	</label>
+			    	<label class="checkbox">
+			      		<input class="ActionInput" type="checkbox" value="023"> Modalidad Adquisión
+			    	</label>
+			    	<label class="checkbox">
+			      		<input class="ActionInput" type="checkbox" value="024"> Catalogador 
+			    	</label>	    	
+
 			    	
 				    <button type="submit" class="btn" >Añadir</button>
 				  </fieldset>
@@ -692,7 +713,7 @@
 		            <span class="tab" id="titulo1"></span>
 		            <span class="tab" id="titulo2"></span> 
 		            
-		            <span class="tab" id="titulo5"></span>
+		            <!--span class="tab" id="titulo5"></span-->
 		            <span class="tab" id="titulo6"></span>
 		            <span class="tab" id="titulo7"></span>
 				</div>
@@ -1014,158 +1035,211 @@
 	function ListCampos($id){
 		$objResponse = new xajaxResponse();	
 		//$objResponse->alert(print_r($id,TRUE));
+		$html = "<div class='control-group' id='$id'>";
 		switch ($id) {
+
 				case '001':
-					$html = "<div class='control-group' id='$id'>
+					$html .= "
 							    <label class='control-label' for='ISSN'>Ingrese ISSN</label>
 							    <div class='controls'>
-							      <input type='text' id='ISSN' placeholder='Codigo ISSN' onchange='xajax_registerISSN(this.value); return false;' value='$ISSN'>
+							      <input type='text' id='ISSN' placeholder='Codigo ISSN' onchange='xajax_register_input(this.value,\"ISSN\",\"ISSN\"); return false;' value='$ISSN'>
 							    </div>
-							</div>";
+							";
 					break;
 				case '002':
-					$html = "<div class='control-group' id='$id'>
+					$html .= "
 							    <label class='control-label' for='languaje'>Idiomas</label>
 							    <div class='controls'>
-							      <input type='text' id='languaje' placeholder='Idiomas' onchange='xajax_registerLanguaje(this.value); return false;' value='$Lzanguaje'>
+							      <input type='text' id='languaje' placeholder='Idiomas' onchange='xajax_register_input(this.value,\"Idioma\",\"languaje\"); return false;' value='$languaje'>
 							    </div>
-							</div>";
+							";
 					break;
 				case '003':
-					$html = "<div class='control-group' id='$id'>
+					$html .= "
 							    <label class='control-label' for='numLC'>Número de Clasificacion LC</label>
 							    <div class='controls'>
 							      <input type='text' id='numLC' placeholder='Ejm. QE39 .P37 1986
-							' onchange='xajax_registerLC(this.value); return false;' value='$numLC'>
+							' onchange='xajax_register_input(this.value,\"Num. Clasficacion LC\",\"numLC\"); return false;' value='$numLC'>
 							    </div>
-							</div>";
+							";
 					break;
 				case '004':
-					$html ="<div class='control-group' id='$id'>
+					$html .="
 							    <label class='control-label' for='NumDewey'>Número de Clasificacion Dewey</label>
 							    <div class='controls'>
 							      <input type='text' id='NumDewey' placeholder='Ejm. 550.83 E5
 							' onchange='xajax_registerNumDewey(this.value); return false;' value='$NumDewey'>
 							    </div>
-							</div>";
+							";
 					break;
 				case '005':
-					$html ="<div class='control-group' id='$id'>
+					$html .="
 							    <label class='control-label' for='Class_IGP'>Clasificacion IGP</label>
 							    <div class='controls'>
 							      <input type='text' id='Class_IGP' placeholder='Codigo de Clasificación IGP' onchange='xajax_registerClassIGP(this.value); return false;' value='$Class_IGP'>
 							    </div>
-							</div>";
+							";
 					break;
 				case '006':
-					$html ="<div class='control-group' id='$id'>
+					$html .="
 							    <label class='control-label' for='congreso'>Encabezamiento de Materia</label>
 							    <div class='controls'>
 							      <input type='text' id='congreso' placeholder='Encabezameinto de Materia (congreso)' onchange='xajax_registerCongreso(this.value); return false;' value='$congreso'>
 							    </div>
-							</div>";
+							";
 					break;
 				case '007':
-					$html ="<div class='control-group' id='$id'>
+					$html .="
 							    <label class='control-label' for='OtherTitles'>Otros Títulos 
 							</label>
 							    <div class='controls'>
 							      <input type='text' id='OtherTitles' placeholder='Título y mención de responsabilidad' onchange='xajax_registerOtherTitles(this.value); return false;' value='$OtherTitles'>
 							    </div>
-							</div>";
+							";
 					break;
 				case '008':
-					$html ="<div class='control-group' id='$id'>
+					$html .="
 							    <label class='control-label' for='Periodicidad'>Periodicidad</label>
 							    <div class='controls'>
 							      <input type='text' id='Periodicidad' placeholder='Periodicidad' onchange='xajax_registerSerie(this.value); return false;' value='$Periodicidad'>
 							    </div>
-							</div>";
+							";
 					break;
 				case '009':
-					$html ="<div class='control-group' id='$id'>
+					$html .="
 							    <label class='control-label' for='Serie'>Serie</label>
 							    <div class='controls'>
 							      <input type='text' id='Serie' placeholder='Serie' onchange='xajax_registerSerie(this.value); return false;' value='$Serie'>
 							    </div>
-							</div>";
+							";
 					break;
 				case '010':
-					$html ="<div class='control-group' id='$id'>
+					$html .="
 							    <label class='control-label' for='NoteGeneral'>Notas Generales</label>
 							    <div class='controls'>
 							      <input type='text' id='NoteGeneral' placeholder='Notas Generales' onchange='xajax_registerNoteGeneral(this.value); return false;' value='$NoteGeneral'>
 							    </div>
-							</div>";
+							";
 					break;
 				case '011':
-					$html ="<div class='control-group' id='$id'>
+					$html .="
 							    <label class='control-label' for='NoteTesis'>Notas Tesis</label>
 							    <div class='controls'>
 							      <input type='text' id='NoteTesis' placeholder='Notas de Tesis' onchange='xajax_registerNoteTesis(this.value); return false;' value='$NoteTesis'>
 							    </div>
-							</div>";
+							";
 					break;
 				case '012':
-					$html ="<div class='control-group' id='$id'>
+					$html .="
 							    <label class='control-label' for='NoteBiblio'>Notas de bibliografía</label>
 							    <div class='controls'>
 							      <input type='text' id='NoteBiblio' placeholder='Notas de bibliografía' onchange='xajax_registerNoteBiblio(this.value); return false;' value='$NoteBiblio'>
 							    </div>
-							</div>";
+							";
 					break;
 				case '013':
-					$html ="<div class='control-group' id='$id'>
+					$html .="
 							    <label class='control-label' for='NoteConte'>Notas de contenido</label>
 							    <div class='controls'>
 							      <input type='text' id='NoteConte' placeholder='Notas de contenidp' onchange='xajax_registerNoteConte(this.value); return false;' value='$NoteConte'>
 							    </div>
-							</div>";
+							";
 					break;
 				case '014':
-					$html ="<div class='control-group' id='$id'>
+					$html .="
 							    <label class='control-label' for='DesPersonal'>Descripción Personal</label>
 							    <div class='controls'>
 							      <input type='text' id='DesPersonal' placeholder='Descripción Personal' onchange='xajax_registerDesPersonal(this.value); return false;' value='$DesPersonal'>
 							    </div>
-							</div>";
+							";
 					break;
 				case '015':
-					$html ="<div class='control-group' id='$id'>
+					$html .="
 							    <label class='control-label' for='MatEntidad'>Materia como entidad</label>
 							    <div class='controls'>
 							      <input type='text' id='MatEntidad' placeholder='Materia como entidad' onchange='xajax_registerMatEntidad(this.value); return false;' value='$MatEntidad'>
 							    </div>
-							</div>";
+							";
 					break;
 				case '016':
-					$html ="<div class='control-group' id='$id'>
+					$html .="
 							    <label class='control-label' for='Descriptor'>Descriptor</label>
 							    <div class='controls'>
 							      <input type='text' id='Descriptor' placeholder='Ingrese Descriptor' onchange='xajax_registerDescriptor(this.value); return false;' value='$Descriptor'>
 							    </div>
-							</div>";
+							";
 					break;				
 				case '017':
-					$html ="<div class='control-group' id='$id'>
+					$html .="
 							    <label class='control-label' for='Descriptor_geo'>Descriptor Geográfico</label>
 							    <div class='controls'>
 							      <input type='text' id='Descriptor_geo' placeholder='Ingrese Descriptor Geografico' onchange='xajax_registerDescriptor_geo(this.value); return false;' value='$Descriptor_geo'>
 							    </div>
-							</div>";
+							";
 					break;
 				case '018':
-					$html ="<div class='control-group' id='$id'>
+					$html .="
 								<label class='control-label' for='CongSec'>Congresos Secundarios</label>
 								<div class='controls'>
 								<input type='text' placeholder='Congresos Secundarios' onchange='xajax_registerCongSec(this.value); return false;' value='$CongSec' id='CongSec' name='CongSec'  />
 								</div>
-							 </div>";
+							 ";
 					break;
+				case '019':
+					$html .="
+								<label class='control-label' for='TitSec'>Titulos Secundarios</label>
+								<div class='controls'>
+								<input type='text' placeholder='Titulos Secundarios' onchange='xajax_registerTitSec(this.value); return false;' value='$TitSec' id='TitSec' name='TitSec'  />
+								</div>
+							 ";
+					break;
+				case '020':
+					$html .="
+								<label class='control-label' for='Fuente'>Fuente</label>
+								<div class='controls'>
+								<input type='text' placeholder='Congresos Secundarios' onchange='xajax_registerFuente(this.value); return false;' value='$Fuente' id='Fuente' name='Fuente'  />
+								</div>
+							 ";
+					break;
+				case '021':
+					$html .="
+								<label class='control-label' for='NumIng'>Número de Ingreso</label>
+								<div class='controls'>
+								<input type='text' placeholder='Número de Ingreso' onchange='xajax_registerNumIng(this.value); return false;' value='$NumIng' id='NumIng' name='NumIng'  />
+								</div>
+							 ";
+					break;
+				case '022':
+					$html .="
+								<label class='control-label' for='UbicElect'>Ubicación electrónica</label>
+								<div class='controls'>
+								<input type='text' placeholder='Ubicación electrónica' onchange='xajax_registerUbicElect(this.value); return false;' value='$UbicElect' id='UbicElect' name='UbicElect'  />
+								</div>
+							 ";
+					break;
+				case '023':
+					$html .="
+								<label class='control-label' for='ModAdqui'>Modalidad adquisión</label>
+								<div class='controls'>
+								<input type='text' placeholder='Modalidad adquisión' onchange='xajax_registerModAdqui(this.value); return false;' value='$ModAdqui' id='ModAdqui' name='ModAdqui'  />
+								</div>
+							 ";
+					break;
+				case '024':
+					$html .="
+								<label class='control-label' for='Catalogador'>Catalogador</label>
+								<div class='controls'>
+								<input type='text' placeholder='Catalogador' onchange='xajax_register_input(this.value,\"Catalogador\",\"Catalogador\"); return false;' value='$Catalogador' id='Catalogador' name='Catalogador'  />
+								
+							";
+					break;				
 				default:
 					$html = "";
 					break;
-			}	
+				
+			}
+		$html .= "
+ 						</div>";	
 		$objResponse->append("input_secundary","innerHTML",$html);					
 		return $objResponse;
 
@@ -2263,7 +2337,7 @@ function ConfirmDeleteImg($namefile,$id){
     $xajax->registerFunction('ListCampos');
     $xajax->registerFunction('delCampos');
     $xajax->registerFunction('registerlanguaje');
-
+    $xajax->registerFunction('register_input');
 
 	$xajax->processRequest();	
 	

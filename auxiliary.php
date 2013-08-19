@@ -1,228 +1,16 @@
 <?php
 
 	require("auxiliarySQL.php");
-        
-
-function validarPublicaciones($idsubcategory,$areaPRI){
-
-    
-    
-$check["Error"]=0;    
-if(isset($_SESSION["edit"])){
-    $recuperar=$_SESSION["edit"];
-}
-elseif(isset($_SESSION["tmp"])){
-    $recuperar=$_SESSION["tmp"];
-}
-
-
-        $title=isset($recuperar["titulo"])?$recuperar["titulo"]:"";
-        $title=(str_replace("'","*",$title));
-        /*
-        $abstract=isset($recuperar["resumen"])?$recuperar["resumen"]:"";
-        $link=isset($recuperar["enlace"])?$recuperar["enlace"]:"";        
-        $link=(str_replace("&","*",$link));
-        */
-        $referencia_id=isset($recuperar["idreference"])?$recuperar["idreference"]:0;
-        $reference_description=isset($recuperar["reference_description"])?$recuperar["reference_description"]:"";
-        $reference_details=isset($recuperar["reference_details"])?$recuperar["reference_details"]:"";
-
-        $status=isset($recuperar["status"])?$recuperar["status"]:"";
-        
-        //$date_pub=isset($recuperar["date_pub"])?$recuperar["date_pub"]:"";
-        
-        $month_pub=isset($recuperar["month_pub"])?$recuperar["month_pub"]:"";
-        $desc_month_pub=isset($recuperar["desc_month_pub"])?$recuperar["desc_month_pub"]:"";
-        $year_pub=isset($recuperar["year_pub"])?$recuperar["year_pub"]:"";
-/*
-        if($_SESSION["subcategory"]=="tesis"){
-            $idtipoTesis=isset($recuperar["idtipoTesis"])?$recuperar["idtipoTesis"]:"";
-            $tipoTesisDescription=isset($recuperar["[tipoTesisDescription"])?$recuperar["[tipoTesisDescription"]:"";
-            $pais_description=isset($recuperar["pais_description"])?$recuperar["pais_description"]:"";
-            $uni_description=isset($recuperar["uni_description"])?$recuperar["uni_description"]:"";
-        }
-*/        
-    if($areaPRI==5){
-        $nroBoletin=isset($recuperar["nroBoletin"])?$recuperar["nroBoletin"]:"";
-        $idmagnitud=isset($recuperar["idmagnitud"])?$recuperar["idmagnitud"]:"";        
-        
-        $idRegion=isset($recuperar["idRegion"])?$recuperar["idRegion"]:"";
-        $region_description=isset($recuperar["region_description"])?$recuperar["region_description"]:"";      
-
-        $idDepartamento=isset($recuperar["idDepartamento"])?$recuperar["idDepartamento"]:"";
-        $departamento_description=isset($recuperar["departamento_description"])?$recuperar["departamento_description"]:"";
-        
-    }
-
-    
-    switch ($idsubcategory) {
-        case 1:
-            $capaTitulo="titulo_resumen";
-            $tabTitulo="titulo1";
-            $capaFechas="fecha_estado_permisos";
-            $tabFechas="titulo5";
-        break;
-        case 2:
-            $capaTitulo="titulo_resumen";
-            $tabTitulo="titulo1";
-            $capaFechas="fecha_permisos";
-            $tabFechas="titulo5";
-        break;
-        case 3:
-            $capaTitulo="titulo";
-            $tabTitulo="titulo1";
-            $capaFechas="fecha_estado_permisos";
-            $tabFechas="titulo4";
-        break;
-    }
-
-    
-            if($year_pub==""){
-                $check["Msg"]="Seleccione el Año";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('$capaFechas','$tabFechas')";
-            }           
-            else{                
-                $check["year_pub"]=$year_pub;
-            }
-            
-            if($month_pub==""){
-                $check["Msg"]="Seleccione el mes";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('$capaFechas','$tabFechas')";
-            }           
-            else{                
-                $check["month_pub"]=$month_pub;
-            }
-            
-    switch ($idsubcategory) {
-        case 1:
-                $capaTitulo="titulo_resumen";
-                $tabTitulo="titulo1";
-                $capaFechas="fecha_estado_permisos";
-                $tabFechas="titulo5";
-	      
-            if (!isset($recuperar["authorPRI"]["idauthor"])){
-                $check["Msg"]="Seleccione Autor Principal";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('author','titulo2')";
-            }
-            /*
-            elseif (!isset($recuperar["authorSEC"]["idauthor"])){
-                $check["Msg"]="Seleccione Autor Secundario";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('author','titulo2')";
-            }     
-            */
-            if($status==""){ 
-                $check["Msg"]="Necesita seleccionar el estado de la publicación";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('fecha_estado_permisos','titulo5')";
-            }
-            else{
-                $check["status"]=$status;
-            }
-            
-            if($reference_details==""){ 
-                $check["Msg"]="Ingrese Detalle de la Referencia";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('referencia','titulo3')";
-            }
-            else{
-                $check["reference_details"]=$reference_details;
-            }
-            
-            if($referencia_id==0){ 
-                $check["Msg"]="Necesita seleccionar una referencia";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('referencia','titulo3')";
-            }
-            else{
-                $check["idreference"]=$referencia_id;
-                $check["reference_description"]=$reference_description;
-            }
-            
-            break;
-        case 2:
-            $capaTitulo="titulo_resumen";
-            $tabTitulo="titulo1";
-            $capaFechas="fecha_permisos";
-            $tabFechas="titulo5";
-            
-            break;
-        case 3:            
-            $capaTitulo="titulo";
-            $tabTitulo="titulo1";
-            $capaFechas="fecha_estado_permisos";
-            $tabFechas="titulo4";
-
-            if($referencia_id==""){ 
-                $check["Msg"]="Ingrese Referencia";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('referencia','titulo3')";
-            }
-            else{
-                $check["idreference"]=$referencia_id;
-                $check["reference_description"]=$reference_description;
-            }
-            /*
-            if($reference_details==""){ 
-                $check["Msg"]="Ingrese Detalle de la Referencia";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('referencia','titulo3')";
-            }
-            else{
-                $check["reference_details"]=$reference_details;
-            }
-            */
-            if($status==""){ 
-                $check["Msg"]="Ingrese Estado de la publicación";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('fecha_estado_permisos','titulo4')";
-            }
-            else{
-                $check["status"]=$status;
-            }
-            
-            
-        break;      
-    }    
-
-           if($areaPRI==1 && $idsubcategory==6){
-            if (!isset($recuperar["subAreas"])){
-                $check["Msg"]="Seleccione una Sub Area";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('areas','titulo3')";
-            }        
-           }
-            
-            if($title==""){ 
-                $check["Msg"]="Ingrese Título";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('$capaTitulo','$tabTitulo')";
-            }
-            else{
-                $check["titulo"]=$title;
-            }
-            
-    return $check;
-}
-
-
-
-
 
 function validarPonencias($idsubcategory,$areaPRI){
-
-    
-    
-$check["Error"]=0;    
-if(isset($_SESSION["edit"])){
-    $recuperar=$_SESSION["edit"];
-}
-elseif(isset($_SESSION["tmp"])){
-    $recuperar=$_SESSION["tmp"];
-}
+    $response = new RegisterInput();
+    $check["Error"]=0;    
+    if(isset($_SESSION["edit"])){
+        $recuperar=$_SESSION["edit"];
+    }
+    elseif(isset($_SESSION["tmp"])){
+        $recuperar=$_SESSION["tmp"];
+    }
 
 
 
@@ -257,12 +45,21 @@ elseif(isset($_SESSION["tmp"])){
         /*description*/
         $summary = isset($recuperar["summary"])?$recuperar["summary"]:"";
         
-        /* ISSN*/
-        $ISSN = isset($recuperar["ISSN"])?$recuperar["ISSN"]:"";
+        /* ISSN*/ 
+        if ($_SESSION["required"]==1) {                  
+                     
+                      
 
-        /* Languaje*/
-        $languaje = isset($recuperar["languaje"])?$recuperar["languaje"]:"";
 
+            /* Languaje*/
+            $languaje = isset($recuperar["languaje"])?$recuperar["languaje"]:"";
+
+            /* Numero LC*/
+            $numLC = isset($recuperar["numLC"])?$recuperar["numLC"]:"";
+
+            /* Numero Dewey*/
+            $numDewey = isset($recuperar["numDewey"])?$recuperar["numDewey"]:"";
+        } 
 
 		/*Lugar Pais */
         // $lugar=isset($recuperar["lugar"])?$recuperar["lugar"]:"";
@@ -284,7 +81,6 @@ elseif(isset($_SESSION["tmp"])){
         $month_pub=isset($recuperar["month_pub"])?$recuperar["month_pub"]:"";
         $year_pub=isset($recuperar["year_pub"])?$recuperar["year_pub"]:"";
 
- 
             if($year_pub==""){
                 $check["Msg"]="Seleccione el Año de Aquisición";
                 $check["Error"]=1;
@@ -302,19 +98,12 @@ elseif(isset($_SESSION["tmp"])){
             else{                
                 $check["month_pub"]=$month_pub;
             }
-
-                $capaTitulo="titulo_tipo_prepor";
-                $tabTitulo="titulo1";
-                $capaFechas="fecha_estado_permisos";
-                $tabFechas="titulo5";
-            
             if (!isset($recuperar["authorPRI"]["idauthor"])){
                 $check["Msg"]="Seleccione Autor Principal";
                 $check["Error"]=1;
                 $check["funcion"]="xajax_displaydiv('author','titulo2')";
             }
-                      
-
+        
             if ($summary=="") {
                 $check["Error"] = 1;
                 $check["Msg"] = "Ingrese un Resumen";
@@ -344,8 +133,9 @@ elseif(isset($_SESSION["tmp"])){
             else{
                 $check["edition"] = $edition;
             }
+            // $check = $response->check_values($edition,"Edicion","edition");
 
-             if ($description_physical=="") {
+            if ($description_physical=="") {
                 $check["Error"] = 1;
                 $check["Msg"] = "Ingrese la descripción Física";
                 $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1')";
@@ -409,533 +199,58 @@ elseif(isset($_SESSION["tmp"])){
                 $check["title"]=$title;
 
             }
+
+        /*campos insertados dinamicamente*/
+
+        if ($_SESSION["ISSN"]["required"]==1) {
+
+             $ISSN = (isset($recuperar["ISSN"]))?$recuperar["ISSN"]:""; 
+        
             if($ISSN==""){ 
                 $check["Msg"]="Ingrese ISSN";
                 $check["Error"]=1;
                 $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
                 $check["focus"]="$('#ISSN').focus()";
+
+
             }
             else{
-                $check["ISSN"]=$ISSN;
+                $check["ISSN"]=$ISSN;                
+            } 
+        }
+        if ($_SESSION["languaje"]["required"]==1) {
+            if($languaje==""){ 
+                $check["Msg"]="Ingrese Idioma";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#languaje').focus()";
+            }
+            else{
+                $check["languaje"]=$languaje;
 
-            }    
-       
+            } 
+        }
+        if ($_SESSION["numLC"]["required"]==1) {
+            if($numLC==""){ 
+                $check["Msg"]="Ingrese Numero de Clasificación LC ";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#numLC').focus()";
+            }
+            else{
+                $check["numLC"]=$numLC;
+            }
+        }     
+            
+            
+        
+            
+        
             
     return $check;
 }
 
-function validarAsuntosAcademicos($idsubcategory,$areaPRI){
-
-    
-    
-$check["Error"]=0;    
-if(isset($_SESSION["edit"])){
-    $recuperar=$_SESSION["edit"];
-}
-elseif(isset($_SESSION["tmp"])){
-    $recuperar=$_SESSION["tmp"];
-}
-
-
-    $title=isset($recuperar["titulo"])?$recuperar["titulo"]:"";
-    $title=(str_replace("'","*",$title));
-    
-    $nroCompendio=isset($recuperar["nroCompendio"])?$recuperar["nroCompendio"]:"";
-    $yearQuarter=isset($recuperar["yearQuarter"])?$recuperar["yearQuarter"]:"";
-    
-    $quarter_description=isset($recuperar["quarter_description"])?$recuperar["quarter_description"]:"";
-    
-    $idquarter=isset($recuperar["idquarter"])?$recuperar["idquarter"]:"";
-
-    $date_ing=isset($recuperar["date_ing"])?$recuperar["date_ing"]:"";
-        
-    //$date_pub=isset($recuperar["date_pub"])?$recuperar["date_pub"]:"";
-    $month_pub=isset($recuperar["month_pub"])?$recuperar["month_pub"]:"";
-    $year_pub=isset($recuperar["year_pub"])?$recuperar["year_pub"]:"";
-    
-    
-    
-    
-    $yearConpendio=isset($recuperar["yearCompendio"])?$recuperar["yearCompendio"]:"";
-    
-    switch ($idsubcategory) {
-        case 5:
-            $capaFecha="fecha_permisos";
-            $tituloFecha="titulo3";
-            
-            if($title==""){ 
-                $check["Msg"]="Ingrese Título";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('titulo_presentado','titulo1')";
-            }
-            else{
-                $check["titulo"]=$title;
-            }
-
-            
-            break;
-        case 12:
-            $capaFecha="fecha_permisos";
-            $tituloFecha="titulo2";
-            
-            if($idquarter==0){
-                $check["Msg"]="Seleccione el Trimestre";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('year_quarter','titulo1')";
-            }           
-            else{
-                $check["idquarter"]=$idquarter;
-                $check["quarter_description"]=$quarter_description;
-            }
-            if($yearQuarter==""){
-                $check["Msg"]="Seleccione Año";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('year_quarter','titulo1')";
-            }           
-            else{
-                $check["year"]=$yearQuarter;
-            }
-            
-            break;
-        case 11:            
-            $capaFecha="fecha_permisos";
-            $tituloFecha="titulo2";
-
-            if($yearConpendio==""){
-                $check["Msg"]="Seleccione Año";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('compendio','titulo1')";
-            }           
-            else{
-                $check["yearCompendio"]=$yearConpendio;
-            }
-            
-            if($nroCompendio==0){
-                $check["Msg"]="Seleccione el númer compendio";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('compendio','titulo1')";
-            }           
-            else{
-                $check["nroCompendio"]=$nroCompendio;
-            }
-                        
-        break;      
-    }    
-    
-            /*
-           if($areaPRI==8 && $idsubcategory==6){
-            if (!isset($recuperar["subAreas"])){
-                $check["Msg"]="Seleccione una Sub Area";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('areas','titulo3')";
-            }        
-           }
-           */
-
-           /*
-            if($date_ing=="" or $date_pub==""){
-                $check["Msg"]="Complete las Fechas";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('$capaFecha','$tituloFecha')";
-            }           
-            else{
-                $check["date_ing"]=$date_ing;
-                $check["date_pub"]=$date_pub;
-            }
-            */
-    
-            if($year_pub==""){
-                $check["Msg"]="Seleccione el Año";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('$capaFechas','$tabFechas')";
-            }           
-            else{                
-                $check["year_pub"]=$year_pub;
-            }
-            
-            if($month_pub==""){
-                $check["Msg"]="Seleccione el mes";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('$capaFechas','$tabFechas')";
-            }           
-            else{                
-                $check["month_pub"]=$month_pub;
-            }
-            
-    return $check;
-}
-
-
-
-function validarGeofisicaSociedad($idsubcategory,$areaPRI){
-
-    
-    
-$check["Error"]=0;    
-if(isset($_SESSION["edit"])){
-    $recuperar=$_SESSION["edit"];
-}
-elseif(isset($_SESSION["tmp"])){
-    $recuperar=$_SESSION["tmp"];
-}
-
-
-    $title=isset($recuperar["titulo"])?$recuperar["titulo"]:"";
-    $title=(str_replace("'","*",$title));
-    
-    $nroCompendio=isset($recuperar["nroCompendio"])?$recuperar["nroCompendio"]:"";
-    $yearQuarter=isset($recuperar["yearQuarter"])?$recuperar["yearQuarter"]:"";
-    
-    $quarter_description=isset($recuperar["quarter_description"])?$recuperar["quarter_description"]:"";
-    
-    $idquarter=isset($recuperar["idquarter"])?$recuperar["idquarter"]:"";
-
-    $date_ing=isset($recuperar["date_ing"])?$recuperar["date_ing"]:"";
-        
-    //$date_pub=isset($recuperar["date_pub"])?$recuperar["date_pub"]:"";
-    $month_pub=isset($recuperar["month_pub"])?$recuperar["month_pub"]:"";
-    $year_pub=isset($recuperar["year_pub"])?$recuperar["year_pub"]:"";
-    
-    
-    
-    
-    $yearConpendio=isset($recuperar["yearCompendio"])?$recuperar["yearCompendio"]:"";
-    
-    switch ($idsubcategory) {
-        case 5:
-            $capaFecha="fecha_permisos";
-            $tituloFecha="titulo3";
-            
-            if($title==""){ 
-                $check["Msg"]="Ingrese Título";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('titulo_presentado','titulo1')";
-            }
-            else{
-                $check["titulo"]=$title;
-            }
-
-            
-            break;
-        case 13:
-            $capaFecha="fecha_permisos";
-            $tituloFecha="titulo2";
-            
-            if($idquarter==0){
-                $check["Msg"]="Seleccione el Trimestre";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('year_quarter','titulo1')";
-            }           
-            else{
-                $check["idquarter"]=$idquarter;
-                $check["quarter_description"]=$quarter_description;
-            }
-            if($yearQuarter==""){
-                $check["Msg"]="Seleccione Año";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('year_quarter','titulo1')";
-            }           
-            else{
-                $check["yearQuarter"]=$yearQuarter;
-            }
-            
-            break;            
-        case 12:
-            $capaFecha="fecha_permisos";
-            $tituloFecha="titulo2";
-            
-            if($idquarter==0){
-                $check["Msg"]="Seleccione el Trimestre";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('year_quarter','titulo1')";
-            }           
-            else{
-                $check["idquarter"]=$idquarter;
-                $check["quarter_description"]=$quarter_description;
-            }
-            if($yearQuarter==""){
-                $check["Msg"]="Seleccione Año";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('year_quarter','titulo1')";
-            }           
-            else{
-                $check["yearQuarter"]=$yearQuarter;
-            }
-            
-            break;
-        case 11:            
-            $capaFecha="fecha_permisos";
-            $tituloFecha="titulo2";
-
-            if($yearConpendio==""){
-                $check["Msg"]="Seleccione Año";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('compendio','titulo1')";
-            }           
-            else{
-                $check["yearCompendio"]=$yearConpendio;
-            }
-            
-            if($nroCompendio==0){
-                $check["Msg"]="Seleccione el númer compendio";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('compendio','titulo1')";
-            }           
-            else{
-                $check["nroCompendio"]=$nroCompendio;
-            }
-                        
-        break;      
-    }    
-    
-            /*
-           if($areaPRI==8 && $idsubcategory==6){
-            if (!isset($recuperar["subAreas"])){
-                $check["Msg"]="Seleccione una Sub Area";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('areas','titulo3')";
-            }        
-           }
-           */
-
-           /*
-            if($date_ing=="" or $date_pub==""){
-                $check["Msg"]="Complete las Fechas";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('$capaFecha','$tituloFecha')";
-            }           
-            else{
-                $check["date_ing"]=$date_ing;
-                $check["date_pub"]=$date_pub;
-            }
-            */
-    
-            if($year_pub==""){
-                $check["Msg"]="Seleccione el Año";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('$capaFechas','$tabFechas')";
-            }           
-            else{                
-                $check["year_pub"]=$year_pub;
-            }
-            
-            if($month_pub==""){
-                $check["Msg"]="Seleccione el mes";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('$capaFechas','$tabFechas')";
-            }           
-            else{                
-                $check["month_pub"]=$month_pub;
-            }
-            
-    return $check;
-}
-
-function validarInformacionInterna($idsubcategory,$areaPRI){
-
-    
-    
-$check["Error"]=0;    
-if(isset($_SESSION["edit"])){
-    $recuperar=$_SESSION["edit"];
-}
-elseif(isset($_SESSION["tmp"])){
-    $recuperar=$_SESSION["tmp"];
-}
-
-
-    $title=isset($recuperar["titulo"])?$recuperar["titulo"]:"";
-    $title=(str_replace("'","*",$title));
-    
-    $yearQuarter=isset($recuperar["yearQuarter"])?$recuperar["yearQuarter"]:"";
-    
-    $quarter_description=isset($recuperar["quarter_description"])?$recuperar["quarter_description"]:"";
-    
-    $idquarter=isset($recuperar["idquarter"])?$recuperar["idquarter"]:"";
-
-    
-        
-    //$date_pub=isset($recuperar["date_pub"])?$recuperar["date_pub"]:"";
-    
-    $status=isset($recuperar["status"])?$recuperar["status"]:"";
-    
-        $month_pub=isset($recuperar["month_pub"])?$recuperar["month_pub"]:"";
-        $desc_month_pub=isset($recuperar["desc_month_pub"])?$recuperar["desc_month_pub"]:"";
-        $year_pub=isset($recuperar["year_pub"])?$recuperar["year_pub"]:"";
-        
-/*
-            if($yearQuarter==0){
-                $check["Msg"]="Seleccione el año de trimestre";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('year_quarter','titulo1')";
-            }           
-            else{                
-                $check["yearQuarter"]=$yearQuarter;
-            }
-*/        
-            if($year_pub==0){
-                $check["Msg"]="Seleccione el año de publicación";
-                $check["Error"]=1;
-                if($areaPRI==5){
-                    $check["funcion"]="xajax_displaydiv('region_departamento','titulo2')";
-                }
-                else{                
-                    $check["funcion"]="xajax_displaydiv('fecha_permisos','titulo2')";
-                }
-            }           
-            else{
-                $check["year_pub"]=$year_pub;
-            }
-    
-            if($month_pub==0){
-                $check["Msg"]="Seleccione el mes de publicación";
-                $check["Error"]=1;
-                if($areaPRI==5){
-                    $check["funcion"]="xajax_displaydiv('region_departamento','titulo2')";
-                }
-                else{
-                    $check["funcion"]="xajax_displaydiv('fecha_permisos','titulo2')";                    
-                }
-            }           
-            else{                
-                $check["month_pub"]=$month_pub;
-                $check["desc_month_pub"]=$desc_month_pub;
-            }
-
-            
-    if($areaPRI==5){
-        $nroBoletin=isset($recuperar["nroBoletin"])?$recuperar["nroBoletin"]:"";
-        $idmagnitud=isset($recuperar["idmagnitud"])?$recuperar["idmagnitud"]:"";        
-        
-        $idRegion=isset($recuperar["idRegion"])?$recuperar["idRegion"]:"";
-        $region_description=isset($recuperar["region_description"])?$recuperar["region_description"]:"";      
-
-        $idDepartamento=isset($recuperar["idDepartamento"])?$recuperar["idDepartamento"]:0;
-        $departamento_description=isset($recuperar["departamento_description"])?$recuperar["departamento_description"]:"";
-        $day_pub=isset($recuperar["day_pub"])?$recuperar["day_pub"]:"";
-        
-        
-    }
-                      
-
-    switch ($idsubcategory) {
-        case 6:
-            $capaFecha="fecha_permisos";
-            $tituloFecha="titulo4";
-            
-            if($title==""){ 
-                $check["Msg"]="Ingrese Título";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('titulo','titulo1')";
-            }
-            else{
-                $check["titulo"]=$title;
-            }
-
-            
-            if (!isset($recuperar["authorPRI"]["idauthor"])){
-                $check["Msg"]="Seleccione Autor Principal";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('author','titulo2')";
-            }
-            /*
-            elseif (!isset($recuperar["authorSEC"]["idauthor"])){
-                $check["Msg"]="Seleccione Autor Secundario";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('author','titulo2')";
-            }
-            */
-            break;
-        case 7:
-            $capaFecha="fecha_permisos";
-            $tituloFecha="titulo2";
-            
-            if($idquarter==0){
-                $check["Msg"]="Seleccione el Trimestre";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('year_quarter','titulo1')";
-            }           
-            else{
-                $check["idquarter"]=$idquarter;
-                $check["quarter_description"]=$quarter_description;
-            }
-            if($yearQuarter==0){
-                $check["Msg"]="Seleccione el año de trimestre";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('year_quarter','titulo1')";
-            }           
-            else{
-                $check["yearQuarter"]=$yearQuarter;
-            }
-            
-            break;
-        case 8:            
-            $capaFecha="region_departamento";
-            $tituloFecha="titulo2";
-            
-            if($idDepartamento==0){
-                $check["Msg"]="Seleccione el Departamento";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('region_departamento','titulo2')";
-            }           
-            else{
-                $check["idDepartamento"]=$idDepartamento;
-                $check["departamento_description"]=$departamento_description;
-            }
-                        
-            if($idRegion==0){
-                $check["Msg"]="Seleccione la Región";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('region_departamento','titulo2')";
-            }           
-            else{
-                $check["idRegion"]=$idRegion;
-                $check["region_description"]=$region_description;
-            }
-            if($idmagnitud==0){
-                $check["Msg"]="Seleccione Nro Magnitud";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('nro_magnitud','titulo1')";
-            }           
-            else{
-                $check["idmagnitud"]=$idmagnitud;                
-            }            
-            if($nroBoletin==0){
-                $check["Msg"]="Seleccione Nro Boletín";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('nro_magnitud','titulo1')";
-            }           
-            else{
-                $check["nroBoletin"]=$nroBoletin;                
-            }
-
-            if($day_pub==0){
-                $check["Msg"]="Seleccione el día de publicación";
-                $check["Error"]=1;
-
-                    $check["funcion"]="xajax_displaydiv('region_departamento','titulo2')";
-                
-            }           
-            else{
-                $check["day_pub"]=$day_pub;
-            }
-            
-        break;      
-    }    
-
-           if($areaPRI==1 && $idsubcategory==6){
-            if (!isset($recuperar["subAreas"])){
-                $check["Msg"]="Seleccione una Sub Area";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('areas','titulo3')";
-            }        
-           }
-    
-    
-    return $check;
-}
-
-        /*********************************************************************************************************
+ /*********************************************************************************************************
 	
 	**********************************************************************************************************/
 	function mostrarBusquedaAutores(){

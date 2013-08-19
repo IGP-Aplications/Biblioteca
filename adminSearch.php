@@ -2861,7 +2861,7 @@ function newPonencia($iddata=0,$action){
 $idsubcategory=isset($_SESSION["idsubcategory"])?$_SESSION["idsubcategory"]:0;               
 $resultCheck=validarPonencias($idsubcategory,$areaPRI);
 
- $objResponse->alert(print_r($_SESSION["tmp"],TRUE));
+ // $objResponse->alert(print_r($_SESSION["required"],TRUE));
 
 if ($resultCheck["Error"]==1){
         $objResponse->alert($resultCheck["Msg"]);
@@ -2897,9 +2897,22 @@ else{
         $_SESSION["publicaciones"]["subject"]=$resultCheck["subject"];
         $_SESSION["publicaciones"]["description_physical"]=$resultCheck["description_physical"];
         $_SESSION["publicaciones"]["summary"]=$resultCheck["summary"];
-        $_SESSION["publicaciones"]["ISSN"]=$resultCheck["ISSN"];
-        $_SESSION["publicaciones"]["languaje"]=$resultCheck["languaje"];
 
+        // if (isset($_SESSION["required"])) {
+        	if ($resultCheck["ISSN"]!="") {
+        		$_SESSION["publicaciones"]["ISSN"]=$resultCheck["ISSN"];
+        	}
+        	if ($resultCheck["languaje"]!="") {
+        		$_SESSION["publicaciones"]["languaje"]=$resultCheck["languaje"];
+        	}
+        	if ($resultCheck["numLC"]!="") {
+        		$_SESSION["publicaciones"]["numLC"]=$resultCheck["numLC"];
+        	}
+	        if ($resultCheck["numDewey"]!="") {
+	        	$_SESSION["publicaciones"]["numDewey"]=$resultCheck["numDewey"];
+	        }	        
+	        
+        // }
 
         // $_SESSION["publicaciones"]["idclaseEvento"]=$resultCheck["idclaseEvento"];
         // $_SESSION["publicaciones"]["claseEvento_description"]=$resultCheck["claseEvento_description"];
@@ -2967,10 +2980,10 @@ else{
         }
         //---
 
-		arrayTheme();
-		arrayAreas();
-		arrayPermission();
-		arrayPermissionKey();
+		// arrayTheme();
+		// arrayAreas();
+		// arrayPermission();
+		// arrayPermissionKey();
                 
 	if(isset($_SESSION['edit']['pdf'])){
 	    if($_SESSION['edit']['pdf']!=""){
@@ -2998,6 +3011,13 @@ else{
                     //Borramos las variables de sesion
                     if (isset($_SESSION["tmp"])){
                             unset($_SESSION["tmp"]);
+                            if (isset($_SESSION["required"])) {
+                            	unset($_SESSION["required"]);
+                            	unset($_SESSION["ISSN"]["required"]);
+                            	unset($_SESSION["languaje"]["required"]);
+                            	unset($_SESSION["numLC"]["required"]);
+                            }
+                            
                     }
 
                     if (isset($_SESSION["edit"])){
@@ -3011,7 +3031,7 @@ else{
                 
                 }
      
-	
+	// $objResponse->alert(print_r($_SESSION["required"],TRUE));
 	return $objResponse;
 }
 
