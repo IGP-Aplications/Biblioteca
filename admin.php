@@ -1054,13 +1054,16 @@
 		$result = Query_input($id);			
 		$idinput = $result["idinput"];
 		
-		unset($_SESSION["$idinput"]["required"]);
+		if ($_SESSION["required"]["$idinput"]) {
+			unset($_SESSION["required"]["$idinput"]);
+		}
+		
 
 		$objResponse->remove("$id");
 
 		return $objResponse;
 	}
-	
+
 	function Query_input($id) {
 
 		$respuesta["html"] = "<div class='control-group' id='$id'>";
@@ -1115,6 +1118,8 @@
 							";
 					break;
 				case '006':
+					$respuesta["idinput"] = "EncMat";
+					$respuesta["labelinput"] = "Encabezameinto de Materia";
 					$respuesta["html"] .="
 							    <label class='control-label' for='EncMat'>Encabezamiento de Materia</label>
 							    <div class='controls'>
@@ -1194,8 +1199,8 @@
 							";
 					break;
 				case '014':
-					$respuesta["idinput"] = "Periodicidad";
-					$respuesta["labelinput"] = "Periodicidad";
+					$respuesta["idinput"] = "DesPersonal";
+					$respuesta["labelinput"] = "Descripción Personal";
 					$respuesta["html"] .="
 							    <label class='control-label' for='DesPersonal'>Descripción Personal</label>
 							    <div class='controls'>

@@ -2861,7 +2861,7 @@ function newPonencia($iddata=0,$action){
 $idsubcategory=isset($_SESSION["idsubcategory"])?$_SESSION["idsubcategory"]:0;               
 $resultCheck=validarPonencias($idsubcategory,$areaPRI);
 
- $objResponse->alert(print_r($_SESSION["ISSN"]["required"],TRUE));
+ $objResponse->alert(print_r($_SESSION["required"]["ISSN"],TRUE));
 
 if ($resultCheck["Error"]==1){
         $objResponse->alert($resultCheck["Msg"]);
@@ -3075,10 +3075,7 @@ else{
                     if (isset($_SESSION["tmp"])){
                             unset($_SESSION["tmp"]);
                             if (isset($_SESSION["required"])) {
-                            	unset($_SESSION["required"]);
-                            	unset($_SESSION["ISSN"]["required"]);
-                            	unset($_SESSION["languaje"]["required"]);
-                            	unset($_SESSION["numLC"]["required"]);
+                            	unset($_SESSION["required"]);                            	
                             }
                             
                     }
@@ -3086,9 +3083,13 @@ else{
                     if (isset($_SESSION["edit"])){
                             unset($_SESSION["edit"]);
                             unset($_SESSION["editar"]);
+                             if (isset($_SESSION["required"])) {
+                            	unset($_SESSION["required"]);                            	
+                            }
                     }
                     if(isset($_SESSION["publicaciones"])){
                             unset($_SESSION["publicaciones"]);
+                            
                     }
                 }
                 

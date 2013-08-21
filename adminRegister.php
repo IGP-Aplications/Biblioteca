@@ -1269,7 +1269,7 @@ elseif(isset($_SESSION["tmp"])){
 	function register_input($val_input,$label,$idinput){
 		$respuesta = new RegisterInput();
 		$objresponse = new xajaxResponse();	
-		$_SESSION["$idinput"]["required"]=1; 	
+		$_SESSION["required"]["$idinput"]=1; 	
 
 		$reg_response = $respuesta->register("$val_input",$label,$idinput);
 
