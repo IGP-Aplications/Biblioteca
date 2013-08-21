@@ -1033,29 +1033,59 @@
 
 	} 
 	function ListCampos($id){
-		$objResponse = new xajaxResponse();	
-		//$objResponse->alert(print_r($id,TRUE));
-		$html = "<div class='control-group' id='$id'>";
+		$objResponse = new xajaxResponse();			
+		$result = Query_input($id);	
+		$html = $result["html"];
+		
+ 		$html = eregi_replace("[\n|\r|\n\r]", ' ', $html);
+ 		$html = addslashes($html);		
+
+		$objResponse->script('
+							var1 = "'.$html.'";
+							var var2=var1.replace("\n"," ");
+							$(""+var2+"").appendTo("#input_secundary");							
+							');
+		return $objResponse;
+
+	} 
+	function delCampos($id){
+		$objResponse = new xajaxResponse();
+		
+		$result = Query_input($id);			
+		$idinput = $result["idinput"];
+		
+		unset($_SESSION["$idinput"]["required"]);
+
+		$objResponse->remove("$id");
+
+		return $objResponse;
+	}
+	
+	function Query_input($id) {
+
+		$respuesta["html"] = "<div class='control-group' id='$id'>";
 		switch ($id) {
 
 				case '001':
-					$html .= "
-							    <label class='control-label' for='ISSN'>Ingrese ISSN</label>
-							    <div class='controls'>
-							      <input type='text' id='ISSN' placeholder='Codigo ISSN' onchange='xajax_register_input(this.value,\"ISSN\",\"ISSN\"); return false;' value='$ISSN'>
-							    </div>
-							";
+					$respuesta["idinput"] = "ISSN";
+					$respuesta["labelinput"] = "ISSN";
+					$respuesta["html"] .= "<label class='control-label' for='ISSN'>Ingrese ISSN</label>
+								<div class='controls'><input type='text' id='ISSN' placeholder='Codigo ISSN' onchange='xajax_register_input(this.value,\"ISSN\",\"ISSN\"); return false;' value='$ISSN'> </div>";
 					break;
 				case '002':
-					$html .= "
-							    <label class='control-label' for='languaje'>Idiomas</label>
-							    <div class='controls'>
+					$respuesta["idinput"] = "languaje";
+					$respuesta["labelinput"] = "Idioma";
+					$respuesta["html"] .= "
+							    <label class='control-label' for='languaje'>Idiomas</label> 
+							    							    <div class='controls'>
 							      <input type='text' id='languaje' placeholder='Idiomas' onchange='xajax_register_input(this.value,\"Idioma\",\"languaje\"); return false;' value='$languaje'>
 							    </div>
 							";
 					break;
 				case '003':
-					$html .= "
+					$respuesta["idinput"] = "numLC";
+					$respuesta["labelinput"] = "Número de Clasificacion LC";
+					$respuesta["html"] .= "
 							    <label class='control-label' for='numLC'>Número de Clasificacion LC</label>
 							    <div class='controls'>
 							      <input type='text' id='numLC' placeholder='Ejm. QE39 .P37 1986
@@ -1064,191 +1094,222 @@
 							";
 					break;
 				case '004':
-					$html .="
+					$respuesta["idinput"] = "NumDewey";
+					$respuesta["labelinput"] = "Número de Clasificacion Dewey";
+					$respuesta["html"] .="
 							    <label class='control-label' for='NumDewey'>Número de Clasificacion Dewey</label>
 							    <div class='controls'>
 							      <input type='text' id='NumDewey' placeholder='Ejm. 550.83 E5
-							' onchange='xajax_registerNumDewey(this.value); return false;' value='$NumDewey'>
+							' onchange='xajax_register_input(this.value,\"Num. Clasficacion Dewey\",\"NumDewey\"); return false;' value='$NumDewey'>
 							    </div>
 							";
 					break;
 				case '005':
-					$html .="
+					$respuesta["idinput"] = "Class_IGP";
+					$respuesta["labelinput"] = "Número de Clasificacion IGP";
+					$respuesta["html"] .="
 							    <label class='control-label' for='Class_IGP'>Clasificacion IGP</label>
 							    <div class='controls'>
-							      <input type='text' id='Class_IGP' placeholder='Codigo de Clasificación IGP' onchange='xajax_registerClassIGP(this.value); return false;' value='$Class_IGP'>
+							      <input type='text' id='Class_IGP' placeholder='Codigo de Clasificación IGP' onchange='xajax_register_input(this.value,\"Num. Clasficacion IGP\",\"Class_IGP\"); return false;' value='$Class_IGP'>
 							    </div>
 							";
 					break;
 				case '006':
-					$html .="
-							    <label class='control-label' for='congreso'>Encabezamiento de Materia</label>
+					$respuesta["html"] .="
+							    <label class='control-label' for='EncMat'>Encabezamiento de Materia</label>
 							    <div class='controls'>
-							      <input type='text' id='congreso' placeholder='Encabezameinto de Materia (congreso)' onchange='xajax_registerCongreso(this.value); return false;' value='$congreso'>
+							      <input type='text' id='EncMat' placeholder='Encabezameinto de Materia' onchange='xajax_register_input(this.value,\"Encabezamiento de Materia\",\"EncMat\"); return false;' value='$EncMat'>
 							    </div>
 							";
 					break;
 				case '007':
-					$html .="
+					$respuesta["idinput"] = "OtherTitles";
+					$respuesta["labelinput"] = "Otros Títulos";
+					$respuesta["html"] .="
 							    <label class='control-label' for='OtherTitles'>Otros Títulos 
 							</label>
 							    <div class='controls'>
-							      <input type='text' id='OtherTitles' placeholder='Título y mención de responsabilidad' onchange='xajax_registerOtherTitles(this.value); return false;' value='$OtherTitles'>
+							      <input type='text' id='OtherTitles' placeholder='Título y mención de responsabilidad' onchange='xajax_register_input(this.value,\"Otros Títulos\",\"OtherTitles\"); return false;' value='$OtherTitles'>
 							    </div>
 							";
 					break;
 				case '008':
-					$html .="
+					$respuesta["idinput"] = "Periodicidad";
+					$respuesta["labelinput"] = "Periodicidad";
+					$respuesta["html"] .="
 							    <label class='control-label' for='Periodicidad'>Periodicidad</label>
 							    <div class='controls'>
-							      <input type='text' id='Periodicidad' placeholder='Periodicidad' onchange='xajax_registerSerie(this.value); return false;' value='$Periodicidad'>
+							      <input type='text' id='Periodicidad' placeholder='Periodicidad' onchange='xajax_register_input(this.value,\"Periodicidad\",\"Periodicidad\"); return false;' value='$Periodicidad'>
 							    </div>
 							";
 					break;
 				case '009':
-					$html .="
+					$respuesta["idinput"] = "Serie";
+					$respuesta["labelinput"] = "Serie";
+					$respuesta["html"] .="
 							    <label class='control-label' for='Serie'>Serie</label>
 							    <div class='controls'>
-							      <input type='text' id='Serie' placeholder='Serie' onchange='xajax_registerSerie(this.value); return false;' value='$Serie'>
+							      <input type='text' id='Serie' placeholder='Serie' onchange='xajax_register_input(this.value,\"Serie\",\"Serie\"); return false;' value='$Serie'>
 							    </div>
 							";
 					break;
 				case '010':
-					$html .="
+					$respuesta["idinput"] = "NoteGeneral";
+					$respuesta["labelinput"] = "Notas Generales";
+					$respuesta["html"] .="
 							    <label class='control-label' for='NoteGeneral'>Notas Generales</label>
 							    <div class='controls'>
-							      <input type='text' id='NoteGeneral' placeholder='Notas Generales' onchange='xajax_registerNoteGeneral(this.value); return false;' value='$NoteGeneral'>
+							      <input type='text' id='NoteGeneral' placeholder='Notas Generales' onchange='xajax_register_input(this.value,\"Notas Generales\",\"NoteGeneral\"); return false;' value='$NoteGeneral'>
 							    </div>
 							";
 					break;
 				case '011':
-					$html .="
-							    <label class='control-label' for='NoteTesis'>Notas Tesis</label>
+					$respuesta["idinput"] = "NoteTesis";
+					$respuesta["labelinput"] = "Notas de Tesis";
+					$respuesta["html"] .="
+							    <label class='control-label' for='NoteTesis'>Notas de Tesis</label>
 							    <div class='controls'>
-							      <input type='text' id='NoteTesis' placeholder='Notas de Tesis' onchange='xajax_registerNoteTesis(this.value); return false;' value='$NoteTesis'>
+							      <input type='text' id='NoteTesis' placeholder='Notas de Tesis' onchange='xajax_register_input(this.value,\"Notas de Tesis\",\"NoteTesis\"); return false;' value='$NoteTesis'>
 							    </div>
 							";
 					break;
 				case '012':
-					$html .="
+					$respuesta["idinput"] = "NoteBiblio";
+					$respuesta["labelinput"] = "Notas de bibliografía";
+					$respuesta["html"] .="
 							    <label class='control-label' for='NoteBiblio'>Notas de bibliografía</label>
 							    <div class='controls'>
-							      <input type='text' id='NoteBiblio' placeholder='Notas de bibliografía' onchange='xajax_registerNoteBiblio(this.value); return false;' value='$NoteBiblio'>
+							      <input type='text' id='NoteBiblio' placeholder='Notas de bibliografía' onchange='xajax_register_input(this.value,\"Notas de bibliografía\",\"NoteBiblio\"); return false;' value='$NoteBiblio'>
 							    </div>
 							";
 					break;
 				case '013':
-					$html .="
+					$respuesta["idinput"] = "NoteConte";
+					$respuesta["labelinput"] = "Notas de contenido";
+					$respuesta["html"] .="
 							    <label class='control-label' for='NoteConte'>Notas de contenido</label>
 							    <div class='controls'>
-							      <input type='text' id='NoteConte' placeholder='Notas de contenidp' onchange='xajax_registerNoteConte(this.value); return false;' value='$NoteConte'>
+							      <input type='text' id='NoteConte' placeholder='Notas de contenidp' onchange='xajax_register_input(this.value,\"Notas de contenido\",\"NoteConte\"); return false;' value='$NoteConte'>
 							    </div>
 							";
 					break;
 				case '014':
-					$html .="
+					$respuesta["idinput"] = "Periodicidad";
+					$respuesta["labelinput"] = "Periodicidad";
+					$respuesta["html"] .="
 							    <label class='control-label' for='DesPersonal'>Descripción Personal</label>
 							    <div class='controls'>
-							      <input type='text' id='DesPersonal' placeholder='Descripción Personal' onchange='xajax_registerDesPersonal(this.value); return false;' value='$DesPersonal'>
+							      <input type='text' id='DesPersonal' placeholder='Descripción Personal' onchange='xajax_register_input(this.value,\"Descripción Personal\",\"DesPersonal\"); return false;' value='$DesPersonal'>
 							    </div>
 							";
 					break;
 				case '015':
-					$html .="
+					$respuesta["idinput"] = "MatEntidad";
+					$respuesta["labelinput"] = "Materia como entidad";
+					$respuesta["html"] .="
 							    <label class='control-label' for='MatEntidad'>Materia como entidad</label>
 							    <div class='controls'>
-							      <input type='text' id='MatEntidad' placeholder='Materia como entidad' onchange='xajax_registerMatEntidad(this.value); return false;' value='$MatEntidad'>
+							      <input type='text' id='MatEntidad' placeholder='Materia como entidad' onchange='xajax_register_input(this.value,\"Otros Títulos\",\"OtherTitles\"); return false;' value='$MatEntidad'>
 							    </div>
 							";
 					break;
 				case '016':
-					$html .="
+					$respuesta["idinput"] = "Descriptor";
+					$respuesta["labelinput"] = "Descriptor";
+					$respuesta["html"] .="
 							    <label class='control-label' for='Descriptor'>Descriptor</label>
 							    <div class='controls'>
-							      <input type='text' id='Descriptor' placeholder='Ingrese Descriptor' onchange='xajax_registerDescriptor(this.value); return false;' value='$Descriptor'>
+							      <input type='text' id='Descriptor' placeholder='Ingrese Descriptor' onchange='xajax_register_input(this.value,\"Descriptor\",\"Descriptor\"); return false;' value='$Descriptor'>
 							    </div>
 							";
 					break;				
 				case '017':
-					$html .="
+					$respuesta["idinput"] = "Descriptor_geo";
+					$respuesta["labelinput"] = "Descriptor Geográfico";
+					$respuesta["html"] .="
 							    <label class='control-label' for='Descriptor_geo'>Descriptor Geográfico</label>
 							    <div class='controls'>
-							      <input type='text' id='Descriptor_geo' placeholder='Ingrese Descriptor Geografico' onchange='xajax_registerDescriptor_geo(this.value); return false;' value='$Descriptor_geo'>
+							      <input type='text' id='Descriptor_geo' placeholder='Ingrese Descriptor Geografico' onchange='xajax_register_input(this.value,\"Descriptor Geográfico\",\"Descriptor_geo\"); return false;' value='$Descriptor_geo'>
 							    </div>
 							";
 					break;
 				case '018':
-					$html .="
+					$respuesta["idinput"] = "CongSec";
+					$respuesta["labelinput"] = "Congresos Secundarios";
+					$respuesta["html"] .="
 								<label class='control-label' for='CongSec'>Congresos Secundarios</label>
 								<div class='controls'>
-								<input type='text' placeholder='Congresos Secundarios' onchange='xajax_registerCongSec(this.value); return false;' value='$CongSec' id='CongSec' name='CongSec'  />
+								<input type='text' placeholder='Congresos Secundarios' onchange='xajax_register_input(this.value,\"Congresos Secundarios\",\"CongSec\"); return false;' value='$CongSec' id='CongSec' name='CongSec'  />
 								</div>
 							 ";
 					break;
 				case '019':
-					$html .="
+					$respuesta["idinput"] = "TitSec";
+					$respuesta["labelinput"] = "Titulos Secundarios";
+					$respuesta["html"] .="
 								<label class='control-label' for='TitSec'>Titulos Secundarios</label>
 								<div class='controls'>
-								<input type='text' placeholder='Titulos Secundarios' onchange='xajax_registerTitSec(this.value); return false;' value='$TitSec' id='TitSec' name='TitSec'  />
+								<input type='text' placeholder='Titulos Secundarios' onchange='xajax_register_input(this.value,\"Titulos Secundarios\",\"TitSec\"); return false;' value='$TitSec' id='TitSec' name='TitSec'  />
 								</div>
 							 ";
 					break;
 				case '020':
-					$html .="
+					$respuesta["idinput"] = "Fuente";
+					$respuesta["labelinput"] = "Fuente";
+					$respuesta["html"] .="
 								<label class='control-label' for='Fuente'>Fuente</label>
 								<div class='controls'>
-								<input type='text' placeholder='Congresos Secundarios' onchange='xajax_registerFuente(this.value); return false;' value='$Fuente' id='Fuente' name='Fuente'  />
+								<input type='text' placeholder='Congresos Secundarios' onchange='xajax_register_input(this.value,\"Fuente\",\"Fuente\"); return false;' value='$Fuente' id='Fuente' name='Fuente'  />
 								</div>
 							 ";
 					break;
 				case '021':
-					$html .="
+					$respuesta["idinput"] = "NumIng";
+					$respuesta["labelinput"] = "Número de Ingreso";
+					$respuesta["html"] .="
 								<label class='control-label' for='NumIng'>Número de Ingreso</label>
 								<div class='controls'>
-								<input type='text' placeholder='Número de Ingreso' onchange='xajax_registerNumIng(this.value); return false;' value='$NumIng' id='NumIng' name='NumIng'  />
+								<input type='text' placeholder='Número de Ingreso' onchange='xajax_register_input(this.value,\"Número de Ingreso\",\"NumIng\"); return false;' value='$NumIng' id='NumIng' name='NumIng'  />
 								</div>
 							 ";
 					break;
 				case '022':
-					$html .="
+					$respuesta["idinput"] = "UbicElect";
+					$respuesta["labelinput"] = "Ubicación electrónica";
+					$respuesta["html"] .="
 								<label class='control-label' for='UbicElect'>Ubicación electrónica</label>
 								<div class='controls'>
-								<input type='text' placeholder='Ubicación electrónica' onchange='xajax_registerUbicElect(this.value); return false;' value='$UbicElect' id='UbicElect' name='UbicElect'  />
+								<input type='text' placeholder='Ubicación electrónica' onchange='xajax_register_input(this.value,\"Ubicación electrónica\",\"UbicElect\"); return false;' value='$UbicElect' id='UbicElect' name='UbicElect'  />
 								</div>
 							 ";
 					break;
 				case '023':
-					$html .="
+					$respuesta["idinput"] = "ModAdqui";
+					$respuesta["labelinput"] = "Modalidad adquisión";
+					$respuesta["html"] .="
 								<label class='control-label' for='ModAdqui'>Modalidad adquisión</label>
 								<div class='controls'>
-								<input type='text' placeholder='Modalidad adquisión' onchange='xajax_registerModAdqui(this.value); return false;' value='$ModAdqui' id='ModAdqui' name='ModAdqui'  />
+								<input type='text' placeholder='Modalidad adquisión' onchange='xajax_register_input(this.value,\"Modalidad adquisión\",\"ModAdqui\"); return false;' value='$ModAdqui' id='ModAdqui' name='ModAdqui'  />
 								</div>
 							 ";
 					break;
 				case '024':
-					$html .="
+					$respuesta["idinput"] = "Catalogador";
+					$respuesta["labelinput"] = "Catalogador";
+					$respuesta["html"] .="
 								<label class='control-label' for='Catalogador'>Catalogador</label>
 								<div class='controls'>
-								<input type='text' placeholder='Catalogador' onchange='xajax_register_input(this.value,\"Catalogador\",\"Catalogador\"); return false;' value='$Catalogador' id='Catalogador' name='Catalogador'  />
-								
+								<input type='text' placeholder='Catalogador' onchange='xajax_register_input(this.value,\"Catalogador\",\"Catalogador\"); return false;' value='$Catalogador' id='Catalogador' name='Catalogador'  />								
 							";
 					break;				
 				default:
-					$html = "";
+					$respuesta["html"] = "";
 					break;
 				
 			}
-		$html .= "
- 						</div>";	
-		$objResponse->append("input_secundary","innerHTML",$html);					
-		return $objResponse;
+		return $respuesta;
 
-	} 
-	function delCampos($id){
-		$objResponse = new xajaxResponse();		
-		$objResponse->remove("$id");
-		return $objResponse;
-	} 
+	}
 
 	function NewFormat(){
 		$objResponse = new xajaxResponse();

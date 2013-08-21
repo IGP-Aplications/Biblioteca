@@ -219,6 +219,7 @@ function validarPonencias($idsubcategory,$areaPRI){
             } 
         }
         if ($_SESSION["languaje"]["required"]==1) {
+            $languaje = isset($recuperar["languaje"])?$recuperar["languaje"]:"";
             if($languaje==""){ 
                 $check["Msg"]="Ingrese Idioma";
                 $check["Error"]=1;
@@ -231,6 +232,7 @@ function validarPonencias($idsubcategory,$areaPRI){
             } 
         }
         if ($_SESSION["numLC"]["required"]==1) {
+            $numLC = isset($recuperar["numLC"])?$recuperar["numLC"]:"";
             if($numLC==""){ 
                 $check["Msg"]="Ingrese Numero de Clasificación LC ";
                 $check["Error"]=1;
@@ -240,8 +242,265 @@ function validarPonencias($idsubcategory,$areaPRI){
             else{
                 $check["numLC"]=$numLC;
             }
-        }     
-            
+        }   
+        if ($_SESSION["NumDewey"]["required"]==1) {
+            $NumDewey = isset($recuperar["NumDewey"])?$recuperar["NumDewey"]:"";
+            if($NumDewey==""){ 
+                $check["Msg"]="Ingrese Numero de Clasificación Dewey";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#NumDewey').focus()";
+            }
+            else{
+                $check["NumDewey"]=$NumDewey;
+            }
+        } 
+        if ($_SESSION["Class_IGP"]["required"]==1) {
+            $Class_IGP = isset($recuperar["Class_IGP"])?$recuperar["Class_IGP"]:"";
+            if($Class_IGP==""){ 
+                $check["Msg"]="Ingrese Numero de Clasificación IGP";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#Class_IGP').focus()";
+            }
+            else{
+                $check["Class_IGP"]=$Class_IGP;
+            }
+        }  
+
+        if ($_SESSION["EncMat"]["required"]==1) {
+            $EncMat = isset($recuperar["EncMat"])?$recuperar["EncMat"]:"";
+            if($EncMat==""){ 
+                $check["Msg"]="Ingrese Encabezameinto de Materia";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#EncMat').focus()";
+            }
+            else{
+                $check["EncMat"]=$EncMat;
+            }
+        }  
+        if ($_SESSION["OtherTitles"]["required"]==1) {
+            $OtherTitles = isset($recuperar["OtherTitles"])?$recuperar["OtherTitles"]:"";
+            if($OtherTitles==""){ 
+                $check["Msg"]="Ingrese Otros Títulos";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#OtherTitles').focus()";
+            }
+            else{
+                $check["OtherTitles"]=$OtherTitles;
+            }
+        }   
+        if ($_SESSION["Periodicidad"]["required"]==1) {
+            $Periodicidad = isset($recuperar["Periodicidad"])?$recuperar["Periodicidad"]:"";
+            if($Periodicidad==""){ 
+                $check["Msg"]="Ingrese Periodicidad";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#Periodicidad').focus()";
+            }
+            else{
+                $check["Periodicidad"]=$Periodicidad;
+            }
+        }   
+        if ($_SESSION["Serie"]["required"]==1) {
+            $Serie = isset($recuperar["Serie"])?$recuperar["Serie"]:"";
+            if($Serie==""){ 
+                $check["Msg"]="Ingrese Numero de Clasificación IGP";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#Serie').focus()";
+            }
+            else{
+                $check["Serie"]=$Serie;
+            }
+        }   
+        if ($_SESSION["NoteGeneral"]["required"]==1) {
+            $NoteGeneral = isset($recuperar["NoteGeneral"])?$recuperar["NoteGeneral"]:"";
+            if($NoteGeneral==""){ 
+                $check["Msg"]="Ingrese Numero de Clasificación IGP";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#NoteGeneral').focus()";
+            }
+            else{
+                $check["NoteGeneral"]=$NoteGeneral;
+            }
+        }
+
+
+        if ($_SESSION["NoteTesis"]["required"]==1) {
+            $NoteTesis = isset($recuperar["NoteTesis"])?$recuperar["NoteTesis"]:"";
+            if($NoteTesis==""){ 
+                $check["Msg"]="Ingrese Numero de Clasificación IGP";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#NoteTesis').focus()";
+            }
+            else{
+                $check["NoteTesis"]=$NoteTesis;
+            }
+        }
+        if ($_SESSION["NoteBiblio"]["required"]==1) {
+            $NoteBiblio = isset($recuperar["NoteBiblio"])?$recuperar["NoteBiblio"]:"";
+            if($NoteBiblio==""){ 
+                $check["Msg"]="Ingrese Numero de Clasificación IGP";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#NoteBiblio').focus()";
+            }
+            else{
+                $check["NoteBiblio"]=$NoteBiblio;
+            }
+        } 
+        if ($_SESSION["NoteConte"]["required"]==1) {
+            $NoteConte = isset($recuperar["NoteConte"])?$recuperar["NoteConte"]:"";
+            if($NoteConte==""){ 
+                $check["Msg"]="Ingrese Numero de Clasificación IGP";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#NoteConte').focus()";
+            }
+            else{
+                $check["NoteConte"]=$NoteConte;
+            }
+        } 
+        if ($_SESSION["DesPersonal"]["required"]==1) {
+            $DesPersonal = isset($recuperar["DesPersonal"])?$recuperar["DesPersonal"]:"";
+            if($DesPersonal==""){ 
+                $check["Msg"]="Ingrese Numero de Clasificación IGP";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#DesPersonal').focus()";
+            }
+            else{
+                $check["DesPersonal"]=$DesPersonal;
+            }
+        } 
+        if ($_SESSION["MatEntidad"]["required"]==1) {
+            $MatEntidad = isset($recuperar["MatEntidad"])?$recuperar["MatEntidad"]:"";
+            if($MatEntidad==""){ 
+                $check["Msg"]="Ingrese Numero de Clasificación IGP";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#MatEntidad').focus()";
+            }
+            else{
+                $check["MatEntidad"]=$MatEntidad;
+            }
+        } 
+
+        if ($_SESSION["Descriptor"]["required"]==1) {
+            $Descriptor = isset($recuperar["Descriptor"])?$recuperar["Descriptor"]:"";
+            if($Descriptor==""){ 
+                $check["Msg"]="Ingrese Numero de Clasificación IGP";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#Descriptor').focus()";
+            }
+            else{
+                $check["Descriptor"]=$Descriptor;
+            }
+        } 
+        if ($_SESSION["Descriptor_geo"]["required"]==1) {
+            $Descriptor_geo = isset($recuperar["Descriptor_geo"])?$recuperar["Descriptor_geo"]:"";
+            if($Descriptor_geo==""){ 
+                $check["Msg"]="Ingrese Numero de Clasificación IGP";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#Descriptor_geo').focus()";
+            }
+            else{
+                $check["Descriptor_geo"]=$Descriptor_geo;
+            }
+        } 
+        if ($_SESSION["CongSec"]["required"]==1) {
+            $CongSec = isset($recuperar["CongSec"])?$recuperar["CongSec"]:"";
+            if($CongSec==""){ 
+                $check["Msg"]="Ingrese Numero de Clasificación IGP";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#CongSec').focus()";
+            }
+            else{
+                $check["CongSec"]=$CongSec;
+            }
+        } 
+        if ($_SESSION["TitSec"]["required"]==1) {
+            $TitSec = isset($recuperar["TitSec"])?$recuperar["TitSec"]:"";
+            if($TitSec==""){ 
+                $check["Msg"]="Ingrese Numero de Clasificación IGP";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#TitSec').focus()";
+            }
+            else{
+                $check["TitSec"]=$TitSec;
+            }
+        } 
+        if ($_SESSION["Fuente"]["required"]==1) {
+            $Fuente = isset($recuperar["Fuente"])?$recuperar["Fuente"]:"";
+            if($Fuente==""){ 
+                $check["Msg"]="Ingrese Numero de Clasificación IGP";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#Fuente').focus()";
+            }
+            else{
+                $check["Fuente"]=$Fuente;
+            }
+        } 
+        if ($_SESSION["NumIng"]["required"]==1) {
+            $NumIng = isset($recuperar["NumIng"])?$recuperar["NumIng"]:"";
+            if($NumIng==""){ 
+                $check["Msg"]="Ingrese Numero de Clasificación IGP";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#NumIng').focus()";
+            }
+            else{
+                $check["NumIng"]=$NumIng;
+            }
+        } 
+        if ($_SESSION["UbicElect"]["required"]==1) {
+            $UbicElect = isset($recuperar["UbicElect"])?$recuperar["UbicElect"]:"";
+            if($UbicElect==""){ 
+                $check["Msg"]="Ingrese Numero de Clasificación IGP";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#UbicElect').focus()";
+            }
+            else{
+                $check["UbicElect"]=$UbicElect;
+            }
+        } 
+        if ($_SESSION["ModAdqui"]["required"]==1) {
+            $ModAdqui = isset($recuperar["ModAdqui"])?$recuperar["ModAdqui"]:"";
+            if($ModAdqui==""){ 
+                $check["Msg"]="Ingrese Numero de Clasificación IGP";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#ModAdqui').focus()";
+            }
+            else{
+                $check["ModAdqui"]=$ModAdqui;
+            }
+        } 
+        if ($_SESSION["Catalogador"]["required"]==1) {
+            $Catalogador = isset($recuperar["Catalogador"])?$recuperar["Catalogador"]:"";
+            if($Catalogador==""){ 
+                $check["Msg"]="Ingrese Numero de Clasificación IGP";
+                $check["Error"]=1;
+                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                $check["focus"]="$('#Catalogador').focus()";
+            }
+            else{
+                $check["Catalogador"]=$Catalogador;
+            }
+        } 
+
+
             
         
             

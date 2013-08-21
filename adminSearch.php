@@ -2861,7 +2861,7 @@ function newPonencia($iddata=0,$action){
 $idsubcategory=isset($_SESSION["idsubcategory"])?$_SESSION["idsubcategory"]:0;               
 $resultCheck=validarPonencias($idsubcategory,$areaPRI);
 
- // $objResponse->alert(print_r($_SESSION["required"],TRUE));
+ $objResponse->alert(print_r($_SESSION["ISSN"]["required"],TRUE));
 
 if ($resultCheck["Error"]==1){
         $objResponse->alert($resultCheck["Msg"]);
@@ -2910,6 +2910,69 @@ else{
         	}
 	        if ($resultCheck["numDewey"]!="") {
 	        	$_SESSION["publicaciones"]["numDewey"]=$resultCheck["numDewey"];
+	        }
+	        if ($resultCheck["Class_IGP"]!="") {
+	        	$_SESSION["publicaciones"]["Class_IGP"]=$resultCheck["Class_IGP"];
+	        }
+	        if ($resultCheck["EncMat"]!="") {
+	        	$_SESSION["publicaciones"]["EncMat"]=$resultCheck["EncMat"];
+	        }
+	        if ($resultCheck["EncMat"]!="") {
+	        	$_SESSION["publicaciones"]["EncMat"]=$resultCheck["EncMat"];
+	        }
+	        if ($resultCheck["OtherTitles"]!="") {
+	        	$_SESSION["publicaciones"]["OtherTitles"]=$resultCheck["OtherTitles"];
+	        }
+	        if ($resultCheck["Periodicidad"]!="") {
+	        	$_SESSION["publicaciones"]["Periodicidad"]=$resultCheck["Periodicidad"];
+	        }
+	        if ($resultCheck["Serie"]!="") {
+	        	$_SESSION["publicaciones"]["Serie"]=$resultCheck["Serie"];
+	        }
+	        if ($resultCheck["NoteGeneral"]!="") {
+	        	$_SESSION["publicaciones"]["NoteGeneral"]=$resultCheck["NoteGeneral"];
+	        }
+	        if ($resultCheck["NoteTesis"]!="") {
+	        	$_SESSION["publicaciones"]["NoteTesis"]=$resultCheck["NoteTesis"];
+	        }
+	        if ($resultCheck["NoteBiblio"]!="") {
+	        	$_SESSION["publicaciones"]["NoteBiblio"]=$resultCheck["NoteBiblio"];
+	        }
+	        if ($resultCheck["NoteConte"]!="") {
+	        	$_SESSION["publicaciones"]["NoteConte"]=$resultCheck["NoteConte"];
+	        }
+	        if ($resultCheck["DesPersonal"]!="") {
+	        	$_SESSION["publicaciones"]["DesPersonal"]=$resultCheck["DesPersonal"];
+	        }
+	        if ($resultCheck["MatEntidad"]!="") {
+	        	$_SESSION["publicaciones"]["MatEntidad"]=$resultCheck["MatEntidad"];
+	        }
+	        if ($resultCheck["Descriptor"]!="") {
+	        	$_SESSION["publicaciones"]["Descriptor"]=$resultCheck["Descriptor"];
+	        }
+	        if ($resultCheck["Descriptor_geo"]!="") {
+	        	$_SESSION["publicaciones"]["Descriptor_geo"]=$resultCheck["Descriptor_geo"];
+	        }
+	        if ($resultCheck["CongSec"]!="") {
+	        	$_SESSION["publicaciones"]["CongSec"]=$resultCheck["CongSec"];
+	        }
+	        if ($resultCheck["TitSec"]!="") {
+	        	$_SESSION["publicaciones"]["TitSec"]=$resultCheck["TitSec"];
+	        }
+	        if ($resultCheck["Fuente"]!="") {
+	        	$_SESSION["publicaciones"]["Fuente"]=$resultCheck["Fuente"];
+	        }
+	        if ($resultCheck["NumIng"]!="") {
+	        	$_SESSION["publicaciones"]["NumIng"]=$resultCheck["NumIng"];
+	        }
+	        if ($resultCheck["UbicElect"]!="") {
+	        	$_SESSION["publicaciones"]["UbicElect"]=$resultCheck["UbicElect"];
+	        }
+	        if ($resultCheck["ModAdqui"]!="") {
+	        	$_SESSION["publicaciones"]["ModAdqui"]=$resultCheck["ModAdqui"];
+	        }
+	        if ($resultCheck["Catalogador"]!="") {
+	        	$_SESSION["publicaciones"]["Catalogador"]=$resultCheck["Catalogador"];
 	        }	        
 	        
         // }
