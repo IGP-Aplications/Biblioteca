@@ -534,9 +534,9 @@
 					$class_list = "list_block_0";
 				}	
 					
-				$html.="<div class='resultado-busqueda ".$class_list."'>";
-
-				$html.="<span class='list_number'>" .($i+1).".</span> ".$titulo." - ".$author;
+				$html.="<div class='resultado-busqueda ".$class_list."'>";				
+				$pag=($currentPage-1)*$pageSize+($i+1);
+				$html.="<span class='list_number'>" .$pag.".</span> ".$titulo." - ".$author;
 
 				$html .= "</div>";
 

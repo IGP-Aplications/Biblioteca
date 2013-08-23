@@ -232,3 +232,9 @@ body .tabactive a{
         font-size:1.5em;
     }
 }
+#formLogin .btn:hover
+{
+    background: #333231;
+    color: #fff;
+    text-shadow: none;
+}

@@ -216,7 +216,7 @@ function verFile(){
 }
 </style>
 
-  {ajax}
+  
 </head>
 
 <!-- Global IE fix to avoid layout crash when single word size wider than column width -->

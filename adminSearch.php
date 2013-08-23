@@ -445,6 +445,12 @@
 					$array_files = (array)$xmlt->files;
 					// $objResponse->alert(print_r($array_files,TRUE));
                 }
+                if (isset($xmlt->languaje)) {
+                	$objResponse->script("                		
+                		$('input[value=\"002\"]').attr('checked',true);
+                		");
+                	$languaje = (string)$xmlt->languaje;
+                }
                
 		        //----------
 		        $autorPRI=(string)$xmlt->authorPRI->idauthor0;
@@ -501,6 +507,76 @@
         		$_SESSION["edit"]["files"] = $array_files;
         		$objResponse->alert(print_r($_SESSION["edit"],TRUE));
 		     
+		}
+		if (isset($xmlt->languaje)) {
+			$_SESSION["edit"]["languaje"] = $languaje;
+		}
+
+		if (isset($xmlt->numLC)) {
+			$_SESSION["edit"]["numLC"] = $numLC;
+		}
+		if (isset($xmlt->NumDewey)) {
+			$_SESSION["edit"]["NumDewey"] = $NumDewey;
+		}
+		if (isset($xmlt->Class_IGP)) {
+			$_SESSION["edit"]["Class_IGP"] = $Class_IGP;
+		}
+		if (isset($xmlt->EncMat)) {
+			$_SESSION["edit"]["EncMat"] = $EncMat;
+		}
+		if (isset($xmlt->OtherTitles)) {
+			$_SESSION["edit"]["OtherTitles"] = $OtherTitles;
+		}
+		if (isset($xmlt->Periodicidad)) {
+			$_SESSION["edit"]["Periodicidad"] = $Periodicidad;
+		}
+		if (isset($xmlt->Serie)) {
+			$_SESSION["edit"]["Serie"] = $Serie;
+		}
+		if (isset($xmlt->NoteGeneral)) {
+			$_SESSION["edit"]["NoteGeneral"] = $NoteGeneral;
+		}
+		if (isset($xmlt->NoteTesis)) {
+			$_SESSION["edit"]["NoteTesis"] = $NoteTesis;
+		}
+		if (isset($xmlt->NoteBiblio)) {
+			$_SESSION["edit"]["NoteBiblio"] = $NoteBiblio;
+		}
+		if (isset($xmlt->NoteConte)) {
+			$_SESSION["edit"]["NoteConte"] = $NoteConte;
+		}
+		if (isset($xmlt->DesPersonal)) {
+			$_SESSION["edit"]["DesPersonal"] = $DesPersonal;
+		}
+		if (isset($xmlt->MatEntidad)) {
+			$_SESSION["edit"]["MatEntidad"] = $MatEntidad;
+		}
+		if (isset($xmlt->Descriptor)) {
+			$_SESSION["edit"]["Descriptor"] = $Descriptor;
+		}
+		if (isset($xmlt->Descriptor_geo)) {
+			$_SESSION["edit"]["Descriptor_geo"] = $Descriptor_geo;
+		}
+		if (isset($xmlt->CongSec)) {
+			$_SESSION["edit"]["CongSec"] = $CongSec;
+		}
+		if (isset($xmlt->TitSec)) {
+			$_SESSION["edit"]["TitSec"] = $TitSec;
+		}
+		if (isset($xmlt->Fuente)) {
+			$_SESSION["edit"]["Fuente"] = $Fuente;
+		}
+		if (isset($xmlt->NumIng)) {
+			$_SESSION["edit"]["NumIng"] = $NumIng;
+		}
+		if (isset($xmlt->UbicElect)) {
+			$_SESSION["edit"]["UbicElect"] = $UbicElect;
+		}
+		if (isset($xmlt->ModAdqui)) {
+			$_SESSION["edit"]["ModAdqui"] = $ModAdqui;
+		}
+		if (isset($xmlt->Catalogador)) {
+			$_SESSION["edit"]["Catalogador"] = $Catalogador;
 		}
 
 		$objResponse->script("xajax_formPonenciasShow($idbook,$idSubcategory)");
@@ -1428,8 +1504,7 @@ function verificaArchivo($url)
                 $inAutor= in_array($apellidoArray,$result_array);
                 /*******************************/
                 //$clave = array_search($sAuthor, $result_array);
-                //$objResponse->alert(print_r($result_array, TRUE));
-                
+                //$objResponse->alert(print_r($result_array, TRUE));                
                 
                 
                 if($inAutor){

@@ -599,6 +599,7 @@
 		        $tituloGeneral="Editar Material Bibliográfico";
 				//$linkRegresar='<span style="float:right;"><a class="negro" href=# onclick="xajax_abstractHide(\'formulario\'); xajax_abstractShow(\'consultas\'); xajax_abstractShow(\'resultSearch\'); xajax_abstractShow(\'paginator\'); return false;"><img style="cursor: pointer; border:0;" width="20px" src="img/flecha-izq.jpg">&nbsp;&nbsp; Retornar a resultados </a></span>';
 				//$objResponse->assign("botonRegresar","innerHTML",$linkRegresar);
+				
 		    }
 		}
 		else{
@@ -753,9 +754,9 @@
 				<div id="archivo" style="display:none"></div>
 			</div>
 			
-            <div class="action-btn"><input class="btn"  type="button" onclick="xajax_newPonencia('.$iddata.',\''.$action.'\');" value='.$tituloBoton.'  /></div>
-
+            <div class="action-btn"><input class="btn"  type="button" onclick="xajax_newPonencia('.$iddata.',\''.$action.'\');" value='.$tituloBoton.'  /></div>            	
             </div> 
+
             <!-- fin form conte -->
 			';
 
@@ -768,7 +769,7 @@
 		// Muestra los tabs por default
 	    $objResponse->script("xajax_displaydiv('titulo_tipo_prepor','titulo1')");        
 	    
-
+	    $objResponse->alert(print_r($_SESSION["edit"],TRUE));
 	    $titulo="Detalle";
 		if(isset($_SESSION["edit"])){
 		    $recuperar=$_SESSION["edit"];
@@ -826,9 +827,14 @@
         else{
             $summary="";
         }
-
-
-        
+        // if(isset($recuperar["languaje"])){
+        //     $languaje=$recuperar["languaje"];
+           
+        //     $objResponse->alert(print_r($recuperar["languaje"],TRUE));
+        // }
+        // else{
+        //     $languaje="";
+        // }
 
         if(isset($recuperar["tipoPonencia_description"])){
             $tipoPonencia_description=$recuperar["tipoPonencia_description"];
@@ -925,18 +931,7 @@
 		$link="<a onclick=\"xajax_displaydiv('area_tema','titulo5'); return false;\" class='tab-title' href='#' rel='tooltip' title='Temas Relacionados'>Temas Relacionados</a>";
 		$objResponse->assign('titulo5',"innerHTML",$link);
 	
-	     //   Temas del area 
-	    // --n $objResponse->script("xajax_iniAreaShow('".$_SESSION["idarea"]."')");
-	
-	        //Asociar a otras areas
-	    // --n $objResponse->script("xajax_iniOtrasAreasShow('".$_SESSION["idarea"]."')");
-	
-	        //Asociar a otros temas
-		// --n $range=readSessionArea();
-		// --n $objResponse->script("xajax_otrosTemasShow('$range')");
-	
-	        //Asociar a otros temas
-		// --n $objResponse->script("xajax_iniOtrosTemasShow()");
+	    
 	
 	        //Ingresar nuevo tema
 		$objResponse->script("xajax_iniThemes_Book();");
@@ -1017,6 +1012,15 @@
 										$('#divNewFormat').dialog('open');					
 										return false;
 									});
+                					alert('verificando los checked para incrementarlo al form');
+                					$('.ActionInput').each(function(){
+                						var id = $(this).val();
+				                		if($(this).is(':checked')) {
+								            xajax_ListCampos(id);								            
+								        } else {  								            
+								            xajax_delCampos(id);  
+								        } 
+                					});
 
 									$('.ActionInput').change(function(){
 				                		var id = $(this).val();
@@ -1033,8 +1037,14 @@
 
 	} 
 	function ListCampos($id){
-		$objResponse = new xajaxResponse();			
+		$objResponse = new xajaxResponse();
+
+				
+
 		$result = Query_input($id);	
+
+		
+
 		$html = $result["html"];
 		
  		$html = eregi_replace("[\n|\r|\n\r]", ' ', $html);
@@ -1045,6 +1055,17 @@
 							var var2=var1.replace("\n"," ");
 							$(""+var2+"").appendTo("#input_secundary");							
 							');
+		if (isset($_SESSION["edit"])) {
+			$recuperar = $_SESSION["edit"];
+		}
+		if(isset($recuperar["languaje"])){            
+            $objResponse->script("
+            			$('#languaje').attr('value','".$recuperar["languaje"]."');
+            			");
+        }
+        else{
+            $languaje="";
+        }	
 		return $objResponse;
 
 	} 
@@ -1066,16 +1087,19 @@
 
 	function Query_input($id) {
 
+		$recuperar = (isset($_SESSION["edit"])?$_SESSION["edit"]:"");
 		$respuesta["html"] = "<div class='control-group' id='$id'>";
 		switch ($id) {
 
 				case '001':
+					$ISSN=(isset($recuperar["ISSN"])?$recuperar["ISSN"]:"");					
 					$respuesta["idinput"] = "ISSN";
 					$respuesta["labelinput"] = "ISSN";
 					$respuesta["html"] .= "<label class='control-label' for='ISSN'>Ingrese ISSN</label>
 								<div class='controls'><input type='text' id='ISSN' placeholder='Codigo ISSN' onchange='xajax_register_input(this.value,\"ISSN\",\"ISSN\"); return false;' value='$ISSN'> </div>";
 					break;
-				case '002':
+				case '002':									
+			        $languaje=(isset($recuperar["languaje"])?$recuperar["languaje"]:"");			        
 					$respuesta["idinput"] = "languaje";
 					$respuesta["labelinput"] = "Idioma";
 					$respuesta["html"] .= "
@@ -1086,6 +1110,7 @@
 							";
 					break;
 				case '003':
+					$numLC=(isset($recuperar["numLC"])?$recuperar["numLC"]:"");
 					$respuesta["idinput"] = "numLC";
 					$respuesta["labelinput"] = "Número de Clasificacion LC";
 					$respuesta["html"] .= "
@@ -1097,6 +1122,7 @@
 							";
 					break;
 				case '004':
+					$NumDewey=(isset($recuperar["NumDewey"])?$recuperar["NumDewey"]:"");
 					$respuesta["idinput"] = "NumDewey";
 					$respuesta["labelinput"] = "Número de Clasificacion Dewey";
 					$respuesta["html"] .="
@@ -1108,6 +1134,7 @@
 							";
 					break;
 				case '005':
+					$Class_IGP=(isset($recuperar["Class_IGP"])?$recuperar["Class_IGP"]:"");
 					$respuesta["idinput"] = "Class_IGP";
 					$respuesta["labelinput"] = "Número de Clasificacion IGP";
 					$respuesta["html"] .="
@@ -1118,6 +1145,7 @@
 							";
 					break;
 				case '006':
+					$EncMat=(isset($recuperar["EncMat"])?$recuperar["EncMat"]:"");
 					$respuesta["idinput"] = "EncMat";
 					$respuesta["labelinput"] = "Encabezameinto de Materia";
 					$respuesta["html"] .="
@@ -1128,6 +1156,7 @@
 							";
 					break;
 				case '007':
+					$OtherTitles=(isset($recuperar["OtherTitles"])?$recuperar["OtherTitles"]:"");
 					$respuesta["idinput"] = "OtherTitles";
 					$respuesta["labelinput"] = "Otros Títulos";
 					$respuesta["html"] .="
@@ -1139,6 +1168,7 @@
 							";
 					break;
 				case '008':
+					$Periodicidad=(isset($recuperar["Periodicidad"])?$recuperar["Periodicidad"]:"");
 					$respuesta["idinput"] = "Periodicidad";
 					$respuesta["labelinput"] = "Periodicidad";
 					$respuesta["html"] .="
@@ -1149,6 +1179,7 @@
 							";
 					break;
 				case '009':
+					$Serie=(isset($recuperar["Serie"])?$recuperar["Serie"]:"");
 					$respuesta["idinput"] = "Serie";
 					$respuesta["labelinput"] = "Serie";
 					$respuesta["html"] .="
@@ -1159,6 +1190,7 @@
 							";
 					break;
 				case '010':
+					$NoteGeneral=(isset($recuperar["NoteGeneral"])?$recuperar["NoteGeneral"]:"");
 					$respuesta["idinput"] = "NoteGeneral";
 					$respuesta["labelinput"] = "Notas Generales";
 					$respuesta["html"] .="
@@ -1169,6 +1201,7 @@
 							";
 					break;
 				case '011':
+					$NoteTesis=(isset($recuperar["NoteTesis"])?$recuperar["NoteTesis"]:"");
 					$respuesta["idinput"] = "NoteTesis";
 					$respuesta["labelinput"] = "Notas de Tesis";
 					$respuesta["html"] .="
@@ -1179,6 +1212,7 @@
 							";
 					break;
 				case '012':
+					$NoteBiblio=(isset($recuperar["NoteBiblio"])?$recuperar["NoteBiblio"]:"");
 					$respuesta["idinput"] = "NoteBiblio";
 					$respuesta["labelinput"] = "Notas de bibliografía";
 					$respuesta["html"] .="
@@ -1189,6 +1223,7 @@
 							";
 					break;
 				case '013':
+					$NoteConte=(isset($recuperar["NoteConte"])?$recuperar["NoteConte"]:"");
 					$respuesta["idinput"] = "NoteConte";
 					$respuesta["labelinput"] = "Notas de contenido";
 					$respuesta["html"] .="
@@ -1199,6 +1234,7 @@
 							";
 					break;
 				case '014':
+					$DesPersonal=(isset($recuperar["DesPersonal"])?$recuperar["DesPersonal"]:"");
 					$respuesta["idinput"] = "DesPersonal";
 					$respuesta["labelinput"] = "Descripción Personal";
 					$respuesta["html"] .="
@@ -1209,6 +1245,7 @@
 							";
 					break;
 				case '015':
+					$MatEntidad=(isset($recuperar["MatEntidad"])?$recuperar["MatEntidad"]:"");
 					$respuesta["idinput"] = "MatEntidad";
 					$respuesta["labelinput"] = "Materia como entidad";
 					$respuesta["html"] .="
@@ -1219,6 +1256,7 @@
 							";
 					break;
 				case '016':
+					$Descriptor=(isset($recuperar["Descriptor"])?$recuperar["Descriptor"]:"");
 					$respuesta["idinput"] = "Descriptor";
 					$respuesta["labelinput"] = "Descriptor";
 					$respuesta["html"] .="
@@ -1229,6 +1267,7 @@
 							";
 					break;				
 				case '017':
+					$Descriptor_geo=(isset($recuperar["Descriptor_geo"])?$recuperar["Descriptor_geo"]:"");
 					$respuesta["idinput"] = "Descriptor_geo";
 					$respuesta["labelinput"] = "Descriptor Geográfico";
 					$respuesta["html"] .="
@@ -1239,6 +1278,7 @@
 							";
 					break;
 				case '018':
+					$CongSec=(isset($recuperar["CongSec"])?$recuperar["CongSec"]:"");
 					$respuesta["idinput"] = "CongSec";
 					$respuesta["labelinput"] = "Congresos Secundarios";
 					$respuesta["html"] .="
@@ -1249,6 +1289,7 @@
 							 ";
 					break;
 				case '019':
+					$TitSec=(isset($recuperar["TitSec"])?$recuperar["TitSec"]:"");
 					$respuesta["idinput"] = "TitSec";
 					$respuesta["labelinput"] = "Titulos Secundarios";
 					$respuesta["html"] .="
@@ -1259,6 +1300,7 @@
 							 ";
 					break;
 				case '020':
+					$Fuente=(isset($recuperar["Fuente"])?$recuperar["Fuente"]:"");
 					$respuesta["idinput"] = "Fuente";
 					$respuesta["labelinput"] = "Fuente";
 					$respuesta["html"] .="
@@ -1269,6 +1311,7 @@
 							 ";
 					break;
 				case '021':
+					$NumIng=(isset($recuperar["NumIng"])?$recuperar["NumIng"]:"");
 					$respuesta["idinput"] = "NumIng";
 					$respuesta["labelinput"] = "Número de Ingreso";
 					$respuesta["html"] .="
@@ -1279,6 +1322,7 @@
 							 ";
 					break;
 				case '022':
+					$UbicElect=(isset($recuperar["UbicElect"])?$recuperar["UbicElect"]:"");
 					$respuesta["idinput"] = "UbicElect";
 					$respuesta["labelinput"] = "Ubicación electrónica";
 					$respuesta["html"] .="
@@ -1289,6 +1333,7 @@
 							 ";
 					break;
 				case '023':
+					$ModAdqui=(isset($recuperar["ModAdqui"])?$recuperar["ModAdqui"]:"");
 					$respuesta["idinput"] = "ModAdqui";
 					$respuesta["labelinput"] = "Modalidad adquisión";
 					$respuesta["html"] .="
@@ -1299,6 +1344,7 @@
 							 ";
 					break;
 				case '024':
+					$Catalogador=(isset($recuperar["Catalogador"])?$recuperar["Catalogador"]:"");
 					$respuesta["idinput"] = "Catalogador";
 					$respuesta["labelinput"] = "Catalogador";
 					$respuesta["html"] .="
@@ -1607,9 +1653,6 @@ function crea_form($accion){
 			</fieldset>
 			</form>
         </div>
-
-
-
 
         ';
 
