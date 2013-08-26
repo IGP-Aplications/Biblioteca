@@ -445,11 +445,75 @@
 					$array_files = (array)$xmlt->files;
 					// $objResponse->alert(print_r($array_files,TRUE));
                 }
-                if (isset($xmlt->languaje)) {
-                	$objResponse->script("                		
-                		$('input[value=\"002\"]').attr('checked',true);
-                		");
+                if (isset($xmlt->languaje)) {                	
                 	$languaje = (string)$xmlt->languaje;
+                }
+                if (isset($xmlt->NumLC)) {
+
+                	    $NumLC = (count($xmlt->NumLC)>1?(array)$xmlt->NumLC:(string)$xmlt->NumLC);
+                }
+                if (isset($xmlt->NumDewey)) {                	
+                	$NumDewey = (string)$xmlt->NumDewey;
+                }
+                if (isset($xmlt->Class_IGP)) {                	
+                	$Class_IGP = (string)$xmlt->Class_IGP;
+                }
+                if (isset($xmlt->EncMat)) {                	
+                	$EncMat = (string)$xmlt->EncMat;
+                }
+                if (isset($xmlt->OtherTitles)) {                	
+                	$OtherTitles = (string)$xmlt->OtherTitles;
+                }
+                if (isset($xmlt->Periodicidad)) {                	
+                	$Periodicidad = (string)$xmlt->Periodicidad;
+                }
+                if (isset($xmlt->Serie)) {                	
+                	$Serie = (string)$xmlt->Serie;
+                }
+                if (isset($xmlt->NoteGeneral)) {                	
+                	$NoteGeneral = (string)$xmlt->NoteGeneral;
+                }
+                if (isset($xmlt->NoteTesis)) {                	
+                	$NoteTesis = (string)$xmlt->NoteTesis;
+                }
+                if (isset($xmlt->NoteBiblio)) {                	
+                	$NoteBiblio = (string)$xmlt->NoteBiblio;
+                }
+                if (isset($xmlt->NoteConte)) {                	
+                	$NoteConte = (string)$xmlt->NoteConte;
+                }
+                if (isset($xmlt->DesPersonal)) {                	
+                	$DesPersonal = (string)$xmlt->DesPersonal;
+                }
+                if (isset($xmlt->MatEntidad)) {                	
+                	$MatEntidad = (string)$xmlt->MatEntidad;
+                }
+                if (isset($xmlt->Descriptor)) {                	
+                	$Descriptor = (string)$xmlt->Descriptor;
+                }
+               if (isset($xmlt->Descriptor_geo)) {                	
+                	$Descriptor_geo = (string)$xmlt->Descriptor_geo;
+                }
+               if (isset($xmlt->CongSec)) {                	
+                	$CongSec = (string)$xmlt->CongSec;
+                }
+               if (isset($xmlt->TitSec)) {                	
+                	$TitSec = (string)$xmlt->TitSec;
+                }
+               if (isset($xmlt->Fuente)) {                	
+                	$Fuente = (string)$xmlt->Fuente;
+                }
+               if (isset($xmlt->NumIng)) {                	
+                	$NumIng = (string)$xmlt->NumIng;
+                }
+               if (isset($xmlt->UbicElect)) {                	
+                	$UbicElect = (string)$xmlt->UbicElect;
+                }
+               if (isset($xmlt->ModAdqui)) {                	
+                	$ModAdqui = (string)$xmlt->ModAdqui;
+                }
+               if (isset($xmlt->Catalogador)) {                	
+                	$Catalogador = (string)$xmlt->Catalogador;
                 }
                
 		        //----------
@@ -503,79 +567,80 @@
 		$_SESSION["edit"]["year_pub"]=$year_pub;
         $_SESSION["edit"]["month_pub"]=$month_pub;
         $_SESSION["edit"]["desc_month_pub"]=$desc_month_pub;
-        if(isset($xmlt->files)){        	
+        if(isset($files)){        	
         		$_SESSION["edit"]["files"] = $array_files;
         		$objResponse->alert(print_r($_SESSION["edit"],TRUE));
 		     
 		}
-		if (isset($xmlt->languaje)) {
+		if (isset($languaje)) {
 			$_SESSION["edit"]["languaje"] = $languaje;
 		}
 
-		if (isset($xmlt->numLC)) {
-			$_SESSION["edit"]["numLC"] = $numLC;
+		if (isset($NumLC)) {
+			$_SESSION["edit"]["NumLC"] = $NumLC;
+			$objResponse->alert(print_r($NumLC,TRUE));
 		}
-		if (isset($xmlt->NumDewey)) {
+		if (isset($NumDewey)) {
 			$_SESSION["edit"]["NumDewey"] = $NumDewey;
 		}
-		if (isset($xmlt->Class_IGP)) {
+		if (isset($Class_IGP)) {
 			$_SESSION["edit"]["Class_IGP"] = $Class_IGP;
 		}
-		if (isset($xmlt->EncMat)) {
+		if (isset($EncMat)) {
 			$_SESSION["edit"]["EncMat"] = $EncMat;
 		}
-		if (isset($xmlt->OtherTitles)) {
+		if (isset($OtherTitles)) {
 			$_SESSION["edit"]["OtherTitles"] = $OtherTitles;
 		}
-		if (isset($xmlt->Periodicidad)) {
+		if (isset($Periodicidad)) {
 			$_SESSION["edit"]["Periodicidad"] = $Periodicidad;
 		}
-		if (isset($xmlt->Serie)) {
+		if (isset($Serie)) {
 			$_SESSION["edit"]["Serie"] = $Serie;
 		}
-		if (isset($xmlt->NoteGeneral)) {
+		if (isset($NoteGeneral)) {
 			$_SESSION["edit"]["NoteGeneral"] = $NoteGeneral;
 		}
-		if (isset($xmlt->NoteTesis)) {
+		if (isset($NoteTesis)) {
 			$_SESSION["edit"]["NoteTesis"] = $NoteTesis;
 		}
-		if (isset($xmlt->NoteBiblio)) {
+		if (isset($NoteBiblio)) {
 			$_SESSION["edit"]["NoteBiblio"] = $NoteBiblio;
 		}
-		if (isset($xmlt->NoteConte)) {
+		if (isset($NoteConte)) {
 			$_SESSION["edit"]["NoteConte"] = $NoteConte;
 		}
-		if (isset($xmlt->DesPersonal)) {
+		if (isset($DesPersonal)) {
 			$_SESSION["edit"]["DesPersonal"] = $DesPersonal;
 		}
-		if (isset($xmlt->MatEntidad)) {
+		if (isset($MatEntidad)) {
 			$_SESSION["edit"]["MatEntidad"] = $MatEntidad;
 		}
-		if (isset($xmlt->Descriptor)) {
+		if (isset($Descriptor)) {
 			$_SESSION["edit"]["Descriptor"] = $Descriptor;
 		}
-		if (isset($xmlt->Descriptor_geo)) {
+		if (isset($Descriptor_geo)) {
 			$_SESSION["edit"]["Descriptor_geo"] = $Descriptor_geo;
 		}
-		if (isset($xmlt->CongSec)) {
+		if (isset($CongSec)) {
 			$_SESSION["edit"]["CongSec"] = $CongSec;
 		}
-		if (isset($xmlt->TitSec)) {
+		if (isset($TitSec)) {
 			$_SESSION["edit"]["TitSec"] = $TitSec;
 		}
-		if (isset($xmlt->Fuente)) {
+		if (isset($Fuente)) {
 			$_SESSION["edit"]["Fuente"] = $Fuente;
 		}
-		if (isset($xmlt->NumIng)) {
+		if (isset($NumIng)) {
 			$_SESSION["edit"]["NumIng"] = $NumIng;
 		}
-		if (isset($xmlt->UbicElect)) {
+		if (isset($UbicElect)) {
 			$_SESSION["edit"]["UbicElect"] = $UbicElect;
 		}
-		if (isset($xmlt->ModAdqui)) {
+		if (isset($ModAdqui)) {
 			$_SESSION["edit"]["ModAdqui"] = $ModAdqui;
 		}
-		if (isset($xmlt->Catalogador)) {
+		if (isset($Catalogador)) {
 			$_SESSION["edit"]["Catalogador"] = $Catalogador;
 		}
 
@@ -2980,21 +3045,18 @@ else{
         	if ($resultCheck["languaje"]!="") {
         		$_SESSION["publicaciones"]["languaje"]=$resultCheck["languaje"];
         	}
-        	if ($resultCheck["numLC"]!="") {
-        		$_SESSION["publicaciones"]["numLC"]=$resultCheck["numLC"];
+        	if ($resultCheck["NumLC"]!="") {
+        		$_SESSION["publicaciones"]["NumLC"]=$resultCheck["NumLC"];
         	}
-	        if ($resultCheck["numDewey"]!="") {
-	        	$_SESSION["publicaciones"]["numDewey"]=$resultCheck["numDewey"];
+	        if ($resultCheck["NumDewey"]!="") {
+	        	$_SESSION["publicaciones"]["NumDewey"]=$resultCheck["NumDewey"];
 	        }
 	        if ($resultCheck["Class_IGP"]!="") {
 	        	$_SESSION["publicaciones"]["Class_IGP"]=$resultCheck["Class_IGP"];
 	        }
 	        if ($resultCheck["EncMat"]!="") {
 	        	$_SESSION["publicaciones"]["EncMat"]=$resultCheck["EncMat"];
-	        }
-	        if ($resultCheck["EncMat"]!="") {
-	        	$_SESSION["publicaciones"]["EncMat"]=$resultCheck["EncMat"];
-	        }
+	        }	        
 	        if ($resultCheck["OtherTitles"]!="") {
 	        	$_SESSION["publicaciones"]["OtherTitles"]=$resultCheck["OtherTitles"];
 	        }

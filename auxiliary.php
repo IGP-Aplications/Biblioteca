@@ -240,16 +240,16 @@ function validarPonencias($idsubcategory,$areaPRI){
 
             } 
         }
-        if ($_SESSION["required"]["numLC"]==1) {
-            $numLC = isset($recuperar["numLC"])?$recuperar["numLC"]:"";
-            if($numLC==""){ 
+        if ($_SESSION["required"]["NumLC"]==1) {
+            $NumLC = isset($recuperar["NumLC"])?$recuperar["NumLC"]:"";
+            if($NumLC==""){ 
                 $check["Msg"]="Ingrese Numero de Clasificación LC ";
                 $check["Error"]=1;
                 $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
-                $check["focus"]="$('#numLC').focus()";
+                $check["focus"]="$('#NumLC').focus()";
             }
             else{
-                $check["numLC"]=$numLC;
+                $check["NumLC"]=$NumLC;
             }
         }   
         if ($_SESSION["required"]["NumDewey"]==1) {
@@ -508,11 +508,6 @@ function validarPonencias($idsubcategory,$areaPRI){
             }
         } 
 
-
-            
-        
-            
-        
             
     return $check;
 }

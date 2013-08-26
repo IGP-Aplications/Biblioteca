@@ -597,8 +597,33 @@
 		        $action="UPD";
 		        $tituloBoton="ACTUALIZAR";
 		        $tituloGeneral="Editar Material Bibliográfico";
-				//$linkRegresar='<span style="float:right;"><a class="negro" href=# onclick="xajax_abstractHide(\'formulario\'); xajax_abstractShow(\'consultas\'); xajax_abstractShow(\'resultSearch\'); xajax_abstractShow(\'paginator\'); return false;"><img style="cursor: pointer; border:0;" width="20px" src="img/flecha-izq.jpg">&nbsp;&nbsp; Retornar a resultados </a></span>';
-				//$objResponse->assign("botonRegresar","innerHTML",$linkRegresar);
+				
+				$recuperar = $_SESSION["edit"];
+				//verificar los checked
+				$languaje_ch = (isset($recuperar["languaje"])?"checked":"");
+				$NumLC_ch = (isset($recuperar["NumLC"])?"checked":"");
+
+				$NumDewey_ch = (isset($recuperar["NumDewey"])?"checked":"");
+				$Class_IGP_ch = (isset($recuperar["Class_IGP"])?"checked":"");
+				$EncMat_ch = (isset($recuperar["EncMat"])?"checked":"");
+				$OtherTitles_ch = (isset($recuperar["OtherTitles"])?"checked":"");
+				$Periodicidad_ch = (isset($recuperar["Periodicidad"])?"checked":"");
+				$Serie_ch = (isset($recuperar["Serie"])?"checked":"");
+				$NoteGeneral_ch = (isset($recuperar["NoteGeneral"])?"checked":"");
+				$NoteTesis_ch = (isset($recuperar["NoteTesis"])?"checked":"");
+				$NoteBiblio_ch = (isset($recuperar["NoteBiblio"])?"checked":"");
+				$NoteConte_ch = (isset($recuperar["NoteConte"])?"checked":"");
+				$DesPersonal_ch = (isset($recuperar["DesPersonal"])?"checked":"");
+				$MatEntidad_ch = (isset($recuperar["MatEntidad"])?"checked":"");
+				$Descriptor_ch = (isset($recuperar["Descriptor"])?"checked":"");
+				$Descriptor_geo_ch = (isset($recuperar["Descriptor_geo"])?"checked":"");
+				$CongSec_ch = (isset($recuperar["CongSec"])?"checked":"");
+				$TitSec_ch = (isset($recuperar["TitSec"])?"checked":"");
+				$Fuente_ch = (isset($recuperar["Fuente"])?"checked":"");
+				$NumIng_ch = (isset($recuperar["NumIng"])?"checked":"");
+				$UbicElect_ch = (isset($recuperar["UbicElect"])?"checked":"");
+				$ModAdqui_ch = (isset($recuperar["ModAdqui"])?"checked":"");
+				$Catalogador_ch = (isset($recuperar["Catalogador"])?"checked":"");
 				
 		    }
 		}
@@ -630,74 +655,74 @@
 			      		<input class="ActionInput" type="checkbox" value="001"> ISSN
 			    	</label>
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="002"> Idiomas
+			      		<input class="ActionInput" type="checkbox" value="002" '.$languaje_ch.'> Idiomas
 			    	</label>
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="003"> Número de Clasificacion LC
+			      		<input class="ActionInput" type="checkbox" value="003" '.$NumLC_ch.'> Número de Clasificacion LC
 			    	</label>
 			    	<label class="checkbox checkbox1">
-			      		<input class="ActionInput" type="checkbox" value="004"> Número de Clasificacion Dewey
+			      		<input class="ActionInput" type="checkbox" value="004" '.$NumDewey_ch.'> Número de Clasificacion Dewey
 			    	</label>
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="005"> Clasificacion IGP
+			      		<input class="ActionInput" type="checkbox" value="005" '.$Class_IGP_ch.'> Clasificacion IGP
 			    	</label>
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="006"> Encabezamiento de Materia
+			      		<input class="ActionInput" type="checkbox" value="006" '.$EncMat_ch.'> Encabezamiento de Materia
 			    	</label>
 			    	<label class="checkbox checkbox1">
-			      		<input class="ActionInput" type="checkbox" value="007"> Otros Títulos
+			      		<input class="ActionInput" type="checkbox" value="007" '.$OtherTitles_ch.'> Otros Títulos
 			    	</label>
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="008"> Periodicidad
+			      		<input class="ActionInput" type="checkbox" value="008" '.$Periodicidad_ch.'> Periodicidad
 			    	</label>
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="009"> Serie
+			      		<input class="ActionInput" type="checkbox" value="009" '.$Serie_ch.'> Serie
 			    	</label>
 			    	<label class="checkbox checkbox1">
-			      		<input class="ActionInput" type="checkbox" value="010"> Notas Generales
+			      		<input class="ActionInput" type="checkbox" value="010" '.$NoteGeneral_ch.'> Notas Generales
 			    	</label>
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="011"> Notas Tesis
+			      		<input class="ActionInput" type="checkbox" value="011" '.$NoteTesis_ch.'> Notas Tesis
 			    	</label>
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="012"> Notas de bibliografía
+			      		<input class="ActionInput" type="checkbox" value="012" '.$NoteBiblio_ch.'> Notas de bibliografía
 			    	</label>
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="013"> Notas de contenido
+			      		<input class="ActionInput" type="checkbox" value="013" '.$NoteConte_ch.'> Notas de contenido
 			    	</label>
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="014"> Descripción Personal
+			      		<input class="ActionInput" type="checkbox" value="014" '.$DesPersonal_ch.'> Descripción Personal
 			    	</label>
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="015"> Materia como entidad
+			      		<input class="ActionInput" type="checkbox" value="015" '.$MatEntidad_ch.'> Materia como entidad
 			    	</label>
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="016"> Descriptor
+			      		<input class="ActionInput" type="checkbox" value="016" '.$Descriptor_ch.'> Descriptor
 			    	</label>
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="017"> Descriptor Geográfico
+			      		<input class="ActionInput" type="checkbox" value="017" '.$Descriptor_geo_ch.'> Descriptor Geográfico
 			    	</label>
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="018"> Congresos Secundarios
+			      		<input class="ActionInput" type="checkbox" value="018" '.$CongSec_ch.'> Congresos Secundarios
 			    	</label>
 
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="019"> Titulos Secundarios
+			      		<input class="ActionInput" type="checkbox" value="019" '.$TitSec_ch.'> Titulos Secundarios
 			    	</label>
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="020"> Fuente
+			      		<input class="ActionInput" type="checkbox" value="020" '.$Fuente_ch.'> Fuente
 			    	</label>
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="021"> Número de Ingreso
+			      		<input class="ActionInput" type="checkbox" value="021" '.$NumIng_ch.'> Número de Ingreso
 			    	</label>
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="022"> Ubicación Alectrónica
+			      		<input class="ActionInput" type="checkbox" value="022" '.$UbicElect_ch.'> Ubicación Electrónica
 			    	</label>
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="023"> Modalidad Adquisión
+			      		<input class="ActionInput" type="checkbox" value="023" '.$ModAdqui_ch.'> Modalidad Adquisión
 			    	</label>
 			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="024"> Catalogador 
+			      		<input class="ActionInput" type="checkbox" value="024" '.$Catalogador_ch.'> Catalogador 
 			    	</label>	    	
 
 			    	
@@ -1012,7 +1037,7 @@
 										$('#divNewFormat').dialog('open');					
 										return false;
 									});
-                					alert('verificando los checked para incrementarlo al form');
+                					//alert('verificando los checked para incrementarlo al form');
                 					$('.ActionInput').each(function(){
                 						var id = $(this).val();
 				                		if($(this).is(':checked')) {
@@ -1110,16 +1135,36 @@
 							";
 					break;
 				case '003':
-					$numLC=(isset($recuperar["numLC"])?$recuperar["numLC"]:"");
-					$respuesta["idinput"] = "numLC";
+					// $NumLC=(isset($recuperar["NumLC"])?$recuperar["NumLC"]:"");
+					$respuesta["idinput"] = "NumLC";
 					$respuesta["labelinput"] = "Número de Clasificacion LC";
-					$respuesta["html"] .= "
-							    <label class='control-label' for='numLC'>Número de Clasificacion LC</label>
+					if (count($respuesta["NumLC"])>1) {
+						for ($k=0; $k < count($recuperar["NumLC"]); $k++) { 
+						$NumLC=(isset($recuperar["NumLC"][$k])?$recuperar["NumLC"][$k]:"");
+						$respuesta["html"] .= "<label class='control-label' for='NumLC'>Número de Clasificacion LC</label>
 							    <div class='controls'>
-							      <input type='text' id='numLC' placeholder='Ejm. QE39 .P37 1986
-							' onchange='xajax_register_input(this.value,\"Num. Clasficacion LC\",\"numLC\"); return false;' value='$numLC'>
-							    </div>
-							";
+							      <input type='text' id='NumLC' placeholder='Ejm. QE39 .P37 1986
+							' onchange='xajax_register_input(this.value,\"Num. Clasficacion LC\",\"NumLC\"); return false;' value='$NumLC'>
+							    </div>";
+						}
+					}
+					else{
+						$NumLC=(isset($recuperar["NumLC"])?$recuperar["NumLC"]:"");
+						$respuesta["html"] .= "<label class='control-label' for='NumLC'>Número de Clasificacion LC</label>
+							    <div class='controls'>
+							      <input type='text' id='NumLC' placeholder='Ejm. QE39 .P37 1986
+							' onchange='xajax_register_input(this.value,\"Num. Clasficacion LC\",\"NumLC\"); return false;' value='$NumLC'>
+							    </div>";						
+					}
+
+					
+					// $respuesta["html"] .= "
+					// 		    <label class='control-label' for='NumLC'>Número de Clasificacion LC</label>
+					// 		    <div class='controls'>
+					// 		      <input type='text' id='NumLC' placeholder='Ejm. QE39 .P37 1986
+					// 		' onchange='xajax_register_input(this.value,\"Num. Clasficacion LC\",\"NumLC\"); return false;' value='$NumLC'>
+					// 		    </div>
+					// 		";
 					break;
 				case '004':
 					$NumDewey=(isset($recuperar["NumDewey"])?$recuperar["NumDewey"]:"");
