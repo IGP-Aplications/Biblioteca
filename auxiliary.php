@@ -104,90 +104,70 @@ function validarPonencias($idsubcategory,$areaPRI){
                 $check["funcion"]="xajax_displaydiv('author','titulo2')";
             }
         
-            if ($summary=="") {
-                $check["Error"] = 1;
-                $check["Msg"] = "Ingrese un Resumen";
-                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1')";
-                $check["focus"]="$('#summary').focus()";
-            }
-            else{
-                $check["summary"] = $summary;
-            }
-
-            // if ($subject=="") {
+            // if ($summary=="") {
             //     $check["Error"] = 1;
-            //     $check["Msg"] = "Ingrese temas  relacionados";
+            //     $check["Msg"] = "Ingrese un Resumen";
             //     $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1')";
-            //     $check["focus"]="$('#subject').focus()";
+            //     $check["focus"]="$('#summary').focus()";
             // }
             // else{
-            //     $check["subject"] = $subject;
+            //     $check["summary"] = $summary;
             // }
 
-            if ($edition=="") {
-                $check["Error"] = 1;
-                $check["Msg"] = "Ingrese la edición";
-                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1')";
-                $check["focus"]="$('#edition').focus()";
-            }
-            else{
-                $check["edition"] = $edition;
-            }
-            // $check = $response->check_values($edition,"Edicion","edition");
-
-            if ($description_physical=="") {
-                $check["Error"] = 1;
-                $check["Msg"] = "Ingrese la descripción Física";
-                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1')";
-                $check["focus"]="$('#description_physical').focus()";
-            }
-            else{
-                $check["description_physical"] = $description_physical;
-            }
-
-            // if ($publication=="") {
-            //     $check["Error"]= 1;
-            //     $check["Msg"]= "Ingrese lugar y fecha de Publicación";                
+            // if ($edition=="") {
+            //     $check["Error"] = 1;
+            //     $check["Msg"] = "Ingrese la edición";
             //     $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1')";
-            //     $check["focus"]="$('#publication').focus()";
+            //     $check["focus"]="$('#edition').focus()";
             // }
             // else{
-            //     $check["publication"]=$publication;
+            //     $check["edition"] = $edition;
+            // }
+            // // $check = $response->check_values($edition,"Edicion","edition");
+
+            // if ($description_physical=="") {
+            //     $check["Error"] = 1;
+            //     $check["Msg"] = "Ingrese la descripción Física";
+            //     $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1')";
+            //     $check["focus"]="$('#description_physical').focus()";
+            // }
+            // else{
+            //     $check["description_physical"] = $description_physical;
             // }
 
-            if ($CallNumber=="") {
-                $check["Msg"]="Ingrese el codigo de ubicación";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1')";
-                $check["focus"]="$('#CallNumber').focus()";
-            }
-            else{
-                $check["CallNumber"]=$CallNumber;
+            // if ($CallNumber=="") {
+            //     $check["Msg"]="Ingrese el codigo de ubicación";
+            //     $check["Error"]=1;
+            //     $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1')";
+            //     $check["focus"]="$('#CallNumber').focus()";
+            // }
+            // else{
+            //     $check["CallNumber"]=$CallNumber;
 
-            }
+            // }
 
-            if ($ISBN=="") {
-                $check["Msg"]="Ingrese ISBN";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1')";
-                $check["focus"]="$('#ISBN').focus()";
-            }
-            else{
-                $check["ISBN"]=$ISBN;
-            }
+            // if ($ISBN=="") {
+            //     $check["Msg"]="Ingrese ISBN";
+            //     $check["Error"]=1;
+            //     $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1')";
+            //     $check["focus"]="$('#ISBN').focus()";
+            // }
+            // else{
+            //     $check["ISBN"]=$ISBN;
+            // }
             //formato de material bibliografico
-            if($idfbook=="" or $idfbook==999){ 
-                $check["Msg"]="Seleccione un formato del material bibliográfico ";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
-                $check["focus"]="$('#list_fbook').val('').focus()";
+            // if($idfbook=="" or $idfbook==999){ 
+            //     $check["Msg"]="Seleccione un formato del material bibliográfico ";
+            //     $check["Error"]=1;
+            //     $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+            //     $check["focus"]="$('#list_fbook').val('').focus()";
                 
-            }
-            else{
-                $check["idfbook"]=$idfbook;
-                $check["fbook_descripcion"]=$fbook_des;
+            // }
+            // else{
+            //     $check["idfbook"]=$idfbook;
+            //     $check["fbook_descripcion"]=$fbook_des;
 
-            }         
+            // }         
             
             if($title==""){ 
                 $check["Msg"]="Ingrese Título";
@@ -213,7 +193,7 @@ function validarPonencias($idsubcategory,$areaPRI){
         //             });
         //     ");
         // $result = Query_input();
-        if ($_SESSION["required"]["ISSN"]==1) {
+        if ($_SESSION["required"]["ISSN"]==1 || isset($recuperar["ISSN"]) ) {
 
              $ISSN = (isset($recuperar["ISSN"]))?$recuperar["ISSN"]:""; 
         
@@ -227,20 +207,24 @@ function validarPonencias($idsubcategory,$areaPRI){
                 $check["ISSN"]=$ISSN;                
             } 
         }
-        if ($_SESSION["required"]["languaje"]==1) {
+        if ($_SESSION["required"]["languaje"]==1 || isset($recuperar["languaje"])) {
             $languaje = isset($recuperar["languaje"])?$recuperar["languaje"]:"";
-            if($languaje==""){ 
-                $check["Msg"]="Ingrese Idioma";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
-                $check["focus"]="$('#languaje').focus()";
-            }
-            else{
-                $check["languaje"]=$languaje;
-
-            } 
+            
+            $check["languaje"]=array();
+            foreach ($languaje as  $value) {
+                if($value==""){ 
+                    $check["Msg"]="Ingrese Idioma";
+                    $check["Error"]=1;
+                    $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+                    $check["focus"]="$('#languaje').focus()";
+                }
+                else{                    
+                    array_push($check["languaje"], $value);
+                }                
+            }            
+            
         }
-        if ($_SESSION["required"]["NumLC"]==1) {
+        if ($_SESSION["required"]["NumLC"]==1 || isset($recuperar["NumLC"])) {
             $NumLC = isset($recuperar["NumLC"])?$recuperar["NumLC"]:"";
             if($NumLC==""){ 
                 $check["Msg"]="Ingrese Numero de Clasificación LC ";
@@ -252,7 +236,7 @@ function validarPonencias($idsubcategory,$areaPRI){
                 $check["NumLC"]=$NumLC;
             }
         }   
-        if ($_SESSION["required"]["NumDewey"]==1) {
+        if ($_SESSION["required"]["NumDewey"]==1 || isset($recuperar["NumDewey"])) {
             $NumDewey = isset($recuperar["NumDewey"])?$recuperar["NumDewey"]:"";
             if($NumDewey==""){ 
                 $check["Msg"]="Ingrese Numero de Clasificación Dewey";
@@ -264,7 +248,7 @@ function validarPonencias($idsubcategory,$areaPRI){
                 $check["NumDewey"]=$NumDewey;
             }
         } 
-        if ($_SESSION["required"]["Class_IGP"]==1) {
+        if ($_SESSION["required"]["Class_IGP"]==1 || isset($recuperar["Class_IGP"])) {
             $Class_IGP = isset($recuperar["Class_IGP"])?$recuperar["Class_IGP"]:"";
             if($Class_IGP==""){ 
                 $check["Msg"]="Ingrese Numero de Clasificación IGP";
@@ -277,7 +261,7 @@ function validarPonencias($idsubcategory,$areaPRI){
             }
         }  
 
-        if ($_SESSION["required"]["EncMat"]==1) {
+        if ($_SESSION["required"]["EncMat"]==1 || isset($recuperar["EncMat"])) {
             $EncMat = isset($recuperar["EncMat"])?$recuperar["EncMat"]:"";
             if($EncMat==""){ 
                 $check["Msg"]="Ingrese Encabezameinto de Materia";
@@ -289,7 +273,7 @@ function validarPonencias($idsubcategory,$areaPRI){
                 $check["EncMat"]=$EncMat;
             }
         }  
-        if ($_SESSION["required"]["OtherTitles"]==1) {
+        if ($_SESSION["required"]["OtherTitles"]==1 || isset($recuperar["OtherTitles"])) {
             $OtherTitles = isset($recuperar["OtherTitles"])?$recuperar["OtherTitles"]:"";
             if($OtherTitles==""){ 
                 $check["Msg"]="Ingrese Otros Títulos";
@@ -301,7 +285,7 @@ function validarPonencias($idsubcategory,$areaPRI){
                 $check["OtherTitles"]=$OtherTitles;
             }
         }   
-        if ($_SESSION["required"]["Periodicidad"]==1) {
+        if ($_SESSION["required"]["Periodicidad"]==1 || isset($recuperar["Periodicidad"])) {
             $Periodicidad = isset($recuperar["Periodicidad"])?$recuperar["Periodicidad"]:"";
             if($Periodicidad==""){ 
                 $check["Msg"]="Ingrese Periodicidad";
@@ -313,7 +297,7 @@ function validarPonencias($idsubcategory,$areaPRI){
                 $check["Periodicidad"]=$Periodicidad;
             }
         }   
-        if ($_SESSION["required"]["Serie"]==1) {
+        if ($_SESSION["required"]["Serie"]==1 || isset($recuperar["Serie"])) {
             $Serie = isset($recuperar["Serie"])?$recuperar["Serie"]:"";
             if($Serie==""){ 
                 $check["Msg"]="Ingrese Numero de Clasificación IGP";
@@ -325,7 +309,7 @@ function validarPonencias($idsubcategory,$areaPRI){
                 $check["Serie"]=$Serie;
             }
         }   
-        if ($_SESSION["required"]["NoteGeneral"]==1) {
+        if ($_SESSION["required"]["NoteGeneral"]==1 || isset($recuperar["NoteGeneral"])) {
             $NoteGeneral = isset($recuperar["NoteGeneral"])?$recuperar["NoteGeneral"]:"";
             if($NoteGeneral==""){ 
                 $check["Msg"]="Ingrese Numero de Clasificación IGP";
@@ -338,7 +322,7 @@ function validarPonencias($idsubcategory,$areaPRI){
             }
         }
 
-        if ($_SESSION["required"]["NoteTesis"]==1) {
+        if ($_SESSION["required"]["NoteTesis"]==1 || isset($recuperar["NoteTesis"])) {
             $NoteTesis = isset($recuperar["NoteTesis"])?$recuperar["NoteTesis"]:"";
             if($NoteTesis==""){ 
                 $check["Msg"]="Ingrese Numero de Clasificación IGP";
@@ -350,7 +334,7 @@ function validarPonencias($idsubcategory,$areaPRI){
                 $check["NoteTesis"]=$NoteTesis;
             }
         }
-        if ($_SESSION["required"]["NoteBiblio"]==1) {
+        if ($_SESSION["required"]["NoteBiblio"]==1 || isset($recuperar["NoteBiblio"])) {
             $NoteBiblio = isset($recuperar["NoteBiblio"])?$recuperar["NoteBiblio"]:"";
             if($NoteBiblio==""){ 
                 $check["Msg"]="Ingrese Numero de Clasificación IGP";
@@ -362,7 +346,7 @@ function validarPonencias($idsubcategory,$areaPRI){
                 $check["NoteBiblio"]=$NoteBiblio;
             }
         } 
-        if ($_SESSION["required"]["NoteConte"]==1) {
+        if ($_SESSION["required"]["NoteConte"]==1 || isset($recuperar["NoteConte"])) {
             $NoteConte = isset($recuperar["NoteConte"])?$recuperar["NoteConte"]:"";
             if($NoteConte==""){ 
                 $check["Msg"]="Ingrese Numero de Clasificación IGP";
@@ -374,7 +358,7 @@ function validarPonencias($idsubcategory,$areaPRI){
                 $check["NoteConte"]=$NoteConte;
             }
         } 
-        if ($_SESSION["required"]["DesPersonal"]==1) {
+        if ($_SESSION["required"]["DesPersonal"]==1 || isset($recuperar["DesPersonal"])) {
             $DesPersonal = isset($recuperar["DesPersonal"])?$recuperar["DesPersonal"]:"";
             if($DesPersonal==""){ 
                 $check["Msg"]="Ingrese Numero de Clasificación IGP";
@@ -386,7 +370,7 @@ function validarPonencias($idsubcategory,$areaPRI){
                 $check["DesPersonal"]=$DesPersonal;
             }
         } 
-        if ($_SESSION["required"]["MatEntidad"]==1) {
+        if ($_SESSION["required"]["MatEntidad"]==1 || isset($recuperar["MatEntidad"])) {
             $MatEntidad = isset($recuperar["MatEntidad"])?$recuperar["MatEntidad"]:"";
             if($MatEntidad==""){ 
                 $check["Msg"]="Ingrese Numero de Clasificación IGP";
@@ -399,7 +383,7 @@ function validarPonencias($idsubcategory,$areaPRI){
             }
         } 
 
-        if ($_SESSION["required"]["Descriptor"]==1) {
+        if ($_SESSION["required"]["Descriptor"]==1 || isset($recuperar["Descriptor"])) {
             $Descriptor = isset($recuperar["Descriptor"])?$recuperar["Descriptor"]:"";
             if($Descriptor==""){ 
                 $check["Msg"]="Ingrese Numero de Clasificación IGP";
@@ -411,7 +395,7 @@ function validarPonencias($idsubcategory,$areaPRI){
                 $check["Descriptor"]=$Descriptor;
             }
         } 
-        if ($_SESSION["required"]["Descriptor_geo"]==1) {
+        if ($_SESSION["required"]["Descriptor_geo"]==1 || isset($recuperar["Descriptor_geo"])) {
             $Descriptor_geo = isset($recuperar["Descriptor_geo"])?$recuperar["Descriptor_geo"]:"";
             if($Descriptor_geo==""){ 
                 $check["Msg"]="Ingrese Numero de Clasificación IGP";
@@ -423,7 +407,7 @@ function validarPonencias($idsubcategory,$areaPRI){
                 $check["Descriptor_geo"]=$Descriptor_geo;
             }
         } 
-        if ($_SESSION["required"]["CongSec"]==1) {
+        if ($_SESSION["required"]["CongSec"]==1 || isset($recuperar["CongSec"])) {
             $CongSec = isset($recuperar["CongSec"])?$recuperar["CongSec"]:"";
             if($CongSec==""){ 
                 $check["Msg"]="Ingrese Numero de Clasificación IGP";
@@ -435,7 +419,7 @@ function validarPonencias($idsubcategory,$areaPRI){
                 $check["CongSec"]=$CongSec;
             }
         } 
-        if ($_SESSION["required"]["TitSec"]==1) {
+        if ($_SESSION["required"]["TitSec"]==1 || isset($recuperar["TitSec"])) {
             $TitSec = isset($recuperar["TitSec"])?$recuperar["TitSec"]:"";
             if($TitSec==""){ 
                 $check["Msg"]="Ingrese Numero de Clasificación IGP";
@@ -447,7 +431,7 @@ function validarPonencias($idsubcategory,$areaPRI){
                 $check["TitSec"]=$TitSec;
             }
         } 
-        if ($_SESSION["required"]["Fuente"]==1) {
+        if ($_SESSION["required"]["Fuente"]==1 || isset($recuperar["Fuente"])) {
             $Fuente = isset($recuperar["Fuente"])?$recuperar["Fuente"]:"";
             if($Fuente==""){ 
                 $check["Msg"]="Ingrese Numero de Clasificación IGP";
@@ -459,7 +443,7 @@ function validarPonencias($idsubcategory,$areaPRI){
                 $check["Fuente"]=$Fuente;
             }
         } 
-        if ($_SESSION["required"]["NumIng"]==1) {
+        if ($_SESSION["required"]["NumIng"]==1 || isset($recuperar["NumIng"])) {
             $NumIng = isset($recuperar["NumIng"])?$recuperar["NumIng"]:"";
             if($NumIng==""){ 
                 $check["Msg"]="Ingrese Numero de Clasificación IGP";
@@ -471,7 +455,7 @@ function validarPonencias($idsubcategory,$areaPRI){
                 $check["NumIng"]=$NumIng;
             }
         } 
-        if ($_SESSION["required"]["UbicElect"]==1) {
+        if ($_SESSION["required"]["UbicElect"]==1 || isset($recuperar["UbicElect"])) {
             $UbicElect = isset($recuperar["UbicElect"])?$recuperar["UbicElect"]:"";
             if($UbicElect==""){ 
                 $check["Msg"]="Ingrese Numero de Clasificación IGP";
@@ -483,7 +467,7 @@ function validarPonencias($idsubcategory,$areaPRI){
                 $check["UbicElect"]=$UbicElect;
             }
         } 
-        if ($_SESSION["required"]["ModAdqui"]==1) {
+        if ($_SESSION["required"]["ModAdqui"]==1 || isset($recuperar["ModAdqui"])) {
             $ModAdqui = isset($recuperar["ModAdqui"])?$recuperar["ModAdqui"]:"";
             if($ModAdqui==""){ 
                 $check["Msg"]="Ingrese Numero de Clasificación IGP";
@@ -495,7 +479,7 @@ function validarPonencias($idsubcategory,$areaPRI){
                 $check["ModAdqui"]=$ModAdqui;
             }
         } 
-        if ($_SESSION["required"]["Catalogador"]==1) {
+        if ($_SESSION["required"]["Catalogador"]==1 || isset($recuperar["Catalogador"])) {
             $Catalogador = isset($recuperar["Catalogador"])?$recuperar["Catalogador"]:"";
             if($Catalogador==""){ 
                 $check["Msg"]="Ingrese Numero de Clasificación IGP";

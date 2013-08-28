@@ -794,7 +794,7 @@
 		// Muestra los tabs por default
 	    $objResponse->script("xajax_displaydiv('titulo_tipo_prepor','titulo1')");        
 	    
-	    $objResponse->alert(print_r($_SESSION["edit"],TRUE));
+	    // $objResponse->alert(print_r($_SESSION["edit"],TRUE));
 	    $titulo="Detalle";
 		if(isset($_SESSION["edit"])){
 		    $recuperar=$_SESSION["edit"];
@@ -885,6 +885,8 @@
 				<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' />
 				</div>
 			</div>
+
+			<!-- comentado temporalmente>
 			<div class='control-group'>
 				<label class='control-label' for='list_fbook'>formato</label>
 				<div class='controls'>
@@ -924,6 +926,7 @@
 				<textarea placeholder='Escriba aqui el resumen' onchange='xajax_registerSumary(this.value); return false;' id='summary' name='summary' rows='3' >$summary</textarea>
 				</div>
 			</div>
+			<fin comentado temporalmente-->
 			<div id='input_secundary'></div>
 			<!-- fin campos requeridos -->
 			       		
@@ -1062,13 +1065,9 @@
 
 	} 
 	function ListCampos($id){
-		$objResponse = new xajaxResponse();
+		$objResponse = new xajaxResponse();				
 
-				
-
-		$result = Query_input($id);	
-
-		
+		$result = Query_input($id);			
 
 		$html = $result["html"];
 		
@@ -1083,14 +1082,14 @@
 		if (isset($_SESSION["edit"])) {
 			$recuperar = $_SESSION["edit"];
 		}
-		if(isset($recuperar["languaje"])){            
-            $objResponse->script("
-            			$('#languaje').attr('value','".$recuperar["languaje"]."');
-            			");
-        }
-        else{
-            $languaje="";
-        }	
+		// if(isset($recuperar["languaje"])){            
+  //           $objResponse->script("
+  //           			$('#languaje').attr('value','".$recuperar["languaje"]."');
+  //           			");
+  //       }
+  //       else{
+  //           $languaje="";
+  //       }	
 		return $objResponse;
 
 	} 
@@ -1114,6 +1113,11 @@
 
 		$recuperar = (isset($_SESSION["edit"])?$_SESSION["edit"]:"");
 		$respuesta["html"] = "<div class='control-group' id='$id'>";
+		//agregar y eliminar input
+		 
+		// $respuest["add"] = "<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>";
+		// $respuesta["del"] = "<span><a href='#' onclick='$(\"#".$id."_".$k."\").remove(); return false;'>(-)Eliminar</a></span>";
+		
 		switch ($id) {
 
 				case '001':
@@ -1124,39 +1128,88 @@
 								<div class='controls'><input type='text' id='ISSN' placeholder='Codigo ISSN' onchange='xajax_register_input(this.value,\"ISSN\",\"ISSN\"); return false;' value='$ISSN'> </div>";
 					break;
 				case '002':									
-			        $languaje=(isset($recuperar["languaje"])?$recuperar["languaje"]:"");			        
+			        // $languaje=(isset($recuperar["languaje"])?$recuperar["languaje"]:"");			        
 					$respuesta["idinput"] = "languaje";
 					$respuesta["labelinput"] = "Idioma";
-					$respuesta["html"] .= "
+					
+					if (isset($recuperar["languaje"])) {
+						$respuesta["html"] .= "<label class='control-label' for='languaje'>Idiomas</label>";
+						for ($k=0; $k < count($recuperar["languaje"]); $k++) {
+							 $languaje=(isset($recuperar["languaje"][$k])?$recuperar["languaje"][$k]:"");
+							
+							$respuesta["html"] .= "
+								    <div class='controls' id='".$id."_".($k+1)."'>
+								      <input type='text' id='languaje_".$k."' placeholder='Ejm. esp.' onchange='xajax_register_input(this.value,\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;' value='$languaje'>
+									
+								    ";
+							// $respuesta["html"] .=($k==0?$respuesta["add"]:$respuesta["del"]);	    
+							  if ($k==0) {						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
+								    ";
+							  }
+							  else{						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='$(\"#".$id."_".($k+1)."\").remove(); return false;'>(-)Eliminar</a></span>
+								    ";
+							  }
+							 $respuesta["html"] .="</div>";							
+							}
+					}
+					else{
+						$respuesta["html"] .= "
 							    <label class='control-label' for='languaje'>Idiomas</label> 
 							    							    <div class='controls'>
 							      <input type='text' id='languaje' placeholder='Idiomas' onchange='xajax_register_input(this.value,\"Idioma\",\"languaje\"); return false;' value='$languaje'>
+							      <span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
 							    </div>
 							";
+					}
+					
+					// $respuesta["html"] .= "
+					// 		    <label class='control-label' for='languaje'>Idiomas</label> 
+					// 		    							    <div class='controls'>
+					// 		      <input type='text' id='languaje' placeholder='Idiomas' onchange='xajax_register_input(this.value,\"Idioma\",\"languaje\"); return false;' value='$languaje'>
+					// 		    </div>
+					// 		";
 					break;
 				case '003':
 					// $NumLC=(isset($recuperar["NumLC"])?$recuperar["NumLC"]:"");
 					$respuesta["idinput"] = "NumLC";
 					$respuesta["labelinput"] = "Número de Clasificacion LC";
-					if (count($respuesta["NumLC"])>1) {
-						for ($k=0; $k < count($recuperar["NumLC"]); $k++) { 
-						$NumLC=(isset($recuperar["NumLC"][$k])?$recuperar["NumLC"][$k]:"");
-						$respuesta["html"] .= "<label class='control-label' for='NumLC'>Número de Clasificacion LC</label>
-							    <div class='controls'>
-							      <input type='text' id='NumLC' placeholder='Ejm. QE39 .P37 1986
-							' onchange='xajax_register_input(this.value,\"Num. Clasficacion LC\",\"NumLC\"); return false;' value='$NumLC'>
-							    </div>";
-						}
+
+					if (isset($recuperar["NumLC"])) {
+						$respuesta["html"] .= "<label class='control-label' for='NumLC'>Número de Clasificacion LC</label>";
+						for ($k=0; $k < count($recuperar["NumLC"]); $k++) {
+							$NumLC=(isset($recuperar["NumLC"][$k])?$recuperar["NumLC"][$k]:"");
+							$respuesta["html"] .= "
+								    <div class='controls' id='".$id."_".($k+1)."'>
+								      <input type='text' id='NumLC_".$k."' placeholder='Ejm. QE39 .P37 1986
+								' onchange='xajax_register_input(this.value,\"Num. Clasficacion LC\",\"NumLC\"); return false;' value='$NumLC'>
+									
+								    ";
+							// $respuesta["html"] .=($k==0?$respuesta["add"]:$respuesta["del"]);	    
+							  if ($k==0) {						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
+								    ";
+							  }
+							  else{						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='$(\"#".$id."_".($k+1)."\").remove(); return false;'>(-)Eliminar</a></span>
+								    ";
+							  }
+							 $respuesta["html"] .="</div>";
+							
+							}
 					}
 					else{
-						$NumLC=(isset($recuperar["NumLC"])?$recuperar["NumLC"]:"");
-						$respuesta["html"] .= "<label class='control-label' for='NumLC'>Número de Clasificacion LC</label>
+						$respuesta["html"] .= "
+							    <label class='control-label' for='NumLC'>Número de Clasificacion LC</label>
 							    <div class='controls'>
 							      <input type='text' id='NumLC' placeholder='Ejm. QE39 .P37 1986
 							' onchange='xajax_register_input(this.value,\"Num. Clasficacion LC\",\"NumLC\"); return false;' value='$NumLC'>
-							    </div>";						
+							<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
+							    </div>
+							";
 					}
-
+					
 					
 					// $respuesta["html"] .= "
 					// 		    <label class='control-label' for='NumLC'>Número de Clasificacion LC</label>
@@ -1190,27 +1243,90 @@
 							";
 					break;
 				case '006':
-					$EncMat=(isset($recuperar["EncMat"])?$recuperar["EncMat"]:"");
+					// $EncMat=(isset($recuperar["EncMat"])?$recuperar["EncMat"]:"");
 					$respuesta["idinput"] = "EncMat";
 					$respuesta["labelinput"] = "Encabezameinto de Materia";
-					$respuesta["html"] .="
+
+					if (isset($recuperar["EncMat"])) {
+						$respuesta["html"] .= "<label class='control-label' for='EncMat'>Encabezamiento de Materia</label>";
+						for ($k=0; $k < count($recuperar["EncMat"]); $k++) {
+							$EncMat=(isset($recuperar["EncMat"][$k])?$recuperar["EncMat"][$k]:"");
+							$respuesta["html"] .= "
+								    <div class='controls' id='".$id."_".($k+1)."'>
+								      <input type='text' id='EncMat_".$k."' placeholder='Encabezameinto de Materia' onchange='xajax_register_input(this.value,\"Encabezamiento de Materia\",\"EncMat\"); return false;' value='$EncMat'>
+									
+								    ";
+							  if ($k==0) {						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
+								    ";
+							  }
+							  else{						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='$(\"#".$id."_".($k+1)."\").remove(); return false;'>(-)Eliminar</a></span>
+								    ";
+							  }
+							 $respuesta["html"] .="</div>";
+							
+							}
+					}
+					else{
+						$respuesta["html"] .="
 							    <label class='control-label' for='EncMat'>Encabezamiento de Materia</label>
 							    <div class='controls'>
 							      <input type='text' id='EncMat' placeholder='Encabezameinto de Materia' onchange='xajax_register_input(this.value,\"Encabezamiento de Materia\",\"EncMat\"); return false;' value='$EncMat'>
+							      <span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
 							    </div>
 							";
+					}
+					// $respuesta["html"] .="
+					// 		    <label class='control-label' for='EncMat'>Encabezamiento de Materia</label>
+					// 		    <div class='controls'>
+					// 		      <input type='text' id='EncMat' placeholder='Encabezameinto de Materia' onchange='xajax_register_input(this.value,\"Encabezamiento de Materia\",\"EncMat\"); return false;' value='$EncMat'>
+					// 		    </div>
+					// 		";
 					break;
 				case '007':
-					$OtherTitles=(isset($recuperar["OtherTitles"])?$recuperar["OtherTitles"]:"");
+					// $OtherTitles=(isset($recuperar["OtherTitles"])?$recuperar["OtherTitles"]:"");
 					$respuesta["idinput"] = "OtherTitles";
 					$respuesta["labelinput"] = "Otros Títulos";
-					$respuesta["html"] .="
+
+					if (isset($recuperar["OtherTitles"])) {
+						$respuesta["html"] .= "<label class='control-label' for='OtherTitles'>Otros Títulos </label>";
+						for ($k=0; $k < count($recuperar["OtherTitles"]); $k++) {
+							$OtherTitles=(isset($recuperar["OtherTitles"][$k])?$recuperar["OtherTitles"][$k]:"");
+							$respuesta["html"] .= "
+								    <div class='controls' id='".$id."_".($k+1)."'>
+								      <input type='text' id='OtherTitles_".$k."' placeholder='Título y mención de responsabilidad' onchange='xajax_register_input(this.value,\"Otros Títulos\",\"OtherTitles\"); return false;' value='$OtherTitles'>
+									
+								    ";
+							  if ($k==0) {						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
+								    ";
+							  }
+							  else{						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='$(\"#".$id."_".($k+1)."\").remove(); return false;'>(-)Eliminar</a></span>
+								    ";
+							  }
+							 $respuesta["html"] .="</div>";
+							
+							}
+					}
+					else{
+						$respuesta["html"] .="
 							    <label class='control-label' for='OtherTitles'>Otros Títulos 
 							</label>
 							    <div class='controls'>
 							      <input type='text' id='OtherTitles' placeholder='Título y mención de responsabilidad' onchange='xajax_register_input(this.value,\"Otros Títulos\",\"OtherTitles\"); return false;' value='$OtherTitles'>
+							      <span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
 							    </div>
 							";
+					}
+					// $respuesta["html"] .="
+					// 		    <label class='control-label' for='OtherTitles'>Otros Títulos 
+					// 		</label>
+					// 		    <div class='controls'>
+					// 		      <input type='text' id='OtherTitles' placeholder='Título y mención de responsabilidad' onchange='xajax_register_input(this.value,\"Otros Títulos\",\"OtherTitles\"); return false;' value='$OtherTitles'>
+					// 		    </div>
+					// 		";
 					break;
 				case '008':
 					$Periodicidad=(isset($recuperar["Periodicidad"])?$recuperar["Periodicidad"]:"");
@@ -1224,26 +1340,83 @@
 							";
 					break;
 				case '009':
-					$Serie=(isset($recuperar["Serie"])?$recuperar["Serie"]:"");
+					// $Serie=(isset($recuperar["Serie"])?$recuperar["Serie"]:"");
 					$respuesta["idinput"] = "Serie";
 					$respuesta["labelinput"] = "Serie";
-					$respuesta["html"] .="
+
+					if (isset($recuperar["Serie"])) {
+						$respuesta["html"] .= "<label class='control-label' for='Serie'>Serie</label>";
+						for ($k=0; $k < count($recuperar["Serie"]); $k++) {
+							$Serie=(isset($recuperar["Serie"][$k])?$recuperar["Serie"][$k]:"");
+							$respuesta["html"] .= "
+								    <div class='controls' id='".$id."_".($k+1)."'>
+								      <input type='text' id='Serie_".$k."' placeholder='Serie' onchange='xajax_register_input(this.value,\"Serie\",\"Serie\"); return false;' value='$Serie'>
+									
+								    ";
+							  if ($k==0) {						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>";
+							  }
+							  else{						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='$(\"#".$id."_".($k+1)."\").remove(); return false;'>(-)Eliminar</a></span>";
+							  }
+							 $respuesta["html"] .="</div>";
+							
+							}
+					}
+					else{
+						$respuesta["html"] .="
 							    <label class='control-label' for='Serie'>Serie</label>
 							    <div class='controls'>
 							      <input type='text' id='Serie' placeholder='Serie' onchange='xajax_register_input(this.value,\"Serie\",\"Serie\"); return false;' value='$Serie'>
+							      <span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
 							    </div>
 							";
+					}
+					
+					// $respuesta["html"] .="
+					// 		    <label class='control-label' for='Serie'>Serie</label>
+					// 		    <div class='controls'>
+					// 		      <input type='text' id='Serie' placeholder='Serie' onchange='xajax_register_input(this.value,\"Serie\",\"Serie\"); return false;' value='$Serie'>
+					// 		    </div>
+					// 		";
 					break;
 				case '010':
-					$NoteGeneral=(isset($recuperar["NoteGeneral"])?$recuperar["NoteGeneral"]:"");
+					// $NoteGeneral=(isset($recuperar["NoteGeneral"])?$recuperar["NoteGeneral"]:"");
 					$respuesta["idinput"] = "NoteGeneral";
 					$respuesta["labelinput"] = "Notas Generales";
-					$respuesta["html"] .="
+
+					if (isset($recuperar["NoteGeneral"])) {
+						$respuesta["html"] .= "<label class='control-label' for='NoteGeneral'>Notas Generales</label>";
+						for ($k=0; $k < count($recuperar["NoteGeneral"]); $k++) {
+							$NoteGeneral=(isset($recuperar["NoteGeneral"][$k])?$recuperar["NoteGeneral"][$k]:"");
+							$respuesta["html"] .= "
+								    <div class='controls' id='".$id."_".($k+1)."'>
+								      <input type='text' id='NoteGeneral_".$k."' placeholder='Notas Generales' onchange='xajax_register_input(this.value,\"Notas Generales\",\"NoteGeneral\"); return false;' value='$NoteGeneral'>";
+							  if ($k==0) {						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>";
+							  }
+							  else{						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='$(\"#".$id."_".($k+1)."\").remove(); return false;'>(-)Eliminar</a></span>";
+							  }
+							 $respuesta["html"] .="
+							 		  </div>";						
+							}
+					}
+					else{
+						$respuesta["html"] .="
 							    <label class='control-label' for='NoteGeneral'>Notas Generales</label>
 							    <div class='controls'>
 							      <input type='text' id='NoteGeneral' placeholder='Notas Generales' onchange='xajax_register_input(this.value,\"Notas Generales\",\"NoteGeneral\"); return false;' value='$NoteGeneral'>
+							      <span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
 							    </div>
 							";
+					}
+					// $respuesta["html"] .="
+					// 		    <label class='control-label' for='NoteGeneral'>Notas Generales</label>
+					// 		    <div class='controls'>
+					// 		      <input type='text' id='NoteGeneral' placeholder='Notas Generales' onchange='xajax_register_input(this.value,\"Notas Generales\",\"NoteGeneral\"); return false;' value='$NoteGeneral'>
+					// 		    </div>
+					// 		";
 					break;
 				case '011':
 					$NoteTesis=(isset($recuperar["NoteTesis"])?$recuperar["NoteTesis"]:"");
@@ -1279,53 +1452,165 @@
 							";
 					break;
 				case '014':
-					$DesPersonal=(isset($recuperar["DesPersonal"])?$recuperar["DesPersonal"]:"");
+					// $DesPersonal=(isset($recuperar["DesPersonal"])?$recuperar["DesPersonal"]:"");
 					$respuesta["idinput"] = "DesPersonal";
 					$respuesta["labelinput"] = "Descripción Personal";
-					$respuesta["html"] .="
+
+					if (isset($recuperar["DesPersonal"])) {
+						$respuesta["html"] .= "<label class='control-label' for='DesPersonal'>Descripción Personal</label>";
+						for ($k=0; $k < count($recuperar["DesPersonal"]); $k++) {
+							$DesPersonal=(isset($recuperar["DesPersonal"][$k])?$recuperar["DesPersonal"][$k]:"");
+							$respuesta["html"] .= "
+								    <div class='controls' id='".$id."_".($k+1)."'>
+								      <input type='text' id='DesPersonal_".$k."' placeholder='Descripción Personal' onchange='xajax_register_input(this.value,\"Descripción Personal\",\"DesPersonal\"); return false;' value='$DesPersonal'>";
+							  if ($k==0) {						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>";
+							  }
+							  else{						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='$(\"#".$id."_".($k+1)."\").remove(); return false;'>(-)Eliminar</a></span>";
+							  }
+							 $respuesta["html"] .="
+							 		  </div>";						
+							}
+					}
+					else{
+						$respuesta["html"] .="
 							    <label class='control-label' for='DesPersonal'>Descripción Personal</label>
 							    <div class='controls'>
 							      <input type='text' id='DesPersonal' placeholder='Descripción Personal' onchange='xajax_register_input(this.value,\"Descripción Personal\",\"DesPersonal\"); return false;' value='$DesPersonal'>
+							      <span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
 							    </div>
 							";
+					}
+					// $respuesta["html"] .="
+					// 		    <label class='control-label' for='DesPersonal'>Descripción Personal</label>
+					// 		    <div class='controls'>
+					// 		      <input type='text' id='DesPersonal' placeholder='Descripción Personal' onchange='xajax_register_input(this.value,\"Descripción Personal\",\"DesPersonal\"); return false;' value='$DesPersonal'>
+					// 		    </div>
+					// 		";
 					break;
 				case '015':
-					$MatEntidad=(isset($recuperar["MatEntidad"])?$recuperar["MatEntidad"]:"");
+					// $MatEntidad=(isset($recuperar["MatEntidad"])?$recuperar["MatEntidad"]:"");
 					$respuesta["idinput"] = "MatEntidad";
 					$respuesta["labelinput"] = "Materia como entidad";
-					$respuesta["html"] .="
+
+					if (isset($recuperar["MatEntidad"])) {
+						$respuesta["html"] .= "<label class='control-label' for='MatEntidad'>Materia como entidad</label>";
+						for ($k=0; $k < count($recuperar["MatEntidad"]); $k++) {
+							$MatEntidad=(isset($recuperar["MatEntidad"][$k])?$recuperar["MatEntidad"][$k]:"");
+							$respuesta["html"] .= "
+								    <div class='controls' id='".$id."_".($k+1)."'>
+								      <input type='text' id='MatEntidad_".$k."' placeholder='Materia como entidad' onchange='xajax_register_input(this.value,\"Otros Títulos\",\"OtherTitles\"); return false;' value='$MatEntidad'>";
+							  if ($k==0) {						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>";
+							  }
+							  else{						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='$(\"#".$id."_".($k+1)."\").remove(); return false;'>(-)Eliminar</a></span>";
+							  }
+							 $respuesta["html"] .="
+							 		  </div>";						
+							}
+					}
+					else{
+						$respuesta["html"] .="
 							    <label class='control-label' for='MatEntidad'>Materia como entidad</label>
 							    <div class='controls'>
 							      <input type='text' id='MatEntidad' placeholder='Materia como entidad' onchange='xajax_register_input(this.value,\"Otros Títulos\",\"OtherTitles\"); return false;' value='$MatEntidad'>
+							      <span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
 							    </div>
 							";
+					}
+					
+					// $respuesta["html"] .="
+					// 		    <label class='control-label' for='MatEntidad'>Materia como entidad</label>
+					// 		    <div class='controls'>
+					// 		      <input type='text' id='MatEntidad' placeholder='Materia como entidad' onchange='xajax_register_input(this.value,\"Otros Títulos\",\"OtherTitles\"); return false;' value='$MatEntidad'>
+					// 		    </div>
+					// 		";
 					break;
 				case '016':
-					$Descriptor=(isset($recuperar["Descriptor"])?$recuperar["Descriptor"]:"");
+					// $Descriptor=(isset($recuperar["Descriptor"])?$recuperar["Descriptor"]:"");
 					$respuesta["idinput"] = "Descriptor";
 					$respuesta["labelinput"] = "Descriptor";
-					$respuesta["html"] .="
+
+					if (isset($recuperar["Descriptor"])) {
+						$respuesta["html"] .= "<label class='control-label' for='Descriptor'>Descriptor</label>";
+						for ($k=0; $k < count($recuperar["Descriptor"]); $k++) {
+							$Descriptor=(isset($recuperar["Descriptor"][$k])?$recuperar["Descriptor"][$k]:"");
+							$respuesta["html"] .= "
+								    <div class='controls' id='".$id."_".($k+1)."'>
+								      <input type='text' id='Descriptor_".$k."' placeholder='Ingrese Descriptor' onchange='xajax_register_input(this.value,\"Descriptor\",\"Descriptor\"); return false;' value='$Descriptor'>";
+							  if ($k==0) {						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>";
+							  }
+							  else{						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='$(\"#".$id."_".($k+1)."\").remove(); return false;'>(-)Eliminar</a></span>";
+							  }
+							 $respuesta["html"] .="
+							 		  </div>";						
+							}
+					}
+					else{
+						$respuesta["html"] .="
 							    <label class='control-label' for='Descriptor'>Descriptor</label>
 							    <div class='controls'>
 							      <input type='text' id='Descriptor' placeholder='Ingrese Descriptor' onchange='xajax_register_input(this.value,\"Descriptor\",\"Descriptor\"); return false;' value='$Descriptor'>
+							      <span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
 							    </div>
 							";
+					}
+					
+					// $respuesta["html"] .="
+					// 		    <label class='control-label' for='Descriptor'>Descriptor</label>
+					// 		    <div class='controls'>
+					// 		      <input type='text' id='Descriptor' placeholder='Ingrese Descriptor' onchange='xajax_register_input(this.value,\"Descriptor\",\"Descriptor\"); return false;' value='$Descriptor'>
+					// 		    </div>
+					// 		";
 					break;				
 				case '017':
-					$Descriptor_geo=(isset($recuperar["Descriptor_geo"])?$recuperar["Descriptor_geo"]:"");
+					// $Descriptor_geo=(isset($recuperar["Descriptor_geo"])?$recuperar["Descriptor_geo"]:"");
 					$respuesta["idinput"] = "Descriptor_geo";
 					$respuesta["labelinput"] = "Descriptor Geográfico";
-					$respuesta["html"] .="
+
+					if (isset($recuperar["Descriptor_geo"])) {
+						$respuesta["html"] .= "<label class='control-label' for='Descriptor_geo'>Descriptor Geográfico</label>";
+						for ($k=0; $k < count($recuperar["Descriptor_geo"]); $k++) {
+							$Descriptor_geo=(isset($recuperar["Descriptor_geo"][$k])?$recuperar["Descriptor_geo"][$k]:"");
+							$respuesta["html"] .= "
+								    <div class='controls' id='".$id."_".($k+1)."'>
+								      <input type='text' id='Descriptor_geo_".$k."' placeholder='Ingrese Descriptor Geografico' onchange='xajax_register_input(this.value,\"Descriptor Geográfico\",\"Descriptor_geo\"); return false;' value='$Descriptor_geo'>";
+							  if ($k==0) {						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>";
+							  }
+							  else{						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='$(\"#".$id."_".($k+1)."\").remove(); return false;'>(-)Eliminar</a></span>";
+							  }
+							 $respuesta["html"] .="
+							 		  </div>";						
+							}
+					}
+					else{
+						$respuesta["html"] .="
 							    <label class='control-label' for='Descriptor_geo'>Descriptor Geográfico</label>
 							    <div class='controls'>
 							      <input type='text' id='Descriptor_geo' placeholder='Ingrese Descriptor Geografico' onchange='xajax_register_input(this.value,\"Descriptor Geográfico\",\"Descriptor_geo\"); return false;' value='$Descriptor_geo'>
+							      <span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
 							    </div>
 							";
+					}
+					
+					// $respuesta["html"] .="
+					// 		    <label class='control-label' for='Descriptor_geo'>Descriptor Geográfico</label>
+					// 		    <div class='controls'>
+					// 		      <input type='text' id='Descriptor_geo' placeholder='Ingrese Descriptor Geografico' onchange='xajax_register_input(this.value,\"Descriptor Geográfico\",\"Descriptor_geo\"); return false;' value='$Descriptor_geo'>
+					// 		    </div>
+					// 		";
 					break;
 				case '018':
 					$CongSec=(isset($recuperar["CongSec"])?$recuperar["CongSec"]:"");
 					$respuesta["idinput"] = "CongSec";
 					$respuesta["labelinput"] = "Congresos Secundarios";
+					
 					$respuesta["html"] .="
 								<label class='control-label' for='CongSec'>Congresos Secundarios</label>
 								<div class='controls'>
@@ -1334,42 +1619,127 @@
 							 ";
 					break;
 				case '019':
-					$TitSec=(isset($recuperar["TitSec"])?$recuperar["TitSec"]:"");
+					// $TitSec=(isset($recuperar["TitSec"])?$recuperar["TitSec"]:"");
 					$respuesta["idinput"] = "TitSec";
 					$respuesta["labelinput"] = "Titulos Secundarios";
-					$respuesta["html"] .="
+
+					if (isset($recuperar["TitSec"])) {
+						$respuesta["html"] .= "<label class='control-label' for='TitSec'>Titulos Secundarios</label>";
+						for ($k=0; $k < count($recuperar["TitSec"]); $k++) {
+							$TitSec=(isset($recuperar["TitSec"][$k])?$recuperar["TitSec"][$k]:"");
+							$respuesta["html"] .= "
+								    <div class='controls' id='".$id."_".($k+1)."'>
+								      <input type='text' placeholder='Titulos Secundarios' onchange='xajax_register_input(this.value,\"Titulos Secundarios\",\"TitSec\"); return false;' value='$TitSec' id='TitSec_".$k."' name='TitSec_".$k."' />";
+							  if ($k==0) {						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>";
+							  }
+							  else{						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='$(\"#".$id."_".($k+1)."\").remove(); return false;'>(-)Eliminar</a></span>";
+							  }
+							 $respuesta["html"] .="
+							 		  </div>";						
+							}
+					}
+					else{
+						$respuesta["html"] .="
 								<label class='control-label' for='TitSec'>Titulos Secundarios</label>
 								<div class='controls'>
 								<input type='text' placeholder='Titulos Secundarios' onchange='xajax_register_input(this.value,\"Titulos Secundarios\",\"TitSec\"); return false;' value='$TitSec' id='TitSec' name='TitSec'  />
+								<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
 								</div>
 							 ";
+
+					}
+					
+					// $respuesta["html"] .="
+					// 			<label class='control-label' for='TitSec'>Titulos Secundarios</label>
+					// 			<div class='controls'>
+					// 			<input type='text' placeholder='Titulos Secundarios' onchange='xajax_register_input(this.value,\"Titulos Secundarios\",\"TitSec\"); return false;' value='$TitSec' id='TitSec' name='TitSec'  />
+					// 			</div>
+					// 		 ";
 					break;
 				case '020':
-					$Fuente=(isset($recuperar["Fuente"])?$recuperar["Fuente"]:"");
+					// $Fuente=(isset($recuperar["Fuente"])?$recuperar["Fuente"]:"");
 					$respuesta["idinput"] = "Fuente";
 					$respuesta["labelinput"] = "Fuente";
-					$respuesta["html"] .="
-								<label class='control-label' for='Fuente'>Fuente</label>
+					
+					if (isset($recuperar["Fuente"])) {
+						$respuesta["html"] .= "<label class='control-label' for='Fuente'>Fuente</label>";
+						for ($k=0; $k < count($recuperar["Fuente"]); $k++) {
+						$Fuente=(isset($recuperar["Fuente"][$k])?$recuperar["Fuente"][$k]:"");
+						$respuesta["html"] .= "
+							    <div class='controls' id='".$id."_".($k+1)."'>
+							      <input type='text' placeholder='Fuente' onchange='xajax_register_input(this.value,\"Fuente\",\"Fuente\"); return false;' value='$Fuente' id='Fuente_".$k."' name='Fuente_".$k."' />";
+						  if ($k==0) {						 	
+							$respuesta["html"] .= "<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>";
+						  }
+						  else{						 	
+							$respuesta["html"] .= "<span><a href='#' onclick='$(\"#".$id."_".($k+1)."\").remove(); return false;'>(-)Eliminar</a></span>";
+						  }
+						 $respuesta["html"] .="
+						 		  </div>";						
+						}
+					}
+					else{
+						$respuesta["html"] .="
+								<label class='control-label' for='Fuente'>Fuentes</label>
 								<div class='controls'>
-								<input type='text' placeholder='Congresos Secundarios' onchange='xajax_register_input(this.value,\"Fuente\",\"Fuente\"); return false;' value='$Fuente' id='Fuente' name='Fuente'  />
+								<input type='text' placeholder='Fuente' onchange='xajax_register_input(this.value,\"Fuente\",\"Fuente\"); return false;' value='$Fuente' id='Fuente' name='Fuente'  />
+								<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
 								</div>
 							 ";
+					}
+					
+					// $respuesta["html"] .="
+					// 			<label class='control-label' for='Fuente'>Fuente</label>
+					// 			<div class='controls'>
+					// 			<input type='text' placeholder='Congresos Secundarios' onchange='xajax_register_input(this.value,\"Fuente\",\"Fuente\"); return false;' value='$Fuente' id='Fuente' name='Fuente'  />
+					// 			</div>
+					// 		 ";
 					break;
 				case '021':
-					$NumIng=(isset($recuperar["NumIng"])?$recuperar["NumIng"]:"");
+					// $NumIng=(isset($recuperar["NumIng"])?$recuperar["NumIng"]:"");
 					$respuesta["idinput"] = "NumIng";
 					$respuesta["labelinput"] = "Número de Ingreso";
-					$respuesta["html"] .="
+					if (isset($recuperar["NumIng"])) {
+						$respuesta["html"] .= "<label class='control-label' for='NumIng'>Número de Ingreso</label>";
+						for ($k=0; $k < count($recuperar["NumIng"]); $k++) {
+							$NumIng=(isset($recuperar["NumIng"][$k])?$recuperar["NumIng"][$k]:"");
+							$respuesta["html"] .= "
+								    <div class='controls' id='".$id."_".($k+1)."'>
+								      <input type='text' placeholder='Número de Ingreso' onchange='xajax_register_input(this.value,\"Número de Ingreso\",\"NumIng\"); return false;' value='$NumIng' id='NumIng_".$k."' name='NumIng_".$k."' />";
+							  if ($k==0) {						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>";
+							  }
+							  else{						 	
+								$respuesta["html"] .= "<span><a href='#' onclick='$(\"#".$id."_".($k+1)."\").remove(); return false;'>(-)Eliminar</a></span>";
+							  }
+							 $respuesta["html"] .="
+							 		  </div>";						
+							}
+					}
+					else{
+						$respuesta["html"] .="
 								<label class='control-label' for='NumIng'>Número de Ingreso</label>
 								<div class='controls'>
-								<input type='text' placeholder='Número de Ingreso' onchange='xajax_register_input(this.value,\"Número de Ingreso\",\"NumIng\"); return false;' value='$NumIng' id='NumIng' name='NumIng'  />
+								<input type='text' placeholder='Número de Ingreso' onchange='xajax_register_input(this.value,\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;' value='$NumIng' id='NumIng' name='NumIng'  />
+								<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
 								</div>
 							 ";
+					}
+					
+					// $respuesta["html"] .="
+					// 			<label class='control-label' for='NumIng'>Número de Ingreso</label>
+					// 			<div class='controls'>
+					// 			<input type='text' placeholder='Número de Ingreso' onchange='xajax_register_input(this.value,\"Número de Ingreso\",\"NumIng\"); return false;' value='$NumIng' id='NumIng' name='NumIng'  />
+					// 			</div>
+					// 		 ";
 					break;
 				case '022':
 					$UbicElect=(isset($recuperar["UbicElect"])?$recuperar["UbicElect"]:"");
 					$respuesta["idinput"] = "UbicElect";
 					$respuesta["labelinput"] = "Ubicación electrónica";
+
 					$respuesta["html"] .="
 								<label class='control-label' for='UbicElect'>Ubicación electrónica</label>
 								<div class='controls'>
@@ -1406,6 +1776,34 @@
 		return $respuesta;
 
 	}
+	function AddInput($id="",$labelinput="",$idinput=""){
+		$objResponse = new xajaxResponse();
+		$html = "<div class='controls' >
+								<input type='text' onchange='xajax_register_input(this.value,\"$labelinput\",\"$idinput\"); return false;' value='' id='$idinput' name='$idinput'  />
+								<span><a href='#' class='del_input'>(-)Eliminar</a></span>
+								</div>";
+		$html = eregi_replace("[\n|\r|\n\r]", ' ', $html);
+ 		$html = addslashes($html);	
+
+		$objResponse->script("
+				$('".$html."').appendTo('#".$id."');
+				$('#".$id." > div').each(function(index){					
+					$(this).attr('id','".$id."_'+(index+1));
+					$(this).find('a').attr('id','a_".$id."_'+(index+1));				
+						
+				});
+				$('.del_input').click(function(){
+					var idDiv = $(this).parents('div').attr('id');
+					$('#'+idDiv).remove();
+					return false;
+				})
+				
+
+			");
+
+		// $objResponse->assign("div","innerHTML",$html);
+		return $objResponse;
+	}
 
 	function NewFormat(){
 		$objResponse = new xajaxResponse();
@@ -1426,7 +1824,7 @@
 				});	");
 		return $objResponse;
 	}
-
+	
 
 	function SaveFormat($form){
 		$objResponse = new xajaxResponse();
@@ -2492,6 +2890,7 @@ function ConfirmDeleteImg($namefile,$id){
     $xajax->registerFunction('delCampos');
     $xajax->registerFunction('registerlanguaje');
     $xajax->registerFunction('register_input');
+    $xajax->registerFunction('AddInput');
 
 	$xajax->processRequest();	
 	

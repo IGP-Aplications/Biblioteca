@@ -446,11 +446,10 @@
 					// $objResponse->alert(print_r($array_files,TRUE));
                 }
                 if (isset($xmlt->languaje)) {                	
-                	$languaje = (string)$xmlt->languaje;
+                	$languaje = (array)$xmlt->languaje;
                 }
                 if (isset($xmlt->NumLC)) {
-
-                	    $NumLC = (count($xmlt->NumLC)>1?(array)$xmlt->NumLC:(string)$xmlt->NumLC);
+                	$NumLC = (array)$xmlt->NumLC;
                 }
                 if (isset($xmlt->NumDewey)) {                	
                 	$NumDewey = (string)$xmlt->NumDewey;
@@ -459,19 +458,19 @@
                 	$Class_IGP = (string)$xmlt->Class_IGP;
                 }
                 if (isset($xmlt->EncMat)) {                	
-                	$EncMat = (string)$xmlt->EncMat;
+                	$EncMat = (array)$xmlt->EncMat;
                 }
                 if (isset($xmlt->OtherTitles)) {                	
-                	$OtherTitles = (string)$xmlt->OtherTitles;
+                	$OtherTitles = (array)$xmlt->OtherTitles;
                 }
                 if (isset($xmlt->Periodicidad)) {                	
                 	$Periodicidad = (string)$xmlt->Periodicidad;
                 }
                 if (isset($xmlt->Serie)) {                	
-                	$Serie = (string)$xmlt->Serie;
+                	$Serie = (array)$xmlt->Serie;
                 }
                 if (isset($xmlt->NoteGeneral)) {                	
-                	$NoteGeneral = (string)$xmlt->NoteGeneral;
+                	$NoteGeneral = (array)$xmlt->NoteGeneral;
                 }
                 if (isset($xmlt->NoteTesis)) {                	
                 	$NoteTesis = (string)$xmlt->NoteTesis;
@@ -483,28 +482,28 @@
                 	$NoteConte = (string)$xmlt->NoteConte;
                 }
                 if (isset($xmlt->DesPersonal)) {                	
-                	$DesPersonal = (string)$xmlt->DesPersonal;
+                	$DesPersonal = (array)$xmlt->DesPersonal;
                 }
                 if (isset($xmlt->MatEntidad)) {                	
-                	$MatEntidad = (string)$xmlt->MatEntidad;
+                	$MatEntidad = (array)$xmlt->MatEntidad;
                 }
                 if (isset($xmlt->Descriptor)) {                	
-                	$Descriptor = (string)$xmlt->Descriptor;
+                	$Descriptor = (array)$xmlt->Descriptor;
                 }
                if (isset($xmlt->Descriptor_geo)) {                	
-                	$Descriptor_geo = (string)$xmlt->Descriptor_geo;
+                	$Descriptor_geo = (array)$xmlt->Descriptor_geo;
                 }
                if (isset($xmlt->CongSec)) {                	
                 	$CongSec = (string)$xmlt->CongSec;
                 }
                if (isset($xmlt->TitSec)) {                	
-                	$TitSec = (string)$xmlt->TitSec;
+                	$TitSec = (array)$xmlt->TitSec;
                 }
                if (isset($xmlt->Fuente)) {                	
-                	$Fuente = (string)$xmlt->Fuente;
+                	$Fuente = (array)$xmlt->Fuente;
                 }
                if (isset($xmlt->NumIng)) {                	
-                	$NumIng = (string)$xmlt->NumIng;
+                	$NumIng = (array)$xmlt->NumIng;                	
                 }
                if (isset($xmlt->UbicElect)) {                	
                 	$UbicElect = (string)$xmlt->UbicElect;
@@ -569,16 +568,15 @@
         $_SESSION["edit"]["desc_month_pub"]=$desc_month_pub;
         if(isset($files)){        	
         		$_SESSION["edit"]["files"] = $array_files;
-        		$objResponse->alert(print_r($_SESSION["edit"],TRUE));
+        		// $objResponse->alert(print_r($_SESSION["edit"],TRUE));
 		     
 		}
 		if (isset($languaje)) {
-			$_SESSION["edit"]["languaje"] = $languaje;
+			$_SESSION["edit"]["languaje"] = $languaje;			
 		}
 
 		if (isset($NumLC)) {
-			$_SESSION["edit"]["NumLC"] = $NumLC;
-			$objResponse->alert(print_r($NumLC,TRUE));
+			$_SESSION["edit"]["NumLC"] = $NumLC;			
 		}
 		if (isset($NumDewey)) {
 			$_SESSION["edit"]["NumDewey"] = $NumDewey;
@@ -638,7 +636,7 @@
 			$_SESSION["edit"]["UbicElect"] = $UbicElect;
 		}
 		if (isset($ModAdqui)) {
-			$_SESSION["edit"]["ModAdqui"] = $ModAdqui;
+			$_SESSION["edit"]["ModAdqui"] = $ModAdqui;			
 		}
 		if (isset($Catalogador)) {
 			$_SESSION["edit"]["Catalogador"] = $Catalogador;
@@ -3001,7 +2999,7 @@ function newPonencia($iddata=0,$action){
 $idsubcategory=isset($_SESSION["idsubcategory"])?$_SESSION["idsubcategory"]:0;               
 $resultCheck=validarPonencias($idsubcategory,$areaPRI);
 
- $objResponse->alert(print_r($_SESSION["required"]["ISSN"],TRUE));
+ $objResponse->alert(print_r($resultCheck,TRUE));
 
 if ($resultCheck["Error"]==1){
         $objResponse->alert($resultCheck["Msg"]);
