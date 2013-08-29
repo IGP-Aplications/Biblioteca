@@ -1266,12 +1266,12 @@ elseif(isset($_SESSION["tmp"])){
 
 	//     return $objResponse;
 	// }
-	function register_input($val_input,$label,$idinput){
+	function register_input($val_input,$label,$idinput, $index=""){
 		$respuesta = new RegisterInput();
 		$objresponse = new xajaxResponse();	
 		$_SESSION["required"]["$idinput"]=1; 	
 
-		$reg_response = $respuesta->register("$val_input",$label,$idinput);
+		$reg_response = $respuesta->register("$val_input",$label,$idinput, $index="");
 
 		if (isset($reg_response["msj"]) and $reg_response["msj"]!="") {
 			$objresponse->alert(print_r($reg_response["msj"],TRUE));			
@@ -1280,6 +1280,7 @@ elseif(isset($_SESSION["tmp"])){
 		
 		return $objresponse;
 	}
+	
 
 	function registraAuthorResult($form_entrada){
 	    $resultCheck=checkDataForm($form_entrada);
