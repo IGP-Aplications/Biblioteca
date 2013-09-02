@@ -645,143 +645,143 @@
 	
 	    $html='<h2 class="txt-azul">'.$tituloGeneral.'</h2>
 
-	    		<!-- List of register inputs -->
-	    		<div class="list-campos span2">
-	    		<form id="ListCampos" name="ListCampos">
-				  <fieldset>
-				    <legend>Lita de Campos </legend>
-				    <p><small>Seleccione un campo para añadir al formulario.</small> </p>
-				   	<label class="checkbox checkbox1">
-			      		<input class="ActionInput" type="checkbox" value="001"> ISSN
-			    	</label>
-			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="002" '.$languaje_ch.'> Idiomas
-			    	</label>
-			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="003" '.$NumLC_ch.'> Número de Clasificacion LC
-			    	</label>
-			    	<label class="checkbox checkbox1">
-			      		<input class="ActionInput" type="checkbox" value="004" '.$NumDewey_ch.'> Número de Clasificacion Dewey
-			    	</label>
-			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="005" '.$Class_IGP_ch.'> Clasificacion IGP
-			    	</label>
-			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="006" '.$EncMat_ch.'> Encabezamiento de Materia
-			    	</label>
-			    	<label class="checkbox checkbox1">
-			      		<input class="ActionInput" type="checkbox" value="007" '.$OtherTitles_ch.'> Otros Títulos
-			    	</label>
-			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="008" '.$Periodicidad_ch.'> Periodicidad
-			    	</label>
-			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="009" '.$Serie_ch.'> Serie
-			    	</label>
-			    	<label class="checkbox checkbox1">
-			      		<input class="ActionInput" type="checkbox" value="010" '.$NoteGeneral_ch.'> Notas Generales
-			    	</label>
-			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="011" '.$NoteTesis_ch.'> Notas Tesis
-			    	</label>
-			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="012" '.$NoteBiblio_ch.'> Notas de bibliografía
-			    	</label>
-			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="013" '.$NoteConte_ch.'> Notas de contenido
-			    	</label>
-			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="014" '.$DesPersonal_ch.'> Descripción Personal
-			    	</label>
-			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="015" '.$MatEntidad_ch.'> Materia como entidad
-			    	</label>
-			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="016" '.$Descriptor_ch.'> Descriptor
-			    	</label>
-			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="017" '.$Descriptor_geo_ch.'> Descriptor Geográfico
-			    	</label>
-			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="018" '.$CongSec_ch.'> Congresos Secundarios
-			    	</label>
+		    <!-- List of register inputs -->
+			    	<div class="list-campos span2">
+			    		<form id="ListCampos" name="ListCampos">
+						  <fieldset>
+						    <legend>Lita de Campos </legend>
+						    <p><small>Seleccione un campo para añadir al formulario.</small> </p>
+						   	<label class="checkbox checkbox1">
+					      		<input class="ActionInput" type="checkbox" value="001"> ISSN
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="002" '.$languaje_ch.'> Idiomas
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="003" '.$NumLC_ch.'> Número de Clasificacion LC
+					    	</label>
+					    	<label class="checkbox checkbox1">
+					      		<input class="ActionInput" type="checkbox" value="004" '.$NumDewey_ch.'> Número de Clasificacion Dewey
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="005" '.$Class_IGP_ch.'> Clasificacion IGP
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="006" '.$EncMat_ch.'> Encabezamiento de Materia
+					    	</label>
+					    	<label class="checkbox checkbox1">
+					      		<input class="ActionInput" type="checkbox" value="007" '.$OtherTitles_ch.'> Otros Títulos
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="008" '.$Periodicidad_ch.'> Periodicidad
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="009" '.$Serie_ch.'> Serie
+					    	</label>
+					    	<label class="checkbox checkbox1">
+					      		<input class="ActionInput" type="checkbox" value="010" '.$NoteGeneral_ch.'> Notas Generales
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="011" '.$NoteTesis_ch.'> Notas Tesis
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="012" '.$NoteBiblio_ch.'> Notas de bibliografía
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="013" '.$NoteConte_ch.'> Notas de contenido
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="014" '.$DesPersonal_ch.'> Descripción Personal
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="015" '.$MatEntidad_ch.'> Materia como entidad
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="016" '.$Descriptor_ch.'> Descriptor
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="017" '.$Descriptor_geo_ch.'> Descriptor Geográfico
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="018" '.$CongSec_ch.'> Congresos Secundarios
+					    	</label>
 
-			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="019" '.$TitSec_ch.'> Titulos Secundarios
-			    	</label>
-			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="020" '.$Fuente_ch.'> Fuente
-			    	</label>
-			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="021" '.$NumIng_ch.'> Número de Ingreso
-			    	</label>
-			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="022" '.$UbicElect_ch.'> Ubicación Electrónica
-			    	</label>
-			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="023" '.$ModAdqui_ch.'> Modalidad Adquisión
-			    	</label>
-			    	<label class="checkbox">
-			      		<input class="ActionInput" type="checkbox" value="024" '.$Catalogador_ch.'> Catalogador 
-			    	</label>	    				    	
-				    
-				  </fieldset>
-				</form>
-	    		</div>
-	    		<!-- fin register inputs -->
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="019" '.$TitSec_ch.'> Titulos Secundarios
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="020" '.$Fuente_ch.'> Fuente
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="021" '.$NumIng_ch.'> Número de Ingreso
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="022" '.$UbicElect_ch.'> Ubicación Electrónica
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="023" '.$ModAdqui_ch.'> Modalidad Adquisión
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="024" '.$Catalogador_ch.'> Catalogador 
+					    	</label>	    	
 
-	    		<span id="botonRegresar"></span>
-	    		<!-- form conte-->
-	    		<div class="conte-form span9">
-				<div style="padding-top:20px;">
-		            <span class="tab" id="titulo1"></span>
-		            <span class="tab" id="titulo2"></span> 
-		            
-		            <!--span class="tab" id="titulo5"></span-->
-		            <span class="tab" id="titulo6"></span>
-		            <span class="tab" id="titulo7"></span>
-				</div>
-				
-	            <div id="idcontactform" class="listado-busqueda form-horizontal">
-	                
-	                <div  id="titulo_tipo_prepor"></div>
-	        
-		            <div id="author" style="display:none;">
-				        <div id="search_authorPRI"></div>
-				        <div class="linea-separacion"></div>
-				        <div id="newFormAuthor"></div>
-		            </div>
-	
-	                <div id="referencia" style="display:none"></div>             
-	
-	                
-	            <div id="area_tema" style="display:none">
-	                <div class="txt-azul" id="conte_temas">
-	                
+					    	
+						    <button type="submit" class="btn" >Añadir</button>
+						  </fieldset>
+						</form>
+			    	</div>
+			<!-- fin register inputs -->
 
-	                </div>
-	                
-					<div  class="linea-separacion"></div>
-					<a class="showdiv txt-azul" onclick="$(\'.showdiv\').toggle()"> <i class="icon-chevron-right"></i>  Nuevo Tema</a>                
-					<a class="showdiv hide txt-azul divactive" onclick="$(\'.showdiv\').toggle()"> <i class="icon-chevron-down"></i> Nuevo Tema</a>
-	                <!--div class="txt-azul" id="titNuevoTema"></div-->
-	                <div class="hide showdiv" id="nuevo_tema_publicacion"></div>
-	            </div>
-	
-					<div id="fecha_permisos" style="display:none">
-						
-						<div id="fechasTesis"></div>
-						<div  class="linea-separacion"></div>					
-						
+			   	<span id="botonRegresar"></span>
+			<!-- form conte-->
+			    <div class="conte-form span9">
+					<div style="padding-top:20px;">
+				        <span class="tab" id="titulo1"></span>
+				        <span class="tab" id="titulo2"></span> 
+				            
+				        <!--span class="tab" id="titulo5"></span-->
+				        <span class="tab" id="titulo6"></span>
+				        <span class="tab" id="titulo7"></span>
 					</div>
-				<div id="archivo" style="display:none"></div>
-			</div>
-			
-            <div class="action-btn"><input class="btn"  type="button" onclick="xajax_newPonencia('.$iddata.',\''.$action.'\');" value='.$tituloBoton.'  /></div> 
-            <div id="respuesta"></div>
-            </div> 
+					<form id="frmBiblio" name="frmBiblio">	
+			        <div id="idcontactform" class="listado-busqueda form-horizontal">
+			        	
+			                
+				            <div  id="titulo_tipo_prepor"></div>
+				        
+					        <div id="author" style="display:none;">
+							    <div id="search_authorPRI"></div>
+							    <div class="linea-separacion"></div>
+							    <div id="newFormAuthor"></div>
+					        </div>	
+				            
+				            <div id="referencia" style="display:none"></div>
+				                
+				            <div id="area_tema" style="display:none">
+				                <div class="txt-azul" id="conte_temas"></div>	                
+								<div  class="linea-separacion"></div>
+								<a class="showdiv txt-azul" onclick="$(\'.showdiv\').toggle()"> <i class="icon-chevron-right"></i>  Nuevo Tema</a>                
+								<a class="showdiv hide txt-azul divactive" onclick="$(\'.showdiv\').toggle()"> <i class="icon-chevron-down"></i> Nuevo Tema</a>
+				                <!--div class="txt-azul" id="titNuevoTema"></div-->
+				                <div class="hide showdiv" id="nuevo_tema_publicacion"></div>
+				            </div>
+				
+							<div id="fecha_permisos" style="display:none">
+								<div id="fechasTesis"></div>
+								<div  class="linea-separacion"></div>					
+									
+							</div>
+							<div id="archivo" style="display:none"></div>
+						</form>
+					</div>
+					
+		            <div class="action-btn">
+		            	<input class="btn"  type="button" onclick="xajax_newPonencia('.$iddata.',\''.$action.'\'); xajax_newRegisterBiblio(xajax.getFormValues(\'frmBiblio\'));" value='.$tituloBoton.'  />
+		            	<input class="btn"  type="button" onclick="xajax_newRegisterBiblio(xajax.getFormValues(\'frmBiblio\'));" value="New"  />
+		            </div>            	
+		        </div> 
 
-            <!-- fin form conte -->
+		    <!-- fin form conte -->
 			';
 
     	//###############################################################
@@ -927,7 +927,6 @@
 			</div>
 			<fin comentado temporalmente-->
 			<div id='input_secundary'></div>
-
 			<!-- fin campos requeridos -->
 			       		
        	";
@@ -1280,7 +1279,7 @@
 							
 							$respuesta["html"] .= "
 								    <div class='controls' id='".$id."_".($k+1)."'>
-								      <input type='text' id='$idinput_".$k."' placeholder='Ejm. esp.' onchange='xajax_register_input(this.value,\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;' value='$val_input'>
+								      <input type='text' name='".$idinput."_".$k."' placeholder='Ejm. esp.' onchange='xajax_register_input(this.value,\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;' value='$val_input'>
 									
 								    ";
 							// $respuesta["html"] .=($k==0?$respuesta["add"]:$respuesta["del"]);	    
@@ -1297,7 +1296,7 @@
 						$respuesta["html"] .= "
 							    <label class='control-label' for='$idinput'>".$respuesta["labelinput"]."</label> 
 							    							    <div class='controls'>
-							      <input type='text' id='$idinput' placeholder='".$respuesta["labelinput"]."' onchange='xajax_register_input(this.value,\"Idioma\",\"languaje\"); return false;' value=''>
+							      <input type='text' name='".$idinput."_".$k."' placeholder='".$respuesta["labelinput"]."' onchange='xajax_register_input(this.value,\"Idioma\",\"languaje\"); return false;' value=''>
 							      <span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
 							    </div>
 							";
@@ -2191,11 +2190,18 @@ function ConfirmDeleteImg($namefile,$id){
     return $objResponse;
 
 }
+function newRegisterBiblio($form){
+	$objResponse = new xajaxResponse();
+	$_SESSION["publicaciones"] = $form ;
+	$objResponse->alert(print_r($form,TRUE));
+	return $objResponse;
+}
 
 	/*******************************************************************
 	Registrar las Funciones
 	*******************************************************************/
 	
+	$xajax->registerFunction('newRegisterBiblio');
 	$xajax->registerFunction('subArea');
 	$xajax->registerFunction('registerSubAreas');
 	$xajax->registerFunction('menuAAShow');
