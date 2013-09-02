@@ -180,19 +180,7 @@ function validarPonencias($idsubcategory,$areaPRI){
 
             }
 
-        /*campos insertados dinamicamente*/
-        //verificar si esta checkeado 
-        // $objResponse->script("
-        //         $('#ListCampos').find(':input').each(function()
-        //             {
-        //               if($(this).is(':checked')) {
-        //                  xajax_Query_input(id);                                           
-        //               } else {                                            
-        //                  xajax_delCampos(id);  
-        //               }  
-        //             });
-        //     ");
-        // $result = Query_input();
+        
         if ($_SESSION["required"]["ISSN"]==1 || isset($recuperar["ISSN"]) ) {
 
              $ISSN = (isset($recuperar["ISSN"]))?$recuperar["ISSN"]:""; 
@@ -207,23 +195,23 @@ function validarPonencias($idsubcategory,$areaPRI){
                 $check["ISSN"]=$ISSN;                
             } 
         }
-        if ($_SESSION["required"]["languaje"]==1 || isset($recuperar["languaje"])) {
-            $languaje = isset($recuperar["languaje"])?$recuperar["languaje"]:"";
+        // if ($_SESSION["required"]["languaje"]==1 ) {
+        //     // $languaje = isset($recuperar["languaje"])?$recuperar["languaje"]:"";
             
-            $check["languaje"]=array();
-            foreach ($languaje as  $value) {
-                if($value==""){ 
-                    $check["Msg"]="Ingrese Idioma";
-                    $check["Error"]=1;
-                    $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
-                    $check["focus"]="$('#languaje').focus()";
-                }
-                else{                    
-                    array_push($check["languaje"], $value);
-                }                
-            }            
+        //     $check["languaje"]=array();
+        //     foreach ($languaje as  $value) {
+        //         if($value==""){ 
+        //             $check["Msg"]="Ingrese Idioma";
+        //             $check["Error"]=1;
+        //             $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+        //             $check["focus"]="$('#languaje').focus()";
+        //         }
+        //         else{                    
+        //             array_push($check["languaje"], $value);
+        //         }                
+        //     }            
             
-        }
+        // }
         if ($_SESSION["required"]["NumLC"]==1 || isset($recuperar["NumLC"])) {
             $NumLC = isset($recuperar["NumLC"])?$recuperar["NumLC"]:"";
             if($NumLC==""){ 

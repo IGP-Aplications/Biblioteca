@@ -723,10 +723,8 @@
 			    	</label>
 			    	<label class="checkbox">
 			      		<input class="ActionInput" type="checkbox" value="024" '.$Catalogador_ch.'> Catalogador 
-			    	</label>	    	
-
-			    	
-				    <button type="submit" class="btn" >Añadir</button>
+			    	</label>	    				    	
+				    
 				  </fieldset>
 				</form>
 	    		</div>
@@ -779,7 +777,8 @@
 				<div id="archivo" style="display:none"></div>
 			</div>
 			
-            <div class="action-btn"><input class="btn"  type="button" onclick="xajax_newPonencia('.$iddata.',\''.$action.'\');" value='.$tituloBoton.'  /></div>            	
+            <div class="action-btn"><input class="btn"  type="button" onclick="xajax_newPonencia('.$iddata.',\''.$action.'\');" value='.$tituloBoton.'  /></div> 
+            <div id="respuesta"></div>
             </div> 
 
             <!-- fin form conte -->
@@ -928,6 +927,7 @@
 			</div>
 			<fin comentado temporalmente-->
 			<div id='input_secundary'></div>
+
 			<!-- fin campos requeridos -->
 			       		
        	";
@@ -2461,6 +2461,7 @@ function ConfirmDeleteImg($namefile,$id){
     $xajax->registerFunction('register_input');
     $xajax->registerFunction('AddInput');
     $xajax->registerFunction('delInput');
+    $xajax->registerFunction('PubLanguaje');
 
 	$xajax->processRequest();	
 	

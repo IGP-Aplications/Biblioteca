@@ -644,7 +644,7 @@
 
 		$objResponse->script("xajax_formPonenciasShow($idbook,$idSubcategory)");
 		$objResponse->assign('paginator', 'style.display',"none");
-		$objResponse->assign('resultSearch', 'style.display',"none");    
+		$objResponse->assign('resultSearch', 'style.display',"none");  
 
 		// $objResponse->alert(print_r($fbook_descripcion,TRUE));
 		return $objResponse;
@@ -2975,11 +2975,40 @@ if(isset($_SESSION['edit']['pdf'])){
         }
 	return $objResponse;
 }
+function funcion_demo(){
+        $var = "<script type='text/javascript'>;
+        
+		    var mivarJS='Asignado en JS';
+		    document.writeln (mivarJS);
+		</script> ";   
+		$var = $var.'gggg';
+  //       $var = array('espanol');
+		// array_push($var, "otro Lenguaje")    ;
+
+		return $var;	
+}
 
 function newPonencia($iddata=0,$action){
         $objResponse = new xajaxResponse();
+         // $scrit = funcion_demo();
+         
+        $objResponse->script("
+        			var languaje = new Array();
+        			$('#002 input').each(function(index){ 
+        			languaje[index] = $(this).val(); 
+        			});         			
+        			
+        			xajax_PubLanguaje(languaje); 
+
+        			// $.post('post.php',{data:languaje},function(resp){
+        			// 	$('#respuesta').html(resp);
+        			// }) ;        			      			
+        			
+        		");  
+        // $objResponse->sleep(30);
 	
-	
+		// $objResponse->alert($lenguaje);
+
         if(isset($_SESSION["edit"])){
             $recuperar=$_SESSION["edit"];
         }
@@ -2999,7 +3028,7 @@ function newPonencia($iddata=0,$action){
 $idsubcategory=isset($_SESSION["idsubcategory"])?$_SESSION["idsubcategory"]:0;               
 $resultCheck=validarPonencias($idsubcategory,$areaPRI);
 
- $objResponse->alert(print_r($resultCheck,TRUE));
+ // $objResponse->alert(print_r($resultCheck,TRUE)); 
 
 if ($resultCheck["Error"]==1){
         $objResponse->alert($resultCheck["Msg"]);
@@ -3114,9 +3143,8 @@ else{
 
         // $_SESSION["publicaciones"]["idclaseEvento"]=$resultCheck["idclaseEvento"];
         // $_SESSION["publicaciones"]["claseEvento_description"]=$resultCheck["claseEvento_description"];
+       
         
-        
-
         $tipoDocumento=$_SESSION["tipoDocumento"];
 
         if(isset($_SESSION['edit'])){
@@ -3188,8 +3216,10 @@ else{
 	        $_SESSION["publicaciones"]["pdf"]=$_SESSION['edit']['pdf'];
 	    }
 	}
-                
-		$xml= arrayToXml($_SESSION["publicaciones"],"book");		
+    // $objResponse->alert(print_r($_SESSION["publicaciones"],TRUE));
+   
+        $xml= arrayToXml($_SESSION["publicaciones"],"book");                       
+				
 		
 		$newPonenciaSQL=newPonenciaSQL($action,$iddata,4,$xml);
 		//$objResponse->alert(print_r($newPonenciaSQL,TRUE));
@@ -3263,6 +3293,19 @@ function arrayToXml($array,$lastkey='root'){
     $buffer.="</".$lastkey.">\n";
     return $buffer;
 }
+
+function PubLanguaje($lan){
+	$objResponse = new xajaxResponse();
+	$html = "Esto son los valores de Lenguaje";
+	$_SESSION["publicaciones"]["languaje"] = $lan;
+	// foreach ($lan as $value) {
+	// 	$html .= "<p>languaje 01: ".$value."</p>";
+	// }
+	// $objResponse->assign("prueba1","innerHTML",$html);
+	$objResponse->alert(print_r($_SESSION["publicaciones"]["languaje"],TRUE));
+	return $objResponse;
+}
+
 
 function arrayAuthor(){
 if(isset($_SESSION["edit"])){
