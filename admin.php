@@ -562,15 +562,11 @@
 		
 		        $respuesta->script("xajax_formPonenciasShow()");
 		    break;
-		    case 3:
-		        $respuesta->script("xajax_formAsuntosAcademicosShow(0,$idSubcategory)");
-		    break;
+		   
 		    case 4:
 		        $respuesta->script("xajax_formInformacionInternaShow(0,7)");
 		    break;
-		    case 5:
-		        $respuesta->script("xajax_formGeoSocShow(0,$idSubcategory)");
-		    break;
+		   
                 
 		}
                 
@@ -776,8 +772,8 @@
 					</div>
 					
 		            <div class="action-btn">
-		            	<input class="btn"  type="button" onclick="xajax_newPonencia('.$iddata.',\''.$action.'\'); xajax_newRegisterBiblio(xajax.getFormValues(\'frmBiblio\'));" value='.$tituloBoton.'  />
-		            	<input class="btn"  type="button" onclick="xajax_newRegisterBiblio(xajax.getFormValues(\'frmBiblio\'));" value="New"  />
+		            	<input class="btn"  type="button" onclick="xajax_newPonencia('.$iddata.',\''.$action.'\');" value='.$tituloBoton.'  />
+		            	<input class="btn"  type="button" onclick="xajax_newRegisterBiblio('.$iddata.',\''.$action.'\',xajax.getFormValues(\'frmBiblio\'));" value="New"  />
 		            </div>            	
 		        </div> 
 
@@ -851,14 +847,7 @@
         else{
             $summary="";
         }
-        // if(isset($recuperar["languaje"])){
-        //     $languaje=$recuperar["languaje"];
-           
-        //     $objResponse->alert(print_r($recuperar["languaje"],TRUE));
-        // }
-        // else{
-        //     $languaje="";
-        // }
+        
 
         if(isset($recuperar["tipoPonencia_description"])){
             $tipoPonencia_description=$recuperar["tipoPonencia_description"];
@@ -874,7 +863,7 @@
 	       	<div class='clear'></div>  
 
 	       	
-	       	<input type='hidden' value='tipoPonencia_description' id='tipoPonencia_txt' name='tipoPonencia_txt' class='field'>
+	       	<!--input type='hidden' value='tipoPonencia_description' id='tipoPonencia_txt' name='tipoPonencia_txt' class='field'-->
 			<div class='clear'></div>
 			
 			<!--campos requeridos -->
@@ -1083,7 +1072,7 @@
 						$(this).attr('id','".$id."_'+(index+1));
 						$(this).find('a').attr('id','a_".$id."_'+(index+1));
 						$(this).find('input').change(function(){
-							alert(index);
+							//alert(index);
 						});										
 					});
 		");
@@ -1124,7 +1113,7 @@
 						$(this).attr('id','".$id."_'+(index+1));
 						$(this).find('a').attr('id','a_".$id."_'+(index+1));
 						$(this).find('input').change(function(){
-							alert(index);
+							//alert(index);
 						});										
 					});
 		");			
@@ -1140,7 +1129,7 @@
 		 
 		// $respuest["add"] = "<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>";
 		// $respuesta["del"] = "<span><a href='#' onclick='$(\"#".$id."_".$k."\").remove(); return false;'>(-)Eliminar</a></span>";
-		
+		$repetibles = array("002","006","007","009","010","014","015","016","017","019","020","021");
 		switch ($id) {
 
 				case '001':										
@@ -1269,9 +1258,9 @@
 			}
 
 			$idinput = $respuesta["idinput"];
-
+			//para campos repetidos
 			if (is_array($recuperar[$idinput])) {
-				//para campos repetidos
+				
 				if (isset($recuperar[$idinput])) {
 						$respuesta["html"] .= "<label class='control-label' for='$idinput'>".$respuesta["labelinput"]."</label>";
 						for ($k=0; $k < count($recuperar[$idinput]); $k++) {
@@ -1279,7 +1268,7 @@
 							
 							$respuesta["html"] .= "
 								    <div class='controls' id='".$id."_".($k+1)."'>
-								      <input type='text' name='".$idinput."_".$k."' placeholder='Ejm. esp.' onchange='xajax_register_input(this.value,\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;' value='$val_input'>
+								      <input type='text' name='".$idinput."[]' placeholder='Ejm. esp.' onchange='xajax_register_input(this.value,\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;' value='$val_input'>
 									
 								    ";
 							// $respuesta["html"] .=($k==0?$respuesta["add"]:$respuesta["del"]);	    
@@ -1295,8 +1284,8 @@
 					else{
 						$respuesta["html"] .= "
 							    <label class='control-label' for='$idinput'>".$respuesta["labelinput"]."</label> 
-							    							    <div class='controls'>
-							      <input type='text' name='".$idinput."_".$k."' placeholder='".$respuesta["labelinput"]."' onchange='xajax_register_input(this.value,\"Idioma\",\"languaje\"); return false;' value=''>
+							    <div class='controls' id='".$id."_".($k+1)."'>
+							      <input type='text' name='".$idinput."[]' placeholder='".$respuesta["labelinput"]."' onchange='xajax_register_input(this.value,\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;' value=''>
 							      <span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
 							    </div>
 							";
@@ -1304,13 +1293,26 @@
 			}
 			//para campos no repetidos
 			else{
-				$val_input=(isset($recuperar[$idinput])?$recuperar[$idinput]:"");
-				$respuesta["html"] .="
+				if (isset($_SESSION["tmp"])  && in_array($id, $repetibles)) {					
+						$respuesta["html"] .= "
+							    <label class='control-label' for='$idinput'>".$respuesta["labelinput"]."</label> 
+							    <div class='controls' id='".$id."_1'>
+							      <input type='text' name='".$idinput."[]' placeholder='".$respuesta["labelinput"]."' onchange='xajax_register_input(this.value,\"Idioma\",\"languaje\"); return false;' value=''>
+							      <span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
+							    </div>
+						";					
+				}
+				else{
+					$val_input=(isset($recuperar[$idinput])?$recuperar[$idinput]:"");
+					$respuesta["html"] .="
 								<label class='control-label' for='$idinput'>".$respuesta["labelinput"]."</label>
 								<div class='controls'>
 								<input type='text' placeholder='".$respuesta["labelinput"]."' onchange='xajax_register_input(this.value,\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;' value='$val_input' id='$idinput' name='$idinput'  />
 								</div>
 							";
+				}
+
+				
 			}		
 
 		$respuesta["html"]	.= '</div>';
@@ -1320,7 +1322,7 @@
 	function AddInput($id="",$labelinput="",$idinput=""){
 		$objResponse = new xajaxResponse();
 		$html = "<div class='controls' >
-								<input type='text'  value='' id='$idinput' name='$idinput'  />
+								<input type='text'  value=''  name='".$idinput."[]'  />
 								<span><a href='#' class='del_input' onclick='xajax_delInput($(this).parents(\"div\").attr(\"id\"),\"".$labelinput."\",\"".$idinput."\")'>(-)Eliminar</a></span>
 								</div>";
 		$html = eregi_replace("[\n|\r|\n\r]", ' ', $html);
@@ -1354,19 +1356,19 @@
 					$('#'+idDiv+' > div').each(function(index){	
 
 						$(this).attr('id',idDiv+'_'+(index+1));
-						 edition[index] = $(this).find('input').val();	
-						$(this).find('input').change(function(){
+						 //edition[index] = $(this).find('input').val();	
+						//$(this).find('input').change(function(){
 							// alert(index);
 							var val_input = $(this).val();
 							// edition[index] = $(this).val();							
 							// alert(val_input);
 							// xajax_register_input(val_input,'".$labelinput."','".$idinput."',index);
-							return false;
-						});
+							//return false;
+						//});
 						
 					});
-					
-					alert(edition);
+					return false;
+					//alert(edition);
 					
 			");
 		return $objResponse;
@@ -2190,12 +2192,7 @@ function ConfirmDeleteImg($namefile,$id){
     return $objResponse;
 
 }
-function newRegisterBiblio($form){
-	$objResponse = new xajaxResponse();
-	$_SESSION["publicaciones"] = $form ;
-	$objResponse->alert(print_r($form,TRUE));
-	return $objResponse;
-}
+
 
 	/*******************************************************************
 	Registrar las Funciones
@@ -2211,18 +2208,11 @@ function newRegisterBiblio($form){
 	$xajax->registerFunction('muestraFormGrafico');
 	
 	/*******Seccion Asuntos Academicos**********/
-	$xajax->registerFunction('registerDepartamento');
-	$xajax->registerFunction('registerRegion');
-	$xajax->registerFunction('registerMagnitud');
-	$xajax->registerFunction('registerBoletin');
-	$xajax->registerFunction('registerQuarter');
-        $xajax->registerFunction('registerYear');
-        $xajax->registerFunction('registerYearQuarter');        
         $xajax->registerFunction('registerYearPub');
         $xajax->registerFunction('registerMonthPub');        
         $xajax->registerFunction('registerDayPub');
         $xajax->registerFunction('registerDateIng');
-	$xajax->registerFunction('registerCompendio');
+
 	$xajax->registerFunction('registerAreaAdministrativa');
 	$xajax->registerFunction('iniAreasAdministrativasShow');
 	$xajax->registerFunction('registerTitPrePor');
@@ -2231,13 +2221,10 @@ function newRegisterBiblio($form){
 	$xajax->registerFunction('iniAreasAdministrativasShow');
 	$xajax->registerFunction('iniTitulo_Presentado');
 	$xajax->registerFunction('registerCompendioYear');
-	$xajax->registerFunction('iniNroCompendioYear');
-	$xajax->registerFunction('formAsuntosAcademicosShow');
-        $xajax->registerFunction('formGeoSocShow');
+	$xajax->registerFunction('iniNroCompendioYear');        
         
 	$xajax->registerFunction('comboTipoAsuntosAcademicosShow');
-	$xajax->registerFunction('newAsuntosAcademicos');
-        $xajax->registerFunction('newGeofisicaSociedad');
+	
         
 	/*******Seccion Asuntos Academicos**********/
 	
@@ -2256,7 +2243,7 @@ function newRegisterBiblio($form){
 	$xajax->registerFunction('registerRegDepFechas');
 	$xajax->registerFunction('registerTitulo');
 	$xajax->registerFunction('iniTitulo');
-	$xajax->registerFunction('newInformacionInterna');
+	
 	$xajax->registerFunction('comboDepartamentoShow');
 	$xajax->registerFunction('iniRegionDepartamentoFechas');
 	$xajax->registerFunction('comboRegionShow');
@@ -2282,25 +2269,15 @@ function newRegisterBiblio($form){
 	/*******Seccion Ponencias********************/
 	
 	/*******Sección Publicaciones****************/
-	
-        $xajax->registerFunction('iniEditPermission');
-	$xajax->registerFunction('registerLink');
-	$xajax->registerFunction('registerUniversidad');
-	$xajax->registerFunction('registerPais');
-	$xajax->registerFunction('registerTipoTesis');
-	$xajax->registerFunction('registerReferenceDetails');
-	$xajax->registerFunction('registerResumen');
-	$xajax->registerFunction('iniTypeTesisCountryUniversity');
-	$xajax->registerFunction('registerTipoPaisUni');
+     
 	
 	
 	$xajax->registerFunction('arrayAuthor');
-	$xajax->registerFunction('newPublication');
+	
 	$xajax->registerFunction('newPonencia');
 	
 	$xajax->registerFunction('displaydiv');
 	$xajax->registerFunction('comboTypeSubcategoryShow');
-	$xajax->registerFunction('registerComboTipoPublicacionShow');
 	
 	
 	

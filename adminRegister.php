@@ -108,66 +108,9 @@
 	}
 
 
-	function registerBoletin($nroBoletin){
-	    $respuesta = new xajaxResponse();
-	
-	    if($nroBoletin==""){
-	        $respuesta->alert("Ingrese Nro Boletín");
-	    }
-	    else{
-	        if(isset($_SESSION["edit"])){
-	            $_SESSION["edit"]["nroBoletin"]=$nroBoletin;
-	        }
-	        else{
-	            $_SESSION["tmp"]["nroBoletin"]=$nroBoletin;
-	        }
-	
-	    }
-	
-            //$respuesta->alert(print_r($_SESSION["tmp"], TRUE));
-	    return $respuesta;
-	}
-
-	function registerMagnitud($idmagnitud){
-	    $respuesta = new xajaxResponse();
-	
-	    if($idmagnitud==0){
-	        $respuesta->alert("Ingrese la Magnitud");
-	    }
-	    else{
-	        if(isset($_SESSION["edit"])){
-	            $_SESSION["edit"]["idmagnitud"]=$idmagnitud;
-	        }
-	        else{
-	            $_SESSION["tmp"]["idmagnitud"]=$idmagnitud;
-	        }
-	    }
-	
-            //$respuesta->alert(print_r($_SESSION["tmp"], TRUE));
-	    return $respuesta;
-	}
 
 
-	function registerLink($enlace){
-	    $respuesta = new xajaxResponse();
 	
-	
-	    if($enlace==""){
-	        $respuesta->alert("Ingrese Link");
-	    }
-	    else{
-	        if(isset($_SESSION["edit"])){
-	            $_SESSION["edit"]["enlace"]=$enlace;
-	
-	        }
-	        else{
-	
-	            $_SESSION["tmp"]["enlace"]=$enlace;
-	        }
-	
-	        }
-	    return $respuesta;
-	}
 
 	function registerLugar($lugar){
 	    $respuesta = new xajaxResponse();
@@ -280,52 +223,7 @@ elseif(isset($_SESSION["tmp"])){
 /**************************************************
 Funcion que muestra un combo
 ***************************************************/
-function registerComboTipoPublicacionShow($dbid=0,$seccion=0){
-$objResponse = new xajaxResponse();
 
-switch($seccion){
-    case 1:
-    $iniCombo="Elige";
-    $divCombo="registerTypePublication";
-    $funcion="xajax_formSubcategoryShow(this.value)";
-    break;
-    case 2:
-    $iniCombo="Elige Tipo Publicaci&oacute;n";
-    $divCombo="searchTypePublication";
-    //$funcion="xajax_comboReferenciaShow(this.value,0,2),xajax_comboEstadoPublicacionShow(0,2)";
-    $funcion="xajax_seccionShow(this.value)";
-    break;
-    case 3:
-    $iniCombo="";
-    $divCombo="";
-    $funcion="";
-    break;
-}
-
-	$desc = array("Art&iacute;culos Indexados","Otras Publicaciones","Tesis");
-	$id = array("1","3","2");
-
-        if($dbid!=0){
-                /*buscar la posición de la variable $tipo recuperada
-                para mostrarla como valor inicial del combo*/
-                $pos = array_search($dbid,$id);
-                $pos=$pos+1;
-        }
-        else{
-                $pos=0;
-        }
-
-	if (is_array($desc) and is_array($id)){
-		$cboPubRef=new combo();
-		$comboPubRef=$cboPubRef->comboList($desc,$id,"OnChange",$funcion,"$iniCombo","0","tipoPublicacion",$pos);
-		$objResponse->assign($divCombo, 'innerHTML',$comboPubRef);
-	}
-	else{
-		$objResponse->assign($divCombo, 'innerHTML', 'No data available');
-	}
-
-return $objResponse;
-}
 	
 
 	function registerCompendio($nroCompendio){
@@ -486,24 +384,7 @@ return $objResponse;
 	    return $respuesta;
 	}
 
-	function registerReferenceDetails($reference_details){
-	    $respuesta = new xajaxResponse();
-	
-	    if($reference_details==""){
-	        $respuesta->alert("Ingrese Detalle de la Referencia");
-	    }
-	    else{
-	        if(isset($_SESSION["editar"])){
-	            if($_SESSION["editar"]==1){
-	                $_SESSION["edit"]["reference_details"]=$reference_details;
-	            }
-	        }
-	        else{
-	                $_SESSION["tmp"]["reference_details"]=$reference_details;
-	        }
-		}
-	    return $respuesta;
-	}
+
 
 	function registerReference($referencia_id,$reference_description){
 	    $respuesta = new xajaxResponse();
@@ -544,33 +425,7 @@ elseif(isset($_SESSION["tmp"])){
 
 
 
-	function registerResumen($resumen){
-	    $respuesta = new xajaxResponse();
 	
-	    if($resumen==""){
-	        //$respuesta->alert("Ingrese Resumen");
-	        if(isset($_SESSION["edit"])){
-	            $_SESSION["edit"]["resumen"]="";
-	        }
-	        else{
-	            $_SESSION["tmp"]["resumen"]="";
-	        }
-	        
-	    }
-	    else{
-	        if(isset($_SESSION["edit"])){
-	            $_SESSION["edit"]["resumen"]=$resumen;
-	        }
-	        else{
-	            $_SESSION["tmp"]["resumen"]=$resumen;
-	        }
-	        
-	    }
-	
-            //$respuesta->alert(print_r($_SESSION["tmp"], true));
-	    return $respuesta;
-	}
-
 	function registerTitRes($form){
 	    $respuesta = new xajaxResponse();
 	
@@ -722,146 +577,17 @@ elseif(isset($_SESSION["tmp"])){
 	    return $respuesta;
 	}
 
-	function registerTipoTesis($idtipoTesis,$tipoTesisDescription){
-	    $respuesta = new xajaxResponse();
-	    if($idtipoTesis==0){
-	        $respuesta->alert("Seleccione Tipo de tesis");
-	    }
-	    else{
-	        if(isset($_SESSION["edit"])){
-	            $_SESSION["edit"]["tipo_tesis"]=$idtipoTesis;
-	            $_SESSION["edit"]["tipoTesisDescription"]=$tipoTesisDescription;
-	        }
-	        else{
-	            $_SESSION["tmp"]["tipo_tesis"]=$idtipoTesis;
-	            $_SESSION["tmp"]["tipoTesisDescription"]=$tipoTesisDescription;
-	        }
-	
-	    }
-            
-            //$respuesta->alert(print_r($_SESSION["edit"]["tipo_tesis"], true));
-	    return $respuesta;
-	
-	}
 
-	function registerPais($pais_description){
-	    $respuesta = new xajaxResponse();
-	      
-	    if($pais_description==""){
-	        $respuesta->alert("Ingrese país");
-	    }
-	    else{
-	        if(isset($_SESSION["edit"])){
-	            $_SESSION["edit"]["pais_description"]=$pais_description;
-	        }
-	        else{
-	            $_SESSION["tmp"]["pais_description"]=$pais_description;
-	        }
-	    }
-            
-            //$respuesta->alert(print_r($_SESSION["tmp"], true));
-	    return $respuesta;
-	
-	}
 
-	function registerUniversidad($pais_description){
-	    $respuesta = new xajaxResponse();
-	      
-	    if($pais_description==""){
-	        $respuesta->alert("Ingrese universidad");
-	    }
-	    else{
-	        if(isset($_SESSION["edit"])){
-	            $_SESSION["edit"]["uni_description"]=$pais_description;
-	        }
-	        else{
-	            $_SESSION["tmp"]["uni_description"]=$pais_description;
-	        }
 	
-	    }
-	    return $respuesta;
-	
-	}
 
 
 
-	function registerRegion($region_id,$region_description){
-	    $respuesta = new xajaxResponse();
-	
-	    if($region_id==0){
-	        $respuesta->alert("Seleccione región");
-	    }
-	    else{
-	        if(isset($_SESSION["edit"])){
-	            $_SESSION["edit"]["idRegion"]=$region_id;
-	            $_SESSION["edit"]["region_description"]=$region_description;
-	        }
-	        else{
-	            $_SESSION["tmp"]["idRegion"]=$region_id;
-	            $_SESSION["tmp"]["region_description"]=$region_description;
-	        }
-	
-		}
-                
-                //$respuesta->alert(print_r($_SESSION["tmp"], true));
-	    return $respuesta;
-	
-	}
-
-	function registerDepartamento($departamento_id,$departamento_description){
-	    $respuesta = new xajaxResponse();
-
-if(isset($_SESSION["edit"])){
-    $recuperar=$_SESSION["edit"];
-}
-elseif(isset($_SESSION["tmp"])){
-    $recuperar=$_SESSION["tmp"];
-}
-            
-	    if($departamento_id==0){
-	        $respuesta->alert("Seleccione departamento");
-                $recuperar["idDepartamento"]=0;
-                $recuperar["departamento_description"]="";
-                
-	    }
-	    else{
-	        if(isset($_SESSION["edit"])){
-	            $_SESSION["edit"]["idDepartamento"]=$departamento_id;
-	            $_SESSION["edit"]["departamento_description"]=$departamento_description;
-	        }
-	        else{
-	
-	            $_SESSION["tmp"]["idDepartamento"]=$departamento_id;
-	            $_SESSION["tmp"]["departamento_description"]=$departamento_description;
-	        }
-	
-		}
-                //$respuesta->alert(print_r($_SESSION["tmp"], true));
-	    return $respuesta;
-	}
 
 
 
-	function registerQuarter($idquarter,$quarter_description){
-	    $respuesta = new xajaxResponse();
-	    if($idquarter==0){
-	        $respuesta->alert("Seleccione trimestre");
-	    }
-	    else{
-	        if(isset($_SESSION["edit"])){
-	            $_SESSION["edit"]["quarter_description"]=$quarter_description;
-	            $_SESSION["edit"]["idquarter"]=$idquarter;
+
 	
-	        }
-	        else{
-	            $_SESSION["tmp"]["quarter_description"]=$quarter_description;
-	            $_SESSION["tmp"]["idquarter"]=$idquarter;
-	        }
-	    }
-            
-            //$respuesta->alert(print_r($_SESSION["tmp"], true));
-	    return $respuesta;
-	}
 
 	
 	function registerDateIng(){

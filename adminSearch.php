@@ -363,19 +363,12 @@
 		    break;
 		    case 2:
 		        $respuesta->script("xajax_formPonenciasShow($iddata,$idSubcategory)");
-		    break;
-		    case 3:
-		        $respuesta->script("xajax_formAsuntosAcademicosShow($iddata,$idSubcategory)");
-		        //$respuesta->script("xajax_formSubcategoryShow($idSubcategory)");
-		    break;
+		    break;		   
 		    case 4:
 		        $respuesta->script("xajax_formInformacionInternaShow($iddata,$idSubcategory)");
 		        //$respuesta->script("xajax_formSubcategoryShow($idSubcategory)");
 		    break;
-		    case 5:
-		        $respuesta->script("xajax_formGeoSocShow($iddata,$idSubcategory)");
-		        //$respuesta->script("xajax_formSubcategoryShow($idSubcategory)");
-		    break;
+		   
 		
 		}
 		
@@ -742,7 +735,7 @@ elseif(isset($_SESSION["tmp"])){
 		            $nro=$i+1;
                             $html.= "<tr class='impar'>";            
 		            $html.= "<td>".$nro."</td>";
-
+		        $id_author = $idauthor[$i];
 				if(ereg("'",$author_surname[$i])){
 				    $apellido=explode("'",$author_surname[$i]);
 				    $antes_caracter=ucfirst($apellido[0]);
@@ -753,7 +746,10 @@ elseif(isset($_SESSION["tmp"])){
 				    $apellido=ucfirst($author_surname[$i]);
 				}
                             
-		            $html.= "<td>".$apellido.", ".ucfirst($author_name[$i])."</td>";
+		            $html.= "<td>".$apellido.", ".ucfirst($author_name[$i])."
+		            		<input name='authorPRI[idauthor0]' type='hidden' value='$id_author'/>
+		            		<input name='authorPRI[author_surname0]' type='hidden' value='$id_author'/>
+		            		</td>";
 		            $html.= "<td><a href='#formulario'><img alt='Eliminar' style='cursor: pointer; border:0;' onclick='xajax_delSearchAuthorSesionPriShow(\"$idauthor[$i]\"); return false;' src='img/iconos/userDEL.png' /></a></td>";
 		            $html.= "</tr>"; 
 		    }
@@ -870,7 +866,8 @@ elseif(isset($_SESSION["tmp"])){
 		    
 		    $count=$result["Count"];
 		    $idauthor = $result["idauthor"];
-		    $author_first_name = $result["author_first_name"];
+		    $author_first_name = $result["author_name"];
+		    // $author_first_name = $result["author_first_name"];
 		    $author_second_name = $result["author_second_name"];
 		    $author_surname =$result["author_surname"];
                     
@@ -900,9 +897,13 @@ elseif(isset($_SESSION["tmp"])){
 		
 		    for($i=0;$i<$count;$i++){
 		            $nro=$i+1;
+		            $id_author = $idauthor[$i];
 		    		$html.= "<tr class='impar'>";            
 		            $html.= "<td>".$nro."</td>";
-		            $html.= "<td>".ucfirst($author_surname[$i]).", ".ucfirst($author_first_name[$i])."</td>";
+		            $html.= "<td>".ucfirst($author_surname[$i]).", ".ucfirst($author_first_name[$i])."
+		            		<input name='authorPRI[idauthor0]' type='hidden' value='$id_author'/>
+		            		<input name='authorPRI[author_surname0]' type='hidden' value='$id_author'/>
+		            		</td>";
 		            $html.= "<td><a href='#formulario'><img alt='Eliminar' style='cursor: pointer; border:0;' onclick='xajax_delSearchAuthorSesionPriShow(\"$idauthor[$i]\"); return false;' src='img/iconos/userDEL.png' /></a></td>";
 		            $html.= "</tr>"; 
 		    }
@@ -1128,7 +1129,8 @@ elseif(isset($_SESSION["tmp"])){
 		    $query=$result["Query"];
 		    $count=$result["Count"];
 		    $idauthor = $result["idauthor"];
-		    $author_first_name = $result["author_first_name"];
+		    $author_first_name = $result["author_name"];
+		    // $author_first_name = $result["author_first_name"];
 		    $author_second_name = $result["author_second_name"];
 		    $author_surname =$result["author_surname"];
                     
@@ -1550,7 +1552,7 @@ function verificaArchivo($url)
                     $recuperar=$_SESSION["tmp"];
                 }
             }
-            
+            $objResponse->alert(print_r($result["Query"],TRUE));
             if($result["Error"]==1){
                 
                 $arrayAutorPRI=isset($recuperar["authorPRI"]["author_surname"])?$recuperar["authorPRI"]["author_surname"]:array();
@@ -2036,52 +2038,6 @@ elseif(isset($_SESSION["tmp"])){
 
 
 
-
-function otrosTemasShow($range){
-	$respuesta = new xajaxResponse();
-
-if(isset($_SESSION["edit"])){
-    $recuperar=$_SESSION["edit"];
-}
-elseif(isset($_SESSION["tmp"])){
-    $recuperar=$_SESSION["tmp"];
- }
-
-    if(strlen($range)>0){
-        $titulo="Temas del &aacute;rea de Aeronomia";
-        $result=iniAreaResult("range",$range);
-        $html="";
-        if($result["Error"]==0){
-            if($result["Count"]>0){
-                for($i=0;$i<count($result["idtheme"]);$i++){
-                    $key = $result["idtheme"][$i];
-                    if(isset($recuperar["themes"][$key])){
-                        $html.="<p><input type=checkbox checked onclick=\"xajax_registerTheme('".$result["idtheme"][$i]."','".$result["theme_description"][$i]."')\"  />&nbsp;".$result["theme_description"][$i]."</p>";
-                    }
-                    else{
-                        $html.="<p><input type=checkbox onclick=\"xajax_registerTheme('".$result["idtheme"][$i]."','".$result["theme_description"][$i]."')\"  />&nbsp;".$result["theme_description"][$i]."</p>";
-                    }
-				}
-			}
-
-        }
-        else{
-            $html="<font color='red'>No se ha registrado temas para esta área</font>";
-        }
-	}
-	else{
-		$html="";
-	}
-
-        //$respuesta->alert(print_r($_SESSION, true));
-	$respuesta->Assign("otrosTemas","innerHTML",$html);
-	return $respuesta;
-
-
-}
-
-
-
 function subArea($idarea=0){
     
 $titulo="Sub &Aacute;reas de ".$_SESSION["area_description"];
@@ -2211,770 +2167,7 @@ function URLopen($url)
         return $result;
 }
 
-function newPublication($iddata=0,$action,$form,$currentPage){
-    $objResponse = new xajaxResponse();
-    
-if(isset($_SESSION["edit"])){
-    $recuperar=$_SESSION["edit"];
-}
-elseif(isset($_SESSION["tmp"])){    
-        $recuperar=$_SESSION["tmp"];
-}
-        
-        $resumen=isset($recuperar["resumen"])?$recuperar["resumen"]:"";
-        $resumen=(str_replace("'","*",$resumen));
-        $link=isset($recuperar["enlace"])?$recuperar["enlace"]:"";        
-        $link=(str_replace("&","*",$link));
-        $date_ing=isset($recuperar["date_ing"])?$recuperar["date_ing"]:"";
-        
-        if($_SESSION["subcategory"]=="tesis"){
-            $idtipoTesis=isset($recuperar["tipo_tesis"])?$recuperar["tipo_tesis"]:"";
-            $tipoTesisDescription=isset($recuperar["tipoTesisDescription"])?$recuperar["tipoTesisDescription"]:"";
-            $pais_description=isset($recuperar["pais_description"])?$recuperar["pais_description"]:"";
-            $uni_description=isset($recuperar["uni_description"])?$recuperar["uni_description"]:"";
-        }
-        
-        $areaPRI=isset($_SESSION["idarea"])?$_SESSION["idarea"]:"";
-        $tipoDocumento=$_SESSION["tipoDocumento"];
-        $subcategory=$_SESSION["subcategory"];
-        $tipoDocumento=$_SESSION["tipoDocumento"];
-        $subcategory=$_SESSION["subcategory"];
 
-/********************Validar*********************************************************/
-$idsubcategory=isset($_SESSION["idsubcategory"])?$_SESSION["idsubcategory"]:0;               
-$resultCheck=validarPublicaciones($idsubcategory,$areaPRI);
-
-if ($resultCheck["Error"]==1){
-        $objResponse->alert($resultCheck["Msg"]);
-        $objResponse->script($resultCheck["funcion"]);
-}
-/*****************************************************************************/
-else{
-        $_SESSION["publicaciones"]["areaPRI"]=$areaPRI;
-        $_SESSION["publicaciones"]["date_ing"]=$date_ing;
-        //$_SESSION["publicaciones"]["date_pub"]=$resultCheck["date_pub"];
-        $_SESSION["publicaciones"]["month_pub"]=$resultCheck["month_pub"];
-        $_SESSION["publicaciones"]["year_pub"]=$resultCheck["year_pub"];
-       
-                /*Titulo Resumen*/
-        $_SESSION["publicaciones"]["titulo"]=$resultCheck["titulo"];
-        
-        switch ($idsubcategory) {
-        case 1:
-            $_SESSION["publicaciones"]["resumen"]=$resumen;
-            $_SESSION["publicaciones"]["enlace"]=$link;
-            /*Referencia*/       
-            $_SESSION["publicaciones"]["idreference"]=$resultCheck["idreference"];
-            $_SESSION["publicaciones"]["reference_description"]=$resultCheck["reference_description"];
-            $_SESSION["publicaciones"]["reference_details"]=$resultCheck["reference_details"];
-            /************/
-            
-            $_SESSION["publicaciones"]["status"]=$resultCheck["status"];
-        break;
-        case 2:
-            $_SESSION["publicaciones"]["resumen"]=$resumen;
-            $_SESSION["publicaciones"]["enlace"]=$link;
-            $_SESSION["publicaciones"]["tipo_tesis"]=$idtipoTesis;
-            $_SESSION["publicaciones"]["tipoTesisDescription"]=$tipoTesisDescription;
-            $_SESSION["publicaciones"]["pais_description"]=$pais_description;
-            $_SESSION["publicaciones"]["uni_description"]=$uni_description;
-        break;
-        case 3:           
-            $_SESSION["publicaciones"]["resumen"]=$resumen;
-            $_SESSION["publicaciones"]["enlace"]=$link;
-            
-            /*Referencia*/       
-            $_SESSION["publicaciones"]["idreference"]=$resultCheck["idreference"];
-            $_SESSION["publicaciones"]["reference_description"]=$resultCheck["reference_description"];
-            //$_SESSION["publicaciones"]["reference_details"]=$resultCheck["reference_details"];
-            /************/
-            
-            $_SESSION["publicaciones"]["status"]=$resultCheck["status"];
-        break;
-        }
-
-        /**Editar**/
-if(isset($_SESSION['edit'])){
-
-    if(isset($_SESSION['edit']['pdf_upload'])){
-        $archivoUpload=isset($recuperar["pdf"])?$recuperar["pdf"]:$_SESSION['edit']['pdf_upload'];
-        $destino="data/$tipoDocumento/$subcategory/".$archivoUpload;
-        
-        //Reemplazar el Archivo//
-        //Si se sube un nuevo archivo borrar el archivo anterior
-        if (isset($_SESSION['edit']['pdf'])){//si parametro pdf del xml existe
-            
-                if($_SESSION['edit']['pdf']!=""){//si parametro pdf del xml no está vacío
-                    
-                    $ruta="data/$tipoDocumento/$subcategory/".$_SESSION['edit']['pdf'];
-                    if(is_file($ruta)){
-                        exec("rm -rf ".$ruta);            
-                    }            
-            }
-        }
-        //Reemplazar el Archivo//
-        
-        
-        if (copy($_SESSION['edit']['ruta_pdf_temporal'],$destino)){
-                $_SESSION["publicaciones"]["pdf"]=$archivoUpload;
-                @unlink($_SESSION['edit']['ruta_pdf_temporal']);
-                unset($_SESSION['edit']['ruta_pdf_temporal']);
-        }
-        else{
-                $objResponse->alert("No se pudo subir el archivo");
-            }
-    }
-}
-else{
-//$objResponse->alert("edit no esta seteado");
-        if(isset($_SESSION['tmp']['ruta_pdf_temporal'])){
-         $archivoUpload=isset($recuperar["pdf"])?$recuperar["pdf"]:"";
-         $destino="data/$tipoDocumento/$subcategory/".$archivoUpload;
-
-            if (copy($_SESSION['tmp']['ruta_pdf_temporal'],$destino)){
-                $_SESSION["publicaciones"]["pdf"]=$archivoUpload;
-                @unlink($_SESSION['tmp']['ruta_pdf_temporal']);
-                unset($_SESSION['tmp']['ruta_pdf_temporal']);
-            }
-            else{
-                $objResponse->alert("No se pudo subir el archivo");
-            }
-        }
-}
-        
-
-		arrayTheme();
-		arrayAreas();
-		arrayPermission();
-                arrayPermissionKey();
-
-if(isset($_SESSION['edit']['pdf'])){
-    if($_SESSION['edit']['pdf']!=""){
-        $_SESSION["publicaciones"]["pdf"]=$_SESSION['edit']['pdf'];
-    }
-}
-                
-		$xml= arrayToXml($_SESSION["publicaciones"],"publicaciones");
-                //$objResponse->alert(print_r($_SESSION["publicaciones"], true));
-		$result=newPublicationSQL($action,$iddata,$form["tipoPublicacion"] ,$xml);
-                $sql=$result["Query"];
-                
-                $tipoPublicacion=$form["tipoPublicacion"];
-                /*
-                switch ($tipoPublicacion) {
-                    case 1:
-                        $desc_subcategory="Artículos Indexados";
-                    break;
-                    case 2:
-                        $desc_subcategory="Tesis";
-                    break;                
-                    case 3:
-                        $desc_subcategory="Otras Publicaciones";
-                    break;
-                
-                }
-                */
-                
-		//$objResponse->alert($desc_subcategory." guardado satisfactoriamente");
-                $objResponse->alert($result["Msg"]);
-                //$objResponse->alert($sql);
-                
-                if ($action=="INS"){
-                    $objResponse->script("xajax_formPublicacionShow(0,$tipoPublicacion)");
-                    $objResponse->script("xajax_formSubcategoryShow($tipoPublicacion)");
-                }
-                elseif ($action=="UPD"){
-                    $objResponse->script("xajax_abstractHide('formulario'); xajax_abstractShow('consultas'); xajax_abstractShow('resultSearch'); xajax_abstractShow('paginator');");
-                    //$objResponse->script("xajax_abstractHide('formulario'); xajax_abstractShow('consultas'); xajax_auxSearchShow(20,".$currentPage.",xajax.getFormValues('formSearch'),'',1)");
-                }
-                //$objResponse->alert($subcategory);
-		//Borramos las variables de sesion
-                if(isset($_SESSION["editar"])){
-                    unset($_SESSION["editar"]);
-                }
-                
-                if(isset($_SESSION["edit"])){
-                    unset($_SESSION["edit"]);
-                    unset($_SESSION["editar"]);
-                }
-                
-                if(isset($_SESSION["tmp"])){
-                    unset($_SESSION["tmp"]);
-                }
-                
-                if(isset($_SESSION["publicaciones"])){
-                    unset($_SESSION["publicaciones"]);
-                }
-
-    }
-	return $objResponse;
-}
-
-
-function newAsuntosAcademicos($iddata=0,$action,$form){
-	$objResponse = new xajaxResponse();
-
-if(isset($_SESSION["edit"])){
-    $recuperar=$_SESSION["edit"];
-}
-else{
-    $recuperar=$_SESSION["tmp"];
-}
-
-        $prePorNombre=isset($recuperar["prePorNombre"])?$recuperar["prePorNombre"]:"";
-        $prePorApellido=isset($recuperar["prePorApellido"])?$recuperar["prePorApellido"]:"";
-        $inst_ext=isset($recuperar["inst_ext"])?$recuperar["inst_ext"]:"";
-        $date_ing=isset($recuperar["date_ing"])?$recuperar["date_ing"]:"";
-        
-        $areaPRI=isset($_SESSION["idarea"])?$_SESSION["idarea"]:"";        
-        $tipoDocumento=$_SESSION["tipoDocumento"];
-        $subcategory=$_SESSION["subcategory"];
-
-		/***************/        
-/********************Validar*********************************************************/
-        $idsubcategory=isset($_SESSION["idsubcategory"])?$_SESSION["idsubcategory"]:0;
-        $resultCheck=validarAsuntosAcademicos($idsubcategory,$areaPRI);
-        
-if ($resultCheck["Error"]==1){
-            
-        $objResponse->alert($resultCheck["Msg"]);
-        $objResponse->script($resultCheck["funcion"]);
-}        
-/*****************************************************************************/        
-else{            
-    $_SESSION["publicaciones"]["areaPRI"]=$areaPRI;
-    $_SESSION["publicaciones"]["date_ing"]=$date_ing;
-    //$_SESSION["publicaciones"]["date_pub"]=$resultCheck["date_pub"];
-    $_SESSION["publicaciones"]["month_pub"]=$resultCheck["month_pub"];
-    $_SESSION["publicaciones"]["year_pub"]=$resultCheck["year_pub"];
-    
-    switch ($idsubcategory) {
-        case 5:           
-            $_SESSION["publicaciones"]["titulo"]=$resultCheck["titulo"];
-            $_SESSION["publicaciones"]["prePorNombre"]=$prePorNombre;
-            $_SESSION["publicaciones"]["prePorApellido"]=$prePorApellido;
-            $_SESSION["publicaciones"]["inst_ext"]=$inst_ext;
-        break;
-        case 11:
-            $_SESSION["publicaciones"]["yearCompendio"]=$resultCheck["yearCompendio"];
-            $_SESSION["publicaciones"]["nroCompendio"]=$resultCheck["nroCompendio"];
-        break;    
-        case 12:
-            $_SESSION["publicaciones"]["year"]=$resultCheck["year"];
-            $_SESSION["publicaciones"]["quarter_description"]=$resultCheck["quarter_description"];
-            $_SESSION["publicaciones"]["idquarter"]=$resultCheck["idquarter"];            
-        break;    
-    
-    }
-    
-                /********************/
-        
- 
-
-        $archivoUpload=isset($recuperar["pdf"])?$recuperar["pdf"]:"";
-        $destino="data/$tipoDocumento/$subcategory/".$archivoUpload;
-
-if(isset($_SESSION['edit'])){
-
-        if(isset($_SESSION['edit']['pdf_upload'])){
-        $archivoUpload=isset($recuperar["pdf"])?$recuperar["pdf"]:$_SESSION['edit']['pdf_upload'];
-        $destino="data/$tipoDocumento/$subcategory/".$archivoUpload;
-
-//Reemplazar el Archivo//
-        //Si se sube un nuevo archivo borrar el archivo anterior
-        if (isset($_SESSION['edit']['pdf'])){//si parametro pdf del xml existe
-            
-            if($_SESSION['edit']['pdf']!=""){//si parametro pdf del xml no está vacío
-        
-                $ruta="data/$tipoDocumento/$subcategory/".$_SESSION['edit']['pdf'];
-                if(is_file($ruta)){           
-                    exec("rm -rf ".$ruta);            
-                }            
-            }
-        }
-//Reemplazar el Archivo//
-
-            
-            if (copy($_SESSION['edit']['ruta_pdf_temporal'],$destino)){
-                $_SESSION["publicaciones"]["pdf"]=$archivoUpload;
-                @unlink($_SESSION['edit']['ruta_pdf_temporal']);
-                unset($_SESSION['edit']['ruta_pdf_temporal']);
-            }
-            else{
-                $objResponse->alert("No se pudo subir el archivo");
-            }
-        }
-}
-else{
-//$objResponse->alert("edit no esta seteado");
-        if(isset($_SESSION['tmp']['ruta_pdf_temporal'])){
-
-            if (copy($_SESSION['tmp']['ruta_pdf_temporal'],$destino)){
-                $_SESSION["publicaciones"]["pdf"]=$archivoUpload;
-                @unlink($_SESSION['tmp']['ruta_pdf_temporal']);
-                unset($_SESSION['tmp']['ruta_pdf_temporal']);
-            }
-            else{
-                $objResponse->alert("No se pudo subir el archivo");
-            }
-        }
-}
-
-/*
-                $archivoUpload=isset($recuperar["pdf"])?$recuperar["pdf"]:"";
-                $destino="data/$tipoDocumento/$subcategory/".$archivoUpload;
-
-		if(isset($_SESSION['tmp']['ruta_pdf_temporal'])){
-                    	if (copy($_SESSION['tmp']['ruta_pdf_temporal'],$destino)){
-
-					$_SESSION["publicaciones"]["pdf"]=$archivoUpload;
-
-					@unlink($_SESSION['tmp']['ruta_pdf_temporal']);
-					unset($_SESSION['tmp']['ruta_pdf_temporal']);
-			}
-			else{
-					$objResponse->alert("No se pudo subir el archivo");
-			}
-		}
-*/
-		/*************************/
-
-		arrayTheme();
-		arrayAreas();
-                arrayAreasAdministrativas();
-		arrayPermission();
-                arrayPermissionKey();
-
-if(isset($_SESSION['edit']['pdf'])){
-    if($_SESSION['edit']['pdf']!=""){
-        $_SESSION["publicaciones"]["pdf"]=$_SESSION['edit']['pdf'];
-    }
-}
-                
-		$xml= arrayToXml($_SESSION["publicaciones"],"publicaciones");
-		//newPublicationSQL('INS',$form["tipoPublicacion"],$xml);
-                $result=newAsuntosAcademicosSQL($action,$iddata,$form["tipoPublicacion"] ,$xml);
-                $sql=$result["Query"];
-                //$objResponse->alert($sql);
-                //$objResponse->alert($xml);
-
-                //$objResponse->alert(print_r($recuperar, true));
-                /*
-                switch ($form["tipoPublicacion"]) {
-                    case 5:
-                        $desc_subcategory="Conferencias Científicas";
-                    break;
-                    case 11:
-                        $desc_subcategory="Compendios de Estudiantes";
-                    break;
-                    case 12:
-                        $desc_subcategory="Informes Trimestrales";
-                    break;
-                
-                }
-                */
-		//$objResponse->alert($desc_subcategory." guardado satisfactoriamente");
-                $objResponse->alert($result["Msg"]);
-                $tipoPublicacion=$form["tipoPublicacion"];
-		$objResponse->script("xajax_formCategoryShow(3,$tipoPublicacion)");
-
-		//Borramos las variables de sesion
-                if(isset($_SESSION["tmp"])){
-                    unset($_SESSION["tmp"]);
-                }
-                if(isset($_SESSION["edit"])){
-                    unset($_SESSION["edit"]);
-                    unset($_SESSION["editar"]);
-                }
-                if(isset($_SESSION["publicaciones"])){
-                    unset($_SESSION["publicaciones"]);
-                }
-}
-	return $objResponse;
-}
-
-function newGeofisicaSociedad($iddata=0,$action,$form){
-	$objResponse = new xajaxResponse();
-
-if(isset($_SESSION["edit"])){
-    $recuperar=$_SESSION["edit"];
-}
-else{
-    $recuperar=$_SESSION["tmp"];
-}
-
-        $prePorNombre=isset($recuperar["prePorNombre"])?$recuperar["prePorNombre"]:"";
-        $prePorApellido=isset($recuperar["prePorApellido"])?$recuperar["prePorApellido"]:"";
-        $inst_ext=isset($recuperar["inst_ext"])?$recuperar["inst_ext"]:"";
-        $date_ing=isset($recuperar["date_ing"])?$recuperar["date_ing"]:"";
-        
-        $areaPRI=isset($_SESSION["idarea"])?$_SESSION["idarea"]:"";        
-        $tipoDocumento=$_SESSION["tipoDocumento"];
-        $subcategory=$_SESSION["subcategory"];
-
-		/***************/        
-/********************Validar*********************************************************/
-        $idsubcategory=isset($_SESSION["idsubcategory"])?$_SESSION["idsubcategory"]:0;
-        $resultCheck=validarGeofisicaSociedad($idsubcategory,$areaPRI);
-        
-if ($resultCheck["Error"]==1){
-            
-        $objResponse->alert($resultCheck["Msg"]);
-        $objResponse->script($resultCheck["funcion"]);
-}        
-/*****************************************************************************/        
-else{            
-    $_SESSION["publicaciones"]["areaPRI"]=$areaPRI;
-    $_SESSION["publicaciones"]["date_ing"]=$date_ing;
-    //$_SESSION["publicaciones"]["date_pub"]=$resultCheck["date_pub"];
-    $_SESSION["publicaciones"]["month_pub"]=$resultCheck["month_pub"];
-    $_SESSION["publicaciones"]["year_pub"]=$resultCheck["year_pub"];
-    
-    switch ($idsubcategory) {
-        case 5:           
-            $_SESSION["publicaciones"]["titulo"]=$resultCheck["titulo"];
-            $_SESSION["publicaciones"]["prePorNombre"]=$prePorNombre;
-            $_SESSION["publicaciones"]["prePorApellido"]=$prePorApellido;
-            $_SESSION["publicaciones"]["inst_ext"]=$inst_ext;
-        break;
-        case 11:
-            $_SESSION["publicaciones"]["yearCompendio"]=$resultCheck["yearCompendio"];
-            $_SESSION["publicaciones"]["nroCompendio"]=$resultCheck["nroCompendio"];
-        break;    
-        case 12:
-            $_SESSION["publicaciones"]["year"]=$resultCheck["year"];
-            $_SESSION["publicaciones"]["quarter_description"]=$resultCheck["quarter_description"];
-            $_SESSION["publicaciones"]["idquarter"]=$resultCheck["idquarter"];            
-        break;    
-        case 13:
-            /*
-            $_SESSION["publicaciones"]["year"]=$resultCheck["year"];
-            $_SESSION["publicaciones"]["quarter_description"]=$resultCheck["quarter_description"];
-            $_SESSION["publicaciones"]["idquarter"]=$resultCheck["idquarter"];            
-            */
-            $_SESSION["publicaciones"]["yearQuarter"]=$resultCheck["yearQuarter"];
-            $_SESSION["publicaciones"]["quarter_description"]=$resultCheck["quarter_description"];
-            $_SESSION["publicaciones"]["idquarter"]=$resultCheck["idquarter"];
-            
-        break;    
-    
-    }
-    
-                /********************/
-        
- 
-
-        $archivoUpload=isset($recuperar["pdf"])?$recuperar["pdf"]:"";
-        $destino="data/$tipoDocumento/$subcategory/".$archivoUpload;
-
-if(isset($_SESSION['edit'])){
-
-        if(isset($_SESSION['edit']['pdf_upload'])){
-        $archivoUpload=isset($recuperar["pdf"])?$recuperar["pdf"]:$_SESSION['edit']['pdf_upload'];
-        $destino="data/$tipoDocumento/$subcategory/".$archivoUpload;
-
-//Reemplazar el Archivo//
-        //Si se sube un nuevo archivo borrar el archivo anterior
-        if (isset($_SESSION['edit']['pdf'])){//si parametro pdf del xml existe
-            
-            if($_SESSION['edit']['pdf']!=""){//si parametro pdf del xml no está vacío
-        
-                $ruta="data/$tipoDocumento/$subcategory/".$_SESSION['edit']['pdf'];
-                if(is_file($ruta)){           
-                    exec("rm -rf ".$ruta);            
-                }            
-            }
-        }
-//Reemplazar el Archivo//
-
-            
-            if (copy($_SESSION['edit']['ruta_pdf_temporal'],$destino)){
-                $_SESSION["publicaciones"]["pdf"]=$archivoUpload;
-                @unlink($_SESSION['edit']['ruta_pdf_temporal']);
-                unset($_SESSION['edit']['ruta_pdf_temporal']);
-            }
-            else{
-                $objResponse->alert("No se pudo subir el archivo");
-            }
-        }
-}
-else{
-//$objResponse->alert("edit no esta seteado");
-        if(isset($_SESSION['tmp']['ruta_pdf_temporal'])){
-                        
-            //$objResponse->alert(print_r($destino, true));
-            
-            if (copy($_SESSION['tmp']['ruta_pdf_temporal'],$destino)){
-                $_SESSION["publicaciones"]["pdf"]=$archivoUpload;
-                @unlink($_SESSION['tmp']['ruta_pdf_temporal']);
-                unset($_SESSION['tmp']['ruta_pdf_temporal']);
-            }
-            else{
-                $objResponse->alert("No se pudo subir el archivo");
-            }
-        }
-}
-
-/*
-                $archivoUpload=isset($recuperar["pdf"])?$recuperar["pdf"]:"";
-                $destino="data/$tipoDocumento/$subcategory/".$archivoUpload;
-
-		if(isset($_SESSION['tmp']['ruta_pdf_temporal'])){
-                    	if (copy($_SESSION['tmp']['ruta_pdf_temporal'],$destino)){
-
-					$_SESSION["publicaciones"]["pdf"]=$archivoUpload;
-
-					@unlink($_SESSION['tmp']['ruta_pdf_temporal']);
-					unset($_SESSION['tmp']['ruta_pdf_temporal']);
-			}
-			else{
-					$objResponse->alert("No se pudo subir el archivo");
-			}
-		}
-*/
-		/*************************/
-
-		arrayTheme();
-		arrayAreas();
-                arrayAreasAdministrativas();
-		arrayPermission();
-                arrayPermissionKey();
-
-if(isset($_SESSION['edit']['pdf'])){
-    if($_SESSION['edit']['pdf']!=""){
-        $_SESSION["publicaciones"]["pdf"]=$_SESSION['edit']['pdf'];
-    }
-}
-                
-		$xml= arrayToXml($_SESSION["publicaciones"],"publicaciones");
-		//newPublicationSQL('INS',$form["tipoPublicacion"],$xml);
-                $result=newGeofisicaSociedadSQL($action,$iddata,$form["tipoPublicacion"] ,$xml);
-                $sql=$result["Query"];
-                //$objResponse->alert($sql);
-                //$objResponse->alert($xml);
-                //$objResponse->alert($idsubcategory);
-                
-
-                //$objResponse->alert(print_r($_SESSION["publicaciones"], true));
-                //$objResponse->alert(print_r($recuperar, true));
-                
-                /*
-                switch ($form["tipoPublicacion"]) {
-                    case 5:
-                        $desc_subcategory="Conferencias Científicas";
-                    break;
-                    case 11:
-                        $desc_subcategory="Compendios de Estudiantes";
-                    break;
-                    case 12:
-                        $desc_subcategory="Informes Trimestrales";
-                    break;
-                
-                }
-                */
-		//$objResponse->alert($desc_subcategory." guardado satisfactoriamente");
-                $objResponse->alert($result["Msg"]);
-                $tipoPublicacion=$form["tipoPublicacion"];
-		$objResponse->script("xajax_formCategoryShow(5,$tipoPublicacion)");
-
-		//Borramos las variables de sesion
-                if(isset($_SESSION["tmp"])){
-                    unset($_SESSION["tmp"]);
-                }
-                if(isset($_SESSION["edit"])){
-                    unset($_SESSION["edit"]);
-                    unset($_SESSION["editar"]);
-                }
-                if(isset($_SESSION["publicaciones"])){
-                    unset($_SESSION["publicaciones"]);
-                }
-}
-	return $objResponse;
-}
-
-function newInformacionInterna($iddata=0,$action,$form){
-	$objResponse = new xajaxResponse();
-
-if(isset($_SESSION["edit"])){
-    $recuperar=$_SESSION["edit"];
-}
-elseif(isset($_SESSION["tmp"])){
-    $recuperar=$_SESSION["tmp"];
-}
-
-        $date_ing=isset($recuperar["date_ing"])?$recuperar["date_ing"]:"";    
-        
-        $areaPRI=isset($_SESSION["idarea"])?$_SESSION["idarea"]:"";
-        $subAareas=isset($_SESSION["subAreas"])?$_SESSION["subAreas"]:"";
-        $tipoDocumento=$_SESSION["tipoDocumento"];
-        $subcategory=$_SESSION["subcategory"];
-        
-/********************Validar*********************************************************/
-        
-        $idsubcategory=isset($_SESSION["idsubcategory"])?$_SESSION["idsubcategory"]:0;
-        $resultCheck=validarInformacionInterna($idsubcategory,$areaPRI);
-
-if ($resultCheck["Error"]==1){
-        $objResponse->alert($resultCheck["Msg"]);
-        $objResponse->script($resultCheck["funcion"]);
-}        
-                        
-/*****************************************************************************/        
-else{
-        $_SESSION["publicaciones"]["areaPRI"]=$areaPRI;
-        $_SESSION["publicaciones"]["date_ing"]=$date_ing;
-        
-        $_SESSION["publicaciones"]["month_pub"]=$resultCheck["month_pub"];
-        $_SESSION["publicaciones"]["desc_month_pub"]=$resultCheck["desc_month_pub"];
-        $_SESSION["publicaciones"]["year_pub"]=$resultCheck["year_pub"];
-        
-        
-            
-    switch ($idsubcategory) {
-        case 6:           
-            $_SESSION["publicaciones"]["titulo"]=$resultCheck["titulo"];
-            
-        break;
-        case 7:            
-            $_SESSION["publicaciones"]["yearQuarter"]=$resultCheck["yearQuarter"];
-            $_SESSION["publicaciones"]["quarter_description"]=$resultCheck["quarter_description"];
-            $_SESSION["publicaciones"]["idquarter"]=$resultCheck["idquarter"];
-            
-        break;
-        case 8:         
-            $_SESSION["publicaciones"]["day_pub"]=$resultCheck["day_pub"];
-            $_SESSION["publicaciones"]["nroBoletin"]=$resultCheck["nroBoletin"];
-            $_SESSION["publicaciones"]["idmagnitud"]=$resultCheck["idmagnitud"];
-
-            $_SESSION["publicaciones"]["idRegion"]=$resultCheck["idRegion"];
-            $_SESSION["publicaciones"]["region_description"]=$resultCheck["region_description"];
-            $_SESSION["publicaciones"]["idDepartamento"]=$resultCheck["idDepartamento"];
-            $_SESSION["publicaciones"]["departamento_description"]=$resultCheck["departamento_description"];
-            
-        break;
-    
-        }
-        
-        
-    if(isset($_SESSION['edit'])){
-
-        if(isset($_SESSION['edit']['pdf_upload'])){//si se cargó un archivo
-            $archivoUpload=isset($recuperar["pdf"])?$recuperar["pdf"]:$_SESSION['edit']['pdf_upload'];
-            $destino="data/$tipoDocumento/$subcategory/".$archivoUpload;
-
-//Reemplazar el Archivo//
-        //Si se sube un nuevo archivo borrar el archivo anterior
-        if (isset($_SESSION['edit']['pdf'])){//si parametro pdf del xml existe
-            
-            if($_SESSION['edit']['pdf']!=""){//si parametro pdf del xml no está vacío
-                
-                $ruta="data/$tipoDocumento/$subcategory/".$_SESSION['edit']['pdf'];
-                    if(is_file($ruta)){
-                        exec("rm -rf ".$ruta);
-                        //$objResponse->alert("se borró el archivo");    
-                    }
-                    /*
-                    else{
-                        $objResponse->alert("no se borró el archivo<br>".$ruta);
-                    }
-                    */
-            }
-        }
-//Reemplazar el Archivo//
-
-            if (copy($_SESSION['edit']['ruta_pdf_temporal'],$destino)){
-                $_SESSION["publicaciones"]["pdf"]=$archivoUpload;
-                @unlink($_SESSION['edit']['ruta_pdf_temporal']);
-                unset($_SESSION['edit']['ruta_pdf_temporal']);
-            }
-            else{
-                $objResponse->alert("No se pudo subir el archivo");
-            }
-        }
-        
-}
-else{
-//$objResponse->alert("edit no esta seteado");
-        if(isset($_SESSION['tmp']['ruta_pdf_temporal'])){
-             $archivoUpload=isset($recuperar["pdf"])?$recuperar["pdf"]:"";
-             $destino="data/$tipoDocumento/$subcategory/".$archivoUpload;
-            
-            if (copy($_SESSION['tmp']['ruta_pdf_temporal'],$destino)){
-                $_SESSION["publicaciones"]["pdf"]=$archivoUpload;
-                @unlink($_SESSION['tmp']['ruta_pdf_temporal']);
-                unset($_SESSION['tmp']['ruta_pdf_temporal']);
-            }
-            else{
-                $objResponse->alert("No se pudo subir el archivo");
-            }
-        }
-}
-
-		arrayTheme();
-		arrayAreas();
-                arraySubAreas();
-		arrayPermission();
-                arrayPermissionKey();
-
-
-if(isset($_SESSION['edit']['pdf'])){
-    if($_SESSION['edit']['pdf']!=""){
-        $_SESSION["publicaciones"]["pdf"]=$_SESSION['edit']['pdf'];
-    }
-}
-                
-		$xml= arrayToXml($_SESSION["publicaciones"],"publicaciones");
-		//newPublicationSQL('INS',$form["tipoPublicacion"] ,$xml);
-		$newInformacionInternaSQL=newInformacionInternaSQL($action,$iddata,$form["tipoPublicacion"] ,$xml);
-                
-                if ($newInformacionInternaSQL["Error"]==1){
-		//$objResponse->alert($xml);
-                //$objResponse->alert($xml);
-                //$objResponse->alert($newInformacionInternaSQL["Query1"]);
-                    $objResponse->alert($newInformacionInternaSQL["Msg"]);
-                }
-                else{
-                /*
-                switch ($form["tipoPublicacion"]) {
-                    case 6:
-                        $desc_subcategory="Reportes Técnicos";
-                    break;
-                    case 7:
-                        $desc_subcategory="Informes Trimestrales";
-                    break;
-                    case 8:
-                        $desc_subcategory="Boletínes Sísmicos";
-                    break;                 
-
-                }
-                 */
-                    
-		//$objResponse->alert($desc_subcategory." guardado satisfactoriamente");
-                $objResponse->alert($newInformacionInternaSQL["Msg"]);
-                
-                if ($action=="INS"){
-                    $objResponse->script("xajax_formCategoryShow(4)");
-                }
-                elseif ($action=="UPD"){
-                    $objResponse->script("xajax_abstractHide('formulario'); xajax_abstractShow('consultas'); xajax_abstractShow('resultSearch'); xajax_abstractShow('paginator');");
-                }
-                
-                
-		//Borramos las variables de sesion
-                if(isset($_SESSION["tmp"])){
-                    unset($_SESSION["tmp"]);
-                }
-                if(isset($_SESSION["edit"])){
-                    unset($_SESSION["edit"]);
-                    unset($_SESSION["editar"]);
-                }
-                if(isset($_SESSION["publicaciones"])){
-                    unset($_SESSION["publicaciones"]);
-                }
-                }
-        }
-	return $objResponse;
-}
 function funcion_demo(){
         $var = "<script type='text/javascript'>;
         
@@ -2992,19 +2185,19 @@ function newPonencia($iddata=0,$action){
         $objResponse = new xajaxResponse();
          // $scrit = funcion_demo();
          
-        $objResponse->script("
-        			var languaje = new Array();
-        			$('#002 input').each(function(index){ 
-        			languaje[index] = $(this).val(); 
-        			});         			
+        // $objResponse->script("
+        // 			var languaje = new Array();
+        // 			$('#002 input').each(function(index){ 
+        // 			languaje[index] = $(this).val(); 
+        // 			});         			
         			
-        			xajax_PubLanguaje(languaje); 
+        // 			xajax_PubLanguaje(languaje); 
 
-        			// $.post('post.php',{data:languaje},function(resp){
-        			// 	$('#respuesta').html(resp);
-        			// }) ;        			      			
+        // 			// $.post('post.php',{data:languaje},function(resp){
+        // 			// 	$('#respuesta').html(resp);
+        // 			// }) ;        			      			
         			
-        		");  
+        // 		");  
         // $objResponse->sleep(30);
 	
 		// $objResponse->alert($lenguaje);
@@ -3264,6 +2457,95 @@ else{
 	return $objResponse;
 }
 
+function newRegisterBiblio($iddata, $action=0, $form){
+	$objResponse = new xajaxResponse();
+	unset($form["sAuthor"]);//para busqueda de author
+	unset($form["theme_description"]);//para nuevo tema
+	unset($form["author_name"]);//de nuevo author - nombre
+	unset($form["author_surname"]);//de nuevo author - apellido
+
+	// $_SESSION["publicaciones"][] = $form;
+	$_SESSION["publicaciones"] = array_merge($_SESSION["publicaciones"],$form);
+
+	// $_SESSION["edit"]["authorSEC"]["author_first_name"]=$author_first_name;
+ //                            $_SESSION["edit"]["authorSEC"]["author_second_name"]=$author_second_name;
+ //                            $_SESSION["edit"]["authorSEC"]["author_surname"]=$author_surname;
+
+
+	// if(isset($_SESSION["edit"])){
+ //            $recuperar=$_SESSION["edit"];
+ //        }
+ //    else{ 
+ //    	$recuperar=$_SESSION["tmp"]; 
+ //    }
+
+	// if (isset($recuperar["month_pub"])) {
+	// 	$_SESSION["publicaciones"]["month_pub"]=$recuperar["month_pub"];
+	// }
+	// if (isset($recuperar["desc_month_pub"])) {
+	// 	$_SESSION["publicaciones"]["desc_month_pub"]=$recuperar["desc_month_pub"];
+	// }
+	// if (isset($recuperar["year_pub"])) {
+	// 	$_SESSION["publicaciones"]["year_pub"]=$recuperar["year_pub"];
+	// }
+	// if (isset($recuperar["authorPRI"]["idauthor"])) {
+	// 	$_SESSION["publicaciones"]["authorPRI"]["idauthor0"] = $recuperar["authorPRI"]["idauthor"];
+	// }
+	// if (isset($recuperar["authorPRI"]["author_surname"])) {
+	// 	$_SESSION["publicaciones"]["authorPRI"]["author_surname0"] = $recuperar["authorPRI"]["author_surname"];
+	// }
+	// if (isset($recuperar["authorSEC"]["idauthor"])) {
+	// 	for ($i=0; $i < count($recuperar["authorSEC"]["idauthor"]); $i++) { 
+	// 		$_SESSION["publicaciones"]["authorSEC"]["idauthor$i"] = $recuperar["authorPRI"]["idauthor$i"];
+	// 	}	
+	// }
+   
+	
+
+	 // $xml= arrayToXml($_SESSION["publicaciones"],"book");                       
+				
+		
+		// $newPonenciaSQL=newPonenciaSQL($action,$iddata,4,$xml);
+		// //$objResponse->alert(print_r($newPonenciaSQL,TRUE));
+                
+  //               if ($newPonenciaSQL["Error"]==1){
+  //                   //$objResponse->alert(print_r($newPublicationSQL,true));
+  //                   //$objResponse->alert($newPublicationSQL["Count"]);
+  //                   $objResponse->alert($newPonenciaSQL["Msg"]);
+  //               }
+  //               else{
+                    
+  //                   $objResponse->alert("Material Bibliográfico guardado satisfactoriamente");
+
+  //                   $objResponse->script("xajax_formPonenciasShow()");
+
+
+  //                   //Borramos las variables de sesion
+  //                   if (isset($_SESSION["tmp"])){
+  //                           unset($_SESSION["tmp"]);
+  //                           if (isset($_SESSION["required"])) {
+  //                           	unset($_SESSION["required"]);                            	
+  //                           }
+                            
+  //                   }
+
+  //                   if (isset($_SESSION["edit"])){
+  //                           unset($_SESSION["edit"]);
+  //                           unset($_SESSION["editar"]);
+  //                            if (isset($_SESSION["required"])) {
+  //                           	unset($_SESSION["required"]);                            	
+  //                           }
+  //                   }
+  //                   if(isset($_SESSION["publicaciones"])){
+  //                           unset($_SESSION["publicaciones"]);
+                            
+  //                   }
+  //               }
+                
+                
+ $objResponse->alert(print_r($_SESSION["publicaciones"],TRUE));
+	return $objResponse;
+}
 
 
 /******************************************/
@@ -3392,108 +2674,7 @@ elseif(isset($_SESSION["tmp"])){
 	return $recuperar;
 }
 
-function arrayTheme(){
-if(isset($_SESSION["edit"])){
-    $recuperar=$_SESSION["edit"];
-}
-elseif(isset($_SESSION["tmp"])){
-    $recuperar=$_SESSION["tmp"];
- }
 
-	if (isset($recuperar["themes"])){
-		$i=0;
-
-		if(isset($_SESSION["publicaciones"]["theme"])){
-			unset($_SESSION["publicaciones"]["theme"]);
-		}
-
-
-		foreach($recuperar["themes"] as $key=>$value){
-			$_SESSION["publicaciones"]["theme"]["idtheme$i"]=$key;
-                        $_SESSION["publicaciones"]["theme"]["theme_description$i"]=$value;
-			$i++;
-		}
-/*
-		$i=0;
-		foreach($recuperar["theme_description"] as $key=>$value){
-			$_SESSION["publicaciones"]["theme"]["theme_description$i"]=$value;
-			$i++;
-		}
-*/
-
-	}
-        
-}
-
-function arraySubAreas(){
-if(isset($_SESSION["edit"])){
-    $recuperar=$_SESSION["edit"];
-}
-elseif(isset($_SESSION["tmp"])){
-    $recuperar=$_SESSION["tmp"];
- }
-
-	if (isset($recuperar["subAreas"])){
-		$i=0;
-
-		if(isset($_SESSION["publicaciones"]["subAreas"])){
-			unset($_SESSION["publicaciones"]["subAreas"]);
-		}
-
-		foreach($recuperar["subAreas"] as $key=>$value){
-			$_SESSION["publicaciones"]["subAreas"]["idsubarea$i"]=$key;
-			$i++;
-		}
-
-	}
-}
-
-
-function arrayAreasAdministrativas(){
-if(isset($_SESSION["edit"])){
-    $recuperar=$_SESSION["edit"];
-}
-elseif(isset($_SESSION["tmp"])){
-    $recuperar=$_SESSION["tmp"];
- }
-
-	if (isset($recuperar["areasAdministrativas"])){
-		$i=0;
-
-		if(isset($_SESSION["publicaciones"]["areaAdministrativas"])){
-			unset($_SESSION["publicaciones"]["areaAdministrativas"]);
-		}
-
-		foreach($recuperar["areasAdministrativas"] as $key=>$value){
-			$_SESSION["publicaciones"]["areasAdministrativas"]["idareaAdministrativas$i"]=$key;
-			$i++;
-		}
-
-	}
-}
-
-function arrayAreas(){
-if(isset($_SESSION["edit"])){
-    $recuperar=$_SESSION["edit"];
-}
-elseif(isset($_SESSION["tmp"])){
-    $recuperar=$_SESSION["tmp"];
- }
-
-	if (isset($recuperar["areasSEC"])){
-		$i=0;
-
-		if(isset($_SESSION["publicaciones"]["areasSEC"])){
-			unset($_SESSION["publicaciones"]["areasSEC"]);
-		}
-
-		foreach($recuperar["areasSEC"] as $key=>$value){
-			$_SESSION["publicaciones"]["areasSEC"]["idarea$i"]=$key;
-			$i++;
-		}
-
-	}
-}
 
 
 function arrayPermission(){
