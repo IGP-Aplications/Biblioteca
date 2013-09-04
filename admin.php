@@ -871,6 +871,7 @@
 				<label class='control-label' for='title'>Ingrese Titulo</label>
 				<div class='controls'>
 				<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' />
+				<span id='title_error' class='msg_error color_red'></span>
 				</div>
 			</div>
 
@@ -1308,6 +1309,7 @@
 								<label class='control-label' for='$idinput'>".$respuesta["labelinput"]."</label>
 								<div class='controls'>
 								<input type='text' placeholder='".$respuesta["labelinput"]."' onchange='xajax_register_input(this.value,\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;' value='$val_input' id='$idinput' name='$idinput'  />
+								<span id='".$respuesta["idinput"]."_error' class='msg_error color_red'></span>
 								</div>
 							";
 				}

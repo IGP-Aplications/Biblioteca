@@ -2500,7 +2500,22 @@ function newRegisterBiblio($iddata, $action=0, $form){
 	// 	}	
 	// }
    
-	
+	$validar = validar_frm_biblio($form);
+	$objResponse->alert(print_r($validar,TRUE));
+	$objResponse->assign($validar["id_error"],"innerHTML","");
+	$objResponse->script("
+						$('.msg_error').each(function(){
+							$(this).html('');
+						})
+						");
+
+	if ($validar["error"]==1) {
+		$objResponse->script($validar["script"]);
+		$objResponse->assign($validar["id_error"],"innerHTML",$validar["msg"]);
+	}
+	else{
+
+
 
 	 // $xml= arrayToXml($_SESSION["publicaciones"],"book");                       
 				
@@ -2542,9 +2557,27 @@ function newRegisterBiblio($iddata, $action=0, $form){
   //                   }
   //               }
                 
-                
- $objResponse->alert(print_r($_SESSION["publicaciones"],TRUE));
+    }            
+//$objResponse->alert(print_r($_SESSION["publicaciones"],TRUE));
 	return $objResponse;
+}
+function validar_frm_biblio($form){
+	$respuesta["error"] = 0;
+
+	if ($form["title"]=="") {
+		$respuesta["error"]=1;
+		$respuesta["msg"]="Debe ingresar un titulo";
+		$respuesta["script"]="$('#title').addClass('border_red').focus(); ";
+		$respuesta["id_error"] = "title_error";
+	}
+	elseif ($form["ISSN"]=="") {
+		$respuesta["error"]=1;
+		$respuesta["msg"]="Debe ingresar código ISSN";
+		$respuesta["script"]="$('#001 input').addClass('border_red').focus(); ";
+		$respuesta["id_error"] = "ISSN_error";
+	}
+	return $respuesta;
+
 }
 
 
