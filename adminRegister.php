@@ -226,24 +226,7 @@ Funcion que muestra un combo
 
 	
 
-	function registerCompendio($nroCompendio){
-	    $respuesta = new xajaxResponse();
-	
-	    if($nroCompendio==0){
-	        $respuesta->alert("Ingrese Número Compendio");
-	    }
-	    else{
-	        if(isset($_SESSION["edit"])){
-	            $_SESSION["edit"]["nroCompendio"]=$nroCompendio;
-	
-	        }
-	        else{
-	            $_SESSION["tmp"]["nroCompendio"]=$nroCompendio;
-	        }
-	
-		}
-    	return $respuesta;
-	}
+
 
 	function registerDayPub($day_pub){
 	    $respuesta = new xajaxResponse();
@@ -324,25 +307,7 @@ Funcion que muestra un combo
 	    return $respuesta;
 	}
 
-	function registerYearQuarter($yearQuarter){
-	    $respuesta = new xajaxResponse();
-	
-	    if($yearQuarter==0){
-	        $respuesta->alert("Ingrese Año de trimestre");
-	    }
-	    else{
-	        if(isset($_SESSION["edit"])){
-	            $_SESSION["edit"]["yearQuarter"]=$yearQuarter;
-	
-	        }
-	        else{
-	            $_SESSION["tmp"]["yearQuarter"]=$yearQuarter;
-	        }
-		}
-                
-                //$respuesta->alert(print_r($_SESSION["edit"], true));
-	    return $respuesta;
-	}
+
 
 	function registerYearCompendio($yearCompendio){
 	    $respuesta = new xajaxResponse();
@@ -364,25 +329,7 @@ Funcion que muestra un combo
 	    return $respuesta;
 	}
         
-	function registerYear($year){
-	    $respuesta = new xajaxResponse();
 	
-	    if($year==0){
-	        $respuesta->alert("Ingrese Año");
-	    }
-	    else{
-	        if(isset($_SESSION["edit"])){
-	            $_SESSION["edit"]["year"]=$year;
-	
-	        }
-	        else{
-	            $_SESSION["tmp"]["year"]=$year;
-	        }
-		}
-                
-                //$respuesta->alert(print_r($_SESSION["tmp"], true));
-	    return $respuesta;
-	}
 
 
 
@@ -678,27 +625,27 @@ elseif(isset($_SESSION["tmp"])){
 	    return $respuesta;
 	}
 
-	function registerTitulo($title){
-	    $objResponse = new xajaxResponse();
+	// function registerTitulo($title){
+	//     $objResponse = new xajaxResponse();
             
            
-	    if($title==""){
-	        $objResponse->alert("Ingrese título");
-	        $objResponse->script("$('#title').focus()");                
-	    }
-	    else{
-	        if(isset($_SESSION["edit"])){
-	            $_SESSION["edit"]["titulo"]=addslashes($title);
-	        }
-	        else{
-	            $_SESSION["tmp"]["titulo"]=addslashes($title);
-	        }
+	//     if($title==""){
+	//         $objResponse->alert("Ingrese título");
+	//         $objResponse->script("$('#title').focus()");                
+	//     }
+	//     else{
+	//         if(isset($_SESSION["edit"])){
+	//             $_SESSION["edit"]["titulo"]=addslashes($title);
+	//         }
+	//         else{
+	//             $_SESSION["tmp"]["titulo"]=addslashes($title);
+	//         }
 	        
-	    }
+	//     }
 
             
-	    return $objResponse;
-	}
+	//     return $objResponse;
+	// }
 	function registerfbook($fbook_id, $fbook_des=""){
 	    $objResponse = new xajaxResponse();           
 	    if(isset($_SESSION["edit"])){
@@ -993,18 +940,18 @@ elseif(isset($_SESSION["tmp"])){
 	//     return $objResponse;
 	// }
 	function register_input($val_input,$label,$idinput, $index=""){
-		$respuesta = new RegisterInput();
-		$objresponse = new xajaxResponse();	
-		$_SESSION["required"]["$idinput"]=1; 	
+		// $respuesta = new RegisterInput();
+		// $objresponse = new xajaxResponse();	
+		// $_SESSION["required"]["$idinput"]=1; 	
 
-		$reg_response = $respuesta->register("$val_input",$label,$idinput, $index="");
+		// $reg_response = $respuesta->register("$val_input",$label,$idinput, $index="");
 
-		if (isset($reg_response["msj"]) and $reg_response["msj"]!="") {
-			$objresponse->alert(print_r($reg_response["msj"],TRUE));			
-			$objresponse->script($reg_response["script"]);
-		}
+		// if (isset($reg_response["msj"]) and $reg_response["msj"]!="") {
+		// 	$objresponse->alert(print_r($reg_response["msj"],TRUE));			
+		// 	$objresponse->script($reg_response["script"]);
+		// }
 		
-		return $objresponse;
+		// return $objresponse;
 	}
 	
 

@@ -747,8 +747,8 @@ elseif(isset($_SESSION["tmp"])){
 				}
                             
 		            $html.= "<td>".$apellido.", ".ucfirst($author_name[$i])."
-		            		<input name='authorPRI[idauthor0]' type='hidden' value='$id_author'/>
-		            		<input name='authorPRI[author_surname0]' type='hidden' value='$id_author'/>
+		            		<!--input name='authorPRI[idauthor0]' type='hidden' value='$id_author'/>
+		            		<input name='authorPRI[author_surname0]' type='hidden' value='$id_author'/-->
 		            		</td>";
 		            $html.= "<td><a href='#formulario'><img alt='Eliminar' style='cursor: pointer; border:0;' onclick='xajax_delSearchAuthorSesionPriShow(\"$idauthor[$i]\"); return false;' src='img/iconos/userDEL.png' /></a></td>";
 		            $html.= "</tr>"; 
@@ -901,8 +901,8 @@ elseif(isset($_SESSION["tmp"])){
 		    		$html.= "<tr class='impar'>";            
 		            $html.= "<td>".$nro."</td>";
 		            $html.= "<td>".ucfirst($author_surname[$i]).", ".ucfirst($author_first_name[$i])."
-		            		<input name='authorPRI[idauthor0]' type='hidden' value='$id_author'/>
-		            		<input name='authorPRI[author_surname0]' type='hidden' value='$id_author'/>
+		            		<!--input name='authorPRI[idauthor0]' type='hidden' value='$id_author'/>
+		            		<input name='authorPRI[author_surname0]' type='hidden' value='$id_author'/-->
 		            		</td>";
 		            $html.= "<td><a href='#formulario'><img alt='Eliminar' style='cursor: pointer; border:0;' onclick='xajax_delSearchAuthorSesionPriShow(\"$idauthor[$i]\"); return false;' src='img/iconos/userDEL.png' /></a></td>";
 		            $html.= "</tr>"; 
@@ -2465,57 +2465,78 @@ function newRegisterBiblio($iddata, $action=0, $form){
 	unset($form["author_surname"]);//de nuevo author - apellido
 
 	// $_SESSION["publicaciones"][] = $form;
-	$_SESSION["publicaciones"] = array_merge($_SESSION["publicaciones"],$form);
-
-	// $_SESSION["edit"]["authorSEC"]["author_first_name"]=$author_first_name;
- //                            $_SESSION["edit"]["authorSEC"]["author_second_name"]=$author_second_name;
- //                            $_SESSION["edit"]["authorSEC"]["author_surname"]=$author_surname;
-
-
-	// if(isset($_SESSION["edit"])){
- //            $recuperar=$_SESSION["edit"];
- //        }
- //    else{ 
- //    	$recuperar=$_SESSION["tmp"]; 
- //    }
-
-	// if (isset($recuperar["month_pub"])) {
-	// 	$_SESSION["publicaciones"]["month_pub"]=$recuperar["month_pub"];
-	// }
-	// if (isset($recuperar["desc_month_pub"])) {
-	// 	$_SESSION["publicaciones"]["desc_month_pub"]=$recuperar["desc_month_pub"];
-	// }
-	// if (isset($recuperar["year_pub"])) {
-	// 	$_SESSION["publicaciones"]["year_pub"]=$recuperar["year_pub"];
-	// }
-	// if (isset($recuperar["authorPRI"]["idauthor"])) {
-	// 	$_SESSION["publicaciones"]["authorPRI"]["idauthor0"] = $recuperar["authorPRI"]["idauthor"];
-	// }
-	// if (isset($recuperar["authorPRI"]["author_surname"])) {
-	// 	$_SESSION["publicaciones"]["authorPRI"]["author_surname0"] = $recuperar["authorPRI"]["author_surname"];
-	// }
-	// if (isset($recuperar["authorSEC"]["idauthor"])) {
-	// 	for ($i=0; $i < count($recuperar["authorSEC"]["idauthor"]); $i++) { 
-	// 		$_SESSION["publicaciones"]["authorSEC"]["idauthor$i"] = $recuperar["authorPRI"]["idauthor$i"];
-	// 	}	
-	// }
+	$_SESSION["publicaciones"] = array_merge($_SESSION["publicaciones"],$form);	
    
-	$validar = validar_frm_biblio($form);
-	$objResponse->alert(print_r($validar,TRUE));
-	$objResponse->assign($validar["id_error"],"innerHTML","");
-	$objResponse->script("
-						$('.msg_error').each(function(){
-							$(this).html('');
-						})
-						");
+	// $validar = validar_frm_biblio($form);
+	// $objResponse->alert(print_r($validar,TRUE));
+	// $objResponse->assign($validar["id_error"],"innerHTML","");
+	// $objResponse->script("
+	// 					$('.msg_error').each(function(){
+	// 						$(this).html('');
+	// 					})
+	// 					");
 
-	if ($validar["error"]==1) {
-		$objResponse->script($validar["script"]);
-		$objResponse->assign($validar["id_error"],"innerHTML",$validar["msg"]);
+	// if ($validar["error"]==1) {
+	// 	$objResponse->script($validar["script"]);
+	// 	$objResponse->assign($validar["id_error"],"innerHTML",$validar["msg"]);
+	// }
+	// else{}  
+    // $error=0;
+   
+    
+    $newForm = $form;
+    unset($newForm["ax-files"]);
+    unset($newForm["date_ing"]);
+    unset($newForm["month"]);
+    unset($newForm["year"]);
+    // $exclude = array("date_ing"=>array(),"month"=>"0","year"=>"");
+    // $newForm = array_diff($newForm, $exclude);
+    
+    $i =0;
+	foreach ($newForm as $key => $value) {
+		//campos repetibles
+		if (is_array($value)) {	
+			$j = $i;		
+			foreach ($newForm[$key] as $key1 => $value1) {
+				if (trim($value1)=="") {
+					$objResponse->assign($key."_".$key1."_error","innerHTML","Ingrese datos en ".$key);
+					$error[$j] = -100;
+				}
+				else{
+					$objResponse->assign($key."_".$key1."_error","innerHTML","");
+					$error[$j] = 100;
+				}
+				$j++;
+			}
+			$i = $j;			
+			
+		}
+		//campos no repetibles
+		else{			
+			
+			if (trim($value)=="") {
+				$objResponse->assign($key."_error","innerHTML","Ingrese dato en $key");
+				$error[$i] = -100;											
+				}
+
+			else{
+				$objResponse->assign($key."_error","innerHTML","");
+				$error[$i] = 100;
+			}			
+			
+		}
+	$i++;
+	}
+	// $objResponse->alert(print_r($error,TRUE));
+	if (!(in_array(-100,$error))) {
+		// $objResponse->alert(print_r($error,TRUE));
+		$objResponse->alert(print_r("Correcto",TRUE));
 	}
 	else{
+		$objResponse->alert(print_r("Algunos campos requeridos todavia no se han completado",TRUE));
+	}
 
-
+	
 
 	 // $xml= arrayToXml($_SESSION["publicaciones"],"book");                       
 				
@@ -2557,7 +2578,7 @@ function newRegisterBiblio($iddata, $action=0, $form){
   //                   }
   //               }
                 
-    }            
+              
 //$objResponse->alert(print_r($_SESSION["publicaciones"],TRUE));
 	return $objResponse;
 }

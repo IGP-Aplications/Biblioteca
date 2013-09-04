@@ -720,9 +720,6 @@
 					    	<label class="checkbox">
 					      		<input class="ActionInput" type="checkbox" value="024" '.$Catalogador_ch.'> Catalogador 
 					    	</label>	    	
-
-					    	
-						    <button type="submit" class="btn" >Añadir</button>
 						  </fieldset>
 						</form>
 			    	</div>
@@ -1292,7 +1289,7 @@
 							";
 					}
 			}
-			//para campos no repetidos
+			
 			else{
 				if (isset($_SESSION["tmp"])  && in_array($id, $repetibles)) {					
 						$respuesta["html"] .= "
@@ -1300,9 +1297,11 @@
 							    <div class='controls' id='".$id."_1'>
 							      <input type='text' name='".$idinput."[]' placeholder='".$respuesta["labelinput"]."' onchange='xajax_register_input(this.value,\"Idioma\",\"languaje\"); return false;' value=''>
 							      <span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
+							      <span id='".$respuesta["idinput"]."_0_error' class='msg_error color_red'></span>
 							    </div>
 						";					
 				}
+			//para campos no repetidos
 				else{
 					$val_input=(isset($recuperar[$idinput])?$recuperar[$idinput]:"");
 					$respuesta["html"] .="
@@ -1326,6 +1325,7 @@
 		$html = "<div class='controls' >
 								<input type='text'  value=''  name='".$idinput."[]'  />
 								<span><a href='#' class='del_input' onclick='xajax_delInput($(this).parents(\"div\").attr(\"id\"),\"".$labelinput."\",\"".$idinput."\")'>(-)Eliminar</a></span>
+								<span  class='msg_error color_red'></span>
 								</div>";
 		$html = eregi_replace("[\n|\r|\n\r]", ' ', $html);
  		$html = addslashes($html);	
@@ -1337,6 +1337,7 @@
 					$('#'+iddd+' > div').each(function(index){					
 						$(this).attr('id',iddd+'_'+(index+1));
 						$(this).find('a').attr('id','a_".$id."_'+(index+1));
+						$(this).find('span.msg_error').attr('id','".$idinput."_'+(index)+'_error');
 						// $(this).find('input').change(function(){
 						// 	alert(index);
 						// });	
@@ -1354,23 +1355,15 @@
 		$objResponse->script("
 					var idDiv = $('#".$idDiv."').parents('div').attr('id');					
 					$('#".$idDiv."').remove();
-					var edition = new Array();	
+					
 					$('#'+idDiv+' > div').each(function(index){	
 
-						$(this).attr('id',idDiv+'_'+(index+1));
-						 //edition[index] = $(this).find('input').val();	
-						//$(this).find('input').change(function(){
-							// alert(index);
-							var val_input = $(this).val();
-							// edition[index] = $(this).val();							
-							// alert(val_input);
-							// xajax_register_input(val_input,'".$labelinput."','".$idinput."',index);
-							//return false;
-						//});
+						$(this).attr('id',idDiv+'_'+(index+1));	
+						$(this).find('span.msg_error').attr('id','".$idinput."_'+(index)+'_error');					
 						
 					});
-					return false;
-					//alert(edition);
+					//return false;
+					
 					
 			");
 		return $objResponse;
