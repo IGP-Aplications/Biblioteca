@@ -313,7 +313,7 @@
 
 				$respuesta->script("xajax_searchPublicationShow(xajax.getFormValues('formSearch'),'".$_SESSION["idfrom"]."','$currentPage','$pageSize','$idarea')");
 				$respuesta->script("xajax_paginatorSearch($currentPage,$pageSize,$total,xajax.getFormValues('formSearch'),$idarea)");
-	            // $respuesta->alert(print_r($result,TRUE));  	                         
+	             $respuesta->alert(print_r($result,TRUE));  	                         
 			}
 	
 		}
@@ -518,7 +518,16 @@
 	                        
 				// eval('if (isset($xmlt->enlace)){$xmlflag=TRUE; $enlace=(string)$xmlt->enlace;} else {$xmlflag=FALSE;}');
                                 $titulo=ucfirst((string)$xmlt->title);
-                                $author=ucfirst((string)$xmlt->authorPRI->author_surname0);
+                                // $author=ucfirst((string)$xmlt->authorPRI->author_surname0);
+                                $idauthor= (int)$xmlt->authorPRI->idauthor0; 
+                                                        
+                                $result_author = searchAuthorID($idauthor);
+                                $author = "- ".$result_author["author_surname"][0].",".$result_author["author_name"][0];
+                                if ($result_author["Error"]==1) {
+                                	$author ="";
+                                }
+
+
 				// if(($xmlflag) and ($enlace!="")){
 				// 	$titulo="<a href='$enlace' target='_blank'>".$titulo."</a>";
 				// }
@@ -536,7 +545,7 @@
 					
 				$html.="<div class='resultado-busqueda ".$class_list."'>";				
 				$pag=($currentPage-1)*$pageSize+($i+1);
-				$html.="<span class='list_number'>" .$pag.".</span> ".$titulo." - ".$author;
+				$html.="<span class='list_number'>" .$pag.".</span> ".$titulo.$author;
 
 				$html .= "</div>";
 

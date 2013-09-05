@@ -241,3 +241,6 @@ body .tabactive a{
 .color_red {
     color:red;
 }
+.none {
+    display: none;
+}

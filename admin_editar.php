@@ -806,11 +806,6 @@
 	}
 	
 	
-	
-	
-
-        
-
 
 	function formSubcategoryShow($tipo=1){
 		$objResponse = new xajaxResponse();

@@ -31,8 +31,9 @@
 		$idarea=0;
 	}
 
-
+	session_name("bib");
 	session_start();
+
 
 
 	/************************************************************
@@ -769,8 +770,8 @@
 					</div>
 					
 		            <div class="action-btn">
-		            	<input class="btn"  type="button" onclick="xajax_newPonencia('.$iddata.',\''.$action.'\');" value='.$tituloBoton.'  />
-		            	<input class="btn"  type="button" onclick="xajax_newRegisterBiblio('.$iddata.',\''.$action.'\',xajax.getFormValues(\'frmBiblio\'));" value="New"  />
+		            	<!--input class="btn"  type="button" onclick="xajax_newPonencia('.$iddata.',\''.$action.'\');" value='.$tituloBoton.'-->
+		            	<input class="btn"  type="button" onclick="xajax_newRegisterBiblio('.$iddata.',\''.$action.'\',xajax.getFormValues(\'frmBiblio\'));" value='.$tituloBoton.'  />
 		            </div>            	
 		        </div> 
 
@@ -1488,23 +1489,14 @@
 			    <option value="11">&nbsp;Compendios de estudiantes&nbsp;</option>
                             <option value="12">&nbsp;Informes trimestrales&nbsp;</option>
 			</select>';    
-		}
-		elseif($idarea==11 or $idarea==12  or $idarea==13  or $idarea==14){
-			$comboTipoPublicacion='
-			<select  name="idsubcategory" id="idsubcategory" onChange="xajax_comboTipoFechasShow(this.value);xajax_seccionShow(this.value); return false;" class="combo-buscador-1">			    
-                            <option value="0">&nbsp;Elegir&nbsp;</option>
-                            <option value="7">&nbsp;Informes trimestrales&nbsp;</option>
-			</select>';    
-		}                
+		}		          
 		else{
 			$comboTipoPublicacion='
 			<select  name="idcategory" id="idcategory" class="combo-buscador-1">
-			    <option value="0" selected="selected">- Seleccione-&nbsp;</option>
-			    <option value="1" >Todos los campos</option>
-			    <option value="2">Autor</option>
-			    <option value="3">Temas</option>
-			    <option value="4">Serie</option>
-			    <option value="5">CallNumber</option>
+			    <option value="1" selected="selected">Todos los campos</option>
+			    <option value="2">Titulo</option>
+			    <option value="3">Autor</option>
+			    <option value="4">Descripcion</option>			    
 			</select>';
 		}
 		
@@ -1512,9 +1504,7 @@
 		<div>
 			<div id="divformSearch">
 			<h2 class="txt-azul">Buscador </h2>
-			<form id="formSearch">				
-                                    '.$formArea.'				    
-
+			<form id="formSearch">'.$formArea.'	
 				    <label class="checkbox inline">
 					  <input type="radio" id="query_type_1" name="query_type" value="content"> Que contenga
 					</label>
@@ -1539,7 +1529,7 @@
 							</div>
 				</div>'.$formAutor.' '.$fieldhidden.'            
                 <button id="btn-search">Buscar</button>
-                <span class="text-right"><a href="#">Busqueda Avanzada</a></span>
+                <span class="text-right none"><a href="#">Busqueda Avanzada</a></span>
 				<div class="clear"></div>
 				<div id="msj_query_type"> Buscará la palabra o frase que esté contenido en todo registro</div>				
 				

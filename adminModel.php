@@ -197,7 +197,7 @@
 	
 	}
 	
-	function searchAuthorSessionSQL($strSQL=""){
+	function searchAuthorSessionSQL($strSQL="",$idauthor=-100){
 	
 		$dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
 		$dbh->query("SET NAMES 'utf8'");
@@ -215,6 +215,9 @@
 		        //$sql.= "where idauthor in ('$strSQL')";
 		        $sql.= "where idauthor in ($strSQL) ORDER BY field(idauthor, $strSQL)";
 		        $i=0;
+		        if ( $strSQL=="q" and $idauthor!=-100) {
+		        	$sql= "select * from author where idauthor=$idauthor";
+		        }
 		
 			if($dbh->query($sql)){
 			        foreach($dbh->query($sql) as $row) {
@@ -240,6 +243,44 @@
 	        $result["Error"]=2;
 	        //$result["Query"]=$sql;
 	    }
+	
+	    $dbh = null;
+	
+	    return $result;
+	}
+
+	function searchAuthorID($idauthor=-100,$surname=""){
+	
+		$dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
+		$dbh->query("SET NAMES 'utf8'");	
+		        
+		    $sql= "select * from author where idauthor= ".$idauthor;
+		     if ($idauthor==-100) {
+		     	$sql= "select * from author where author_surname like %$surname%";
+		     }
+		        
+			$i=0;
+			if($dbh->query($sql)){
+			        foreach($dbh->query($sql) as $row) {
+			            $result["idauthor"][$i]= $row["idauthor"];
+			            $result["author_name"][$i]= $row["author_name"];
+			            $result["author_surname"][$i]= $row["author_surname"];
+			            $i++;
+			        }   
+			                if(isset($result["idauthor"])){
+			                    $result["Error"]=0;
+			                    $result["Query"]=$sql;
+			                    $result["Count"]=count($result["idauthor"]);
+			
+			                }
+			                else{
+			                    $result["Error"]=1;
+			                    //$result["Count"]=count($result["idauthor"]);
+			                    $result["Count"]=0;
+			                }
+			}
+			
+		
 	
 	    $dbh = null;
 	

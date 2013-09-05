@@ -2464,24 +2464,6 @@ function newRegisterBiblio($iddata, $action=0, $form){
 	unset($form["author_name"]);//de nuevo author - nombre
 	unset($form["author_surname"]);//de nuevo author - apellido
 
-	// $_SESSION["publicaciones"][] = $form;
-	$_SESSION["publicaciones"] = array_merge($_SESSION["publicaciones"],$form);	
-   
-	// $validar = validar_frm_biblio($form);
-	// $objResponse->alert(print_r($validar,TRUE));
-	// $objResponse->assign($validar["id_error"],"innerHTML","");
-	// $objResponse->script("
-	// 					$('.msg_error').each(function(){
-	// 						$(this).html('');
-	// 					})
-	// 					");
-
-	// if ($validar["error"]==1) {
-	// 	$objResponse->script($validar["script"]);
-	// 	$objResponse->assign($validar["id_error"],"innerHTML",$validar["msg"]);
-	// }
-	// else{}  
-    // $error=0;
    
     
     $newForm = $form;
@@ -2498,6 +2480,7 @@ function newRegisterBiblio($iddata, $action=0, $form){
 		if (is_array($value)) {	
 			$j = $i;		
 			foreach ($newForm[$key] as $key1 => $value1) {
+				// $newForm[$key][$key1] = addslashes($value1);
 				if (trim($value1)=="") {
 					$objResponse->assign($key."_".$key1."_error","innerHTML","Ingrese datos en ".$key);
 					$error[$j] = -100;
@@ -2513,7 +2496,7 @@ function newRegisterBiblio($iddata, $action=0, $form){
 		}
 		//campos no repetibles
 		else{			
-			
+			// $newForm[$key] = addslashes($value);
 			if (trim($value)=="") {
 				$objResponse->assign($key."_error","innerHTML","Ingrese dato en $key");
 				$error[$i] = -100;											
@@ -2529,77 +2512,74 @@ function newRegisterBiblio($iddata, $action=0, $form){
 	}
 	// $objResponse->alert(print_r($error,TRUE));
 	if (!(in_array(-100,$error))) {
-		// $objResponse->alert(print_r($error,TRUE));
-		$objResponse->alert(print_r("Correcto",TRUE));
+		
+		if (isset($_SESSION["publicaciones"])) {
+			$_SESSION["publicaciones"] = array_merge($_SESSION["publicaciones"],$form);
+		}
+		else{
+			$_SESSION["publicaciones"] = $form;
+		}
+		
+		// $objResponse->alert(print_r($error,TRUE));		
+		
+
+		// $_SESSION["publicaciones"]=array("dias"=>array("01"=>"lunes","02"=>"martes"),"meses"=>array("01"=>"enero","02"=>"marzo"));
+		
+
+		$objResponse->alert(print_r($_SESSION["publicaciones"],TRUE));
+
+		
+
+		$xml= arrayToXml($_SESSION["publicaciones"],"book"); 
+
+		$objResponse->alert(print_r($xml,TRUE));		
+		
+		$newPonenciaSQL=newPonenciaSQL($action,$iddata,4,$xml);
+		//$objResponse->alert(print_r($newPonenciaSQL,TRUE));
+                
+                if ($newPonenciaSQL["Error"]==1){
+                    //$objResponse->alert(print_r($newPublicationSQL,true));
+                    //$objResponse->alert($newPublicationSQL["Count"]);
+                    $objResponse->alert($newPonenciaSQL["Msg"]);
+                }
+                else{
+                    
+                    $objResponse->alert("Material Bibliográfico guardado satisfactoriamente");
+
+                    $objResponse->script("xajax_formPonenciasShow()");
+
+
+                    //Borramos las variables de sesion
+                    if (isset($_SESSION["tmp"])){
+                            unset($_SESSION["tmp"]);
+                            if (isset($_SESSION["required"])) {
+                            	unset($_SESSION["required"]);                            	
+                            }
+                            
+                    }
+
+                    if (isset($_SESSION["edit"])){
+                            unset($_SESSION["edit"]);
+                            unset($_SESSION["editar"]);
+                             if (isset($_SESSION["required"])) {
+                            	unset($_SESSION["required"]);                            	
+                            }
+                    }
+                    if(isset($_SESSION["publicaciones"])){
+                            unset($_SESSION["publicaciones"]);
+                            
+                    }
+                }
 	}
 	else{
 		$objResponse->alert(print_r("Algunos campos requeridos todavia no se han completado",TRUE));
 	}
-
-	
-
-	 // $xml= arrayToXml($_SESSION["publicaciones"],"book");                       
-				
-		
-		// $newPonenciaSQL=newPonenciaSQL($action,$iddata,4,$xml);
-		// //$objResponse->alert(print_r($newPonenciaSQL,TRUE));
-                
-  //               if ($newPonenciaSQL["Error"]==1){
-  //                   //$objResponse->alert(print_r($newPublicationSQL,true));
-  //                   //$objResponse->alert($newPublicationSQL["Count"]);
-  //                   $objResponse->alert($newPonenciaSQL["Msg"]);
-  //               }
-  //               else{
-                    
-  //                   $objResponse->alert("Material Bibliográfico guardado satisfactoriamente");
-
-  //                   $objResponse->script("xajax_formPonenciasShow()");
-
-
-  //                   //Borramos las variables de sesion
-  //                   if (isset($_SESSION["tmp"])){
-  //                           unset($_SESSION["tmp"]);
-  //                           if (isset($_SESSION["required"])) {
-  //                           	unset($_SESSION["required"]);                            	
-  //                           }
-                            
-  //                   }
-
-  //                   if (isset($_SESSION["edit"])){
-  //                           unset($_SESSION["edit"]);
-  //                           unset($_SESSION["editar"]);
-  //                            if (isset($_SESSION["required"])) {
-  //                           	unset($_SESSION["required"]);                            	
-  //                           }
-  //                   }
-  //                   if(isset($_SESSION["publicaciones"])){
-  //                           unset($_SESSION["publicaciones"]);
-                            
-  //                   }
-  //               }
-                
+       
               
 //$objResponse->alert(print_r($_SESSION["publicaciones"],TRUE));
 	return $objResponse;
 }
-function validar_frm_biblio($form){
-	$respuesta["error"] = 0;
 
-	if ($form["title"]=="") {
-		$respuesta["error"]=1;
-		$respuesta["msg"]="Debe ingresar un titulo";
-		$respuesta["script"]="$('#title').addClass('border_red').focus(); ";
-		$respuesta["id_error"] = "title_error";
-	}
-	elseif ($form["ISSN"]=="") {
-		$respuesta["error"]=1;
-		$respuesta["msg"]="Debe ingresar código ISSN";
-		$respuesta["script"]="$('#001 input').addClass('border_red').focus(); ";
-		$respuesta["id_error"] = "ISSN_error";
-	}
-	return $respuesta;
-
-}
 
 
 /******************************************/

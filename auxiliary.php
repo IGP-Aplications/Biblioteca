@@ -169,16 +169,16 @@ function validarPonencias($idsubcategory,$areaPRI){
 
             // }         
             
-            if($title==""){ 
-                $check["Msg"]="Ingrese Título";
-                $check["Error"]=1;
-                $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
-                $check["focus"]="$('#title').focus()";
-            }
-            else{
-                $check["title"]=$title;
+            // if($title==""){ 
+            //     $check["Msg"]="Ingrese Título";
+            //     $check["Error"]=1;
+            //     $check["funcion"]="xajax_displaydiv('titulo_tipo_prepor','titulo1');";
+            //     $check["focus"]="$('#title').focus()";
+            // }
+            // else{
+            //     $check["title"]=$title;
 
-            }
+            // }
 
         
         if ($_SESSION["required"]["ISSN"]==1 || isset($recuperar["ISSN"]) ) {
@@ -1644,7 +1644,7 @@ $("#other").click(function() {
 	/**************************************************
 	Funcion que muestra un combo
 	***************************************************/
-	function comboMonth($dbMonth=0,$funcion="",$name="month"){
+	function comboMonth($dbMonth=0,$funcion="",$name="month_pub"){
 
 		$mes = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Setiembre","Octubre","Noviembre","Diciembre");
 		$id = array("1","2","3","4","5","6","7","8","9","10","11","12");
@@ -1689,7 +1689,7 @@ $("#other").click(function() {
 	function comboYear($dbyear=0,$funcion="",$name=""){
 
             if($name==""){
-                $name="year";
+                $name="year_pub";
             }
                
                 
