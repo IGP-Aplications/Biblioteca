@@ -12,48 +12,108 @@
 		
 		if(isset($form["tituloSearch"])){
 			if(strlen(trim($form["tituloSearch"]))>0){
-				//title
-				if ($form["idcategory"]==2) {
-					$sql .=	" WHERE ExtractValue(book_data,'book/title') LIKE '%".$form["tituloSearch"]."%'";
-				}
-				elseif ($form["idcategory"]==3) {
-					$idauthor=-100;
-					$result = searchAuthorID($idauthor,$form["tituloSearch"]);
 
-					$id_format= "(";
-					foreach ($result["idauthor"] as $value) {
-						$id_format .="'".$value."',";						
+				if (isset($form["query_type"])) {
+					//que contenga la frase
+					if ($form["query_type"]=="content") {
+						if ($form["idcategory"]==2) {
+								$sql .=	" WHERE ExtractValue(book_data,'book/title') LIKE '%".$form["tituloSearch"]."%'";
+							}
+							elseif ($form["idcategory"]==3) {
+								$author=explode(" ", $form["tituloSearch"]);
+								
+								$idauthor=-100;
+								$result = searchAuthorID($idauthor,$author[0], $author[1]);
+
+								$id_format= "(";
+								foreach ($result["idauthor"] as $value) {
+									$id_format .="'".$value."',";						
+								}
+								$id_format = substr($id_format, 0,-1);
+								$id_format .= ")";					
+
+								$sql .=	" WHERE ExtractValue(book_data,'book/authorPRI/idauthor0') in $id_format";
+
+							}
+							//descripcion
+							elseif ($form["idcategory"]==4) {
+								$sql .=	" WHERE ExtractValue(book_data,'book/Description') LIKE '%".$form["tituloSearch"]."%'";
+							}
+							else{
+								$form["tituloSearch"]=(str_replace("'","*",$form["tituloSearch"]));
+								$sql .=	" WHERE ExtractValue(book_data,'book/child::*') LIKE '%".$form["tituloSearch"]."%'";
+							}
 					}
-					$id_format = substr($id_format, 0,-1);
-					$id_format .= ")";					
+					//empieza por
+					elseif ($form["query_type"]=="empieza") {
 
-					$sql .=	" WHERE ExtractValue(book_data,'book/authorPRI/idauthor0') in $id_format";
+							if ($form["idcategory"]==2) {
+								$sql .=	" WHERE ExtractValue(book_data,'book/title') LIKE '".$form["tituloSearch"]."%'";
+							}
+							elseif ($form["idcategory"]==3) {
+								$author=explode(" ", $form["tituloSearch"]);
+								
+								$idauthor=-100;
+								$result = searchAuthorID($idauthor,$author[0], $author[1]);
 
+								$id_format= "(";
+								foreach ($result["idauthor"] as $value) {
+									$id_format .="'".$value."',";						
+								}
+								$id_format = substr($id_format, 0,-1);
+								$id_format .= ")";					
+
+								$sql .=	" WHERE ExtractValue(book_data,'book/authorPRI/idauthor0') in $id_format";
+
+							}
+							//descripcion
+							elseif ($form["idcategory"]==4) {
+								$sql .=	" WHERE ExtractValue(book_data,'book/Description') LIKE '".$form["tituloSearch"]."%'";
+							}
+							else{
+								$form["tituloSearch"]=(str_replace("'","*",$form["tituloSearch"]));
+								$sql .=	" WHERE ExtractValue(book_data,'book/child::*') LIKE '%".$form["tituloSearch"]."%'";
+							}
+					}
+					//frase exacta 
+					elseif ($form["query_type"]=="exacta") {
+							if ($form["idcategory"]==2) {
+								$sql .=	" WHERE ExtractValue(book_data,'book/title') = '".$form["tituloSearch"]."'";
+							}
+							elseif ($form["idcategory"]==3) {
+								$author=explode(" ", $form["tituloSearch"]);
+								
+								$idauthor=-100;
+								$result = searchAuthorID($idauthor,$author[0], $author[1]);
+
+								$id_format= "(";
+								foreach ($result["idauthor"] as $value) {
+									$id_format .="'".$value."',";						
+								}
+								$id_format = substr($id_format, 0,-1);
+								$id_format .= ")";					
+
+								$sql .=	" WHERE ExtractValue(book_data,'book/authorPRI/idauthor0') in $id_format";
+
+							}
+							//descripcion
+							elseif ($form["idcategory"]==4) {
+								$sql .=	" WHERE ExtractValue(book_data,'book/Description') = '".$form["tituloSearch"]."'";
+							}
+							else{
+								$form["tituloSearch"]=(str_replace("'","*",$form["tituloSearch"]));
+								$sql .=	" WHERE ExtractValue(book_data,'book/child::*') = '".$form["tituloSearch"]."'";
+							}
+					}
 				}
-				//descripcion
-				elseif ($form["idcategory"]==4) {
-					$sql .=	" WHERE ExtractValue(book_data,'book/Description') LIKE '%".$form["tituloSearch"]."%'";
-				}
-				else{
-					$form["tituloSearch"]=(str_replace("'","*",$form["tituloSearch"]));
-					$sql .=	" WHERE ExtractValue(book_data,'book/child::*') LIKE '%".$form["tituloSearch"]."%'";
-				}
+				//title
+				
                 
 				
 
 			}
 		}
-		if (isset($form["query_type"])) {
-			if ($form["query_type"]=="content") {
-				$sql .="";
-			}
-			if ($form["query_type"]=="empieza") {
-				# code...
-			}
-			if ($form["query_type"]=="exacta") {
-				# code...
-			}
-		}
+		
 		//paginar
 		if($currentPage<>"" and $pageSize<>""){
 			$limitIni = ($currentPage-1)*$pageSize;

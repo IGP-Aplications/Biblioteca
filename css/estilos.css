@@ -185,7 +185,7 @@ a.blue{ color:blue; text-decoration:none;}
 
 .listado-busqueda{background-color:#f5f5f5; padding:10px; border:1px solid #ccc;}
 
-.resultado-busqueda{padding-bottom:10px; }
+.resultado-busqueda{padding-bottom:10px; position: relative;}
 
 .numero-paginas{float:left; font-size:14px; padding:0px 10px 0px 10px; font-weight:bold;}
 

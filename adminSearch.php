@@ -415,10 +415,11 @@
 			foreach ($result["book_data"] as $xmldata){
 				$xmlt = simplexml_load_string($xmldata);
 		        $titulo = (string)$xmlt->title;
-		        $ISBN = (string)$xmlt->ISBN;  
+		        
+		        
 		        $CallNumber = (string)$xmlt->CallNumber;		        
 		        $description_physical = (string)$xmlt->description_physical; 
-		        $edition = (string)$xmlt->edition;   
+		         
 		        $subject = (string)$xmlt->subject;  
 		        $summary = (string)$xmlt->summary;
 
@@ -438,6 +439,31 @@
 					$array_files = (array)$xmlt->files;
 					// $objResponse->alert(print_r($array_files,TRUE));
                 }
+
+                if (isset($xmlt->ISBN)) {
+		        	$ISBN = (string)$xmlt->ISBN;  
+		        }
+		        if (isset($xmlt->ISSN)) {
+		        	$ISSN = (string)$xmlt->ISSN;  
+		        }
+		        if (isset($xmlt->Edition)) {
+		        	$Edition = (array)$xmlt->Edition;  
+		        }
+		        if (isset($xmlt->Resumen)) {
+		        	$Resumen = (string)$xmlt->Resumen;  
+		        }
+		        if (isset($xmlt->Description)) {
+		        	$Description = (string)$xmlt->Description;  
+		        }
+		        if (isset($xmlt->FxIng)) {
+		        	$FxIng = (string)$xmlt->FxIng;  
+		        }
+		        if (isset($xmlt->UbicFis)) {
+		        	$UbicFis = (string)$xmlt->UbicFis;  
+		        }
+		        if (isset($xmlt->NumReg)) {
+		        	$NumReg = (string)$xmlt->NumReg;  
+		        }
                 if (isset($xmlt->languaje)) {                	
                 	$languaje = (array)$xmlt->languaje;
                 }
@@ -550,10 +576,11 @@
 		$_SESSION["edit"]["date_ing"]=$date_ing;
 		$_SESSION["edit"]["authorPRI"][$autorPRI]=1;
 		$_SESSION["edit"]["titulo"]=$titulo;
-		$_SESSION["edit"]["ISBN"]=$ISBN;
+		
 		$_SESSION["edit"]["CallNumber"]=$CallNumber;
 		$_SESSION["edit"]["description_physical"]=$description_physical;
-		$_SESSION["edit"]["edition"]=$edition;
+
+		
 		$_SESSION["edit"]["subject"]=$subject;
 		$_SESSION["edit"]["summary"]=$summary;
 		$_SESSION["edit"]["year_pub"]=$year_pub;
@@ -561,8 +588,31 @@
         $_SESSION["edit"]["desc_month_pub"]=$desc_month_pub;
         if(isset($files)){        	
         		$_SESSION["edit"]["files"] = $array_files;
-        		// $objResponse->alert(print_r($_SESSION["edit"],TRUE));
-		     
+        		// $objResponse->alert(print_r($_SESSION["edit"],TRUE));		     
+		}
+		if (isset($Edition)) {
+			$_SESSION["edit"]["Edition"]=$Edition;
+		}
+		if (isset($languaje)) {
+			$_SESSION["edit"]["ISBN"] = $ISBN;			
+		}
+		if (isset($ISSN)) {
+			$_SESSION["edit"]["ISSN"] = $ISSN;			
+		}
+		if (isset($Resumen)) {
+			$_SESSION["edit"]["Resumen"] = $Resumen;			
+		}
+		if (isset($Description)) {
+			$_SESSION["edit"]["Description"] = $Description;			
+		}
+		if (isset($FxIng)) {
+			$_SESSION["edit"]["FxIng"] = $FxIng;			
+		}
+		if (isset($UbicFis)) {
+			$_SESSION["edit"]["UbicFis"] = $UbicFis;			
+		}
+		if (isset($NumReg)) {
+			$_SESSION["edit"]["NumReg"] = $NumReg;			
 		}
 		if (isset($languaje)) {
 			$_SESSION["edit"]["languaje"] = $languaje;			
@@ -2510,7 +2560,7 @@ function newRegisterBiblio($iddata, $action=0, $form){
 		}
 	$i++;
 	}
-	// $objResponse->alert(print_r($error,TRUE));
+	// $objResponse->alert(print_r($form,TRUE));
 	if (!(in_array(-100,$error))) {
 		
 		if (isset($_SESSION["publicaciones"])) {
@@ -2520,19 +2570,13 @@ function newRegisterBiblio($iddata, $action=0, $form){
 			$_SESSION["publicaciones"] = $form;
 		}
 		
-		// $objResponse->alert(print_r($error,TRUE));		
-		
-
-		// $_SESSION["publicaciones"]=array("dias"=>array("01"=>"lunes","02"=>"martes"),"meses"=>array("01"=>"enero","02"=>"marzo"));
-		
-
-		$objResponse->alert(print_r($_SESSION["publicaciones"],TRUE));
-
-		
+		// $objResponse->alert(print_r($error,TRUE));
+		// $_SESSION["publicaciones"]=array("dias"=>array("01"=>"lunes","02"=>"martes"),"meses"=>array("01"=>"enero","02"=>"marzo"));	
+		// $objResponse->alert(print_r($_SESSION["publicaciones"],TRUE));		
 
 		$xml= arrayToXml($_SESSION["publicaciones"],"book"); 
 
-		$objResponse->alert(print_r($xml,TRUE));		
+		// $objResponse->alert(print_r($xml,TRUE));		
 		
 		$newPonenciaSQL=newPonenciaSQL($action,$iddata,4,$xml);
 		//$objResponse->alert(print_r($newPonenciaSQL,TRUE));
@@ -2573,8 +2617,7 @@ function newRegisterBiblio($iddata, $action=0, $form){
 	}
 	else{
 		$objResponse->alert(print_r("Algunos campos requeridos todavia no se han completado",TRUE));
-	}
-       
+	}       
               
 //$objResponse->alert(print_r($_SESSION["publicaciones"],TRUE));
 	return $objResponse;

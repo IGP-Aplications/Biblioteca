@@ -140,9 +140,18 @@ body .tabactive a{
 }
 .list_number{
     font-style: italic;
-    padding-right: 8px;
-    color: #ACAAAA;
     font-weight: bold;
+    margin-left: -37px;
+    position: absolute;
+    background: rgb(213, 207, 207);
+    color: #423F3F;
+    line-height: 10px;
+    padding: 5px 7px;
+    border-radius: 7px 0 0 7px;
+    width: 18px;
+    margin-top: 0px;
+    border: 1px solid rgb(201, 194, 194);
+    box-shadow: 0 0 1px rgb(201, 194, 194);
 }
 .cblanco{
     color:#fff;
@@ -239,7 +248,7 @@ body .tabactive a{
     text-shadow: none;
 }
 .color_red {
-    color:red;
+    color: #C85305;
 }
 .none {
     display: none;

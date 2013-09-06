@@ -249,14 +249,14 @@
 	    return $result;
 	}
 
-	function searchAuthorID($idauthor=-100,$surname=""){
+	function searchAuthorID($idauthor=-100,$surname="",$name=""){
 	
 		$dbh=conx("biblioteca_virtual","wmaster","igpwmaster");
 		$dbh->query("SET NAMES 'utf8'");	
 		        
 		    $sql= "select * from author where idauthor= ".$idauthor;
 		     if ($idauthor==-100) {
-		     	$sql= "select * from author where author_surname like %$surname%";
+		     	$sql= "select * from author where (author_surname like '%".$surname."%' and author_name like '%".$name."%')";
 		     }
 		        
 			$i=0;

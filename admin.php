@@ -597,6 +597,15 @@
 				
 				$recuperar = $_SESSION["edit"];
 				//verificar los checked
+				$ISBN_ch = (isset($recuperar["ISBN"])?"checked":"");
+				$ISSN_ch = (isset($recuperar["ISSN"])?"checked":"");
+				$Edition_ch = (isset($recuperar["Edition"])?"checked":"");
+				$Resumen_ch = (isset($recuperar["Resumen"])?"checked":"");
+				$Description_ch = (isset($recuperar["Description"])?"checked":"");
+				$FxIng_ch = (isset($recuperar["FxIng"])?"checked":"");
+				$UbicFis_ch = (isset($recuperar["UbicFis"])?"checked":"");
+				$NumReg_ch = (isset($recuperar["NumReg"])?"checked":"");
+
 				$languaje_ch = (isset($recuperar["languaje"])?"checked":"");
 				$NumLC_ch = (isset($recuperar["NumLC"])?"checked":"");
 
@@ -648,8 +657,30 @@
 						  <fieldset>
 						    <legend>Lita de Campos </legend>
 						    <p><small>Seleccione un campo para añadir al formulario.</small> </p>
+						    <label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="id_020" '.$ISBN_ch.'> ISBN
+					    	</label>
+					    	
 						   	<label class="checkbox checkbox1">
-					      		<input class="ActionInput" type="checkbox" value="001"> ISSN
+					      		<input class="ActionInput" type="checkbox" value="001" '.$ISSN_ch.'> ISSN
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="id_0250" '.$Edition_ch.'> Edicion
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="id_0920" '.$FxIng_ch.'> Fecha de Ingreso
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="id_0924" '.$UbicFis_ch.'> Ubicación Física
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="id_0925" '.$NumReg_ch.'> Número de Registro
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="id_0520" '.$Resumen_ch.'> Resumen
+					    	</label>
+					    	<label class="checkbox">
+					      		<input class="ActionInput" type="checkbox" value="id_0300" '.$Description_ch.'> Descripcion
 					    	</label>
 					    	<label class="checkbox">
 					      		<input class="ActionInput" type="checkbox" value="002" '.$languaje_ch.'> Idiomas
@@ -871,6 +902,7 @@
 				<input type='text' placeholder='Ingrese titulo aqui' onchange='xajax_registerTitulo(this.value); return false;' value='$tit' id='title' name='title' class='caja-buscador-1' />
 				<span id='title_error' class='msg_error color_red'></span>
 				</div>
+				<!--select name='sel'> <option value='01'>0000</option><option value='02'>002</option> </select-->
 			</div>
 
 			<!-- comentado temporalmente>
@@ -1130,6 +1162,34 @@
 		// $respuesta["del"] = "<span><a href='#' onclick='$(\"#".$id."_".$k."\").remove(); return false;'>(-)Eliminar</a></span>";
 		$repetibles = array("002","006","007","009","010","014","015","016","017","019","020","021");
 		switch ($id) {
+				case 'id_020':										
+					$respuesta["idinput"] = "ISBN";
+					$respuesta["labelinput"] = "ISBN";
+					break;
+				case 'id_0250':										
+					$respuesta["idinput"] = "Edition";
+					$respuesta["labelinput"] = "Edicion";
+					break;
+				case 'id_0520':										
+					$respuesta["idinput"] = "Resumen";
+					$respuesta["labelinput"] = "Resumen";
+					break;
+				case 'id_0300':										
+					$respuesta["idinput"] = "Description";
+					$respuesta["labelinput"] = "Descripcion";
+					break;
+				case 'id_0920':										
+					$respuesta["idinput"] = "FxIng";
+					$respuesta["labelinput"] = "Fecha de Ingreso";
+					break;
+				case 'id_0924':										
+					$respuesta["idinput"] = "UbicFis";
+					$respuesta["labelinput"] = "Ubicación Fisica";
+					break;
+				case 'id_0925':										
+					$respuesta["idinput"] = "NumReg";
+					$respuesta["labelinput"] = "Nḿero de Registro";
+					break;
 
 				case '001':										
 					$respuesta["idinput"] = "ISSN";
@@ -1515,14 +1575,14 @@
 			<h2 class="txt-azul">Buscador </h2>
 			<form id="formSearch">'.$formArea.'	
 				    <label class="checkbox inline">
-					  <input type="radio" id="query_type_1" name="query_type" value="content"> Que contenga
+					  <input type="radio" id="query_type_1" name="query_type" value="content" checked> Que contenga
 					</label>
 
 					<label class="checkbox inline">
 					  <input type="radio" id="query_type_2" name="query_type" value="empieza"> Empieza por
 					</label>
 					<label class="checkbox inline">
-					  <input type="radio" id="query_type_3" name="query_type" value="exacta" checked> Exacta
+					  <input type="radio" id="query_type_3" name="query_type" value="exacta" > Exacta
 					</label>
 				    
 									
@@ -1609,7 +1669,7 @@
 	   					msjdes = "Buscará la palabra o ofrase exacta";
 	   				}
 	   				else{
-	   					msjdes == "debe elgir una opcion";
+	   					msjdes == "debe elegir una opcion";
 	   				}
 
 	   				$("#msj_query_type").html(msjdes);

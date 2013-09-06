@@ -313,7 +313,7 @@
 
 				$respuesta->script("xajax_searchPublicationShow(xajax.getFormValues('formSearch'),'".$_SESSION["idfrom"]."','$currentPage','$pageSize','$idarea')");
 				$respuesta->script("xajax_paginatorSearch($currentPage,$pageSize,$total,xajax.getFormValues('formSearch'),$idarea)");
-	             $respuesta->alert(print_r($result,TRUE));  	                         
+	             // $respuesta->alert(print_r($result,TRUE));  	                         
 			}
 	
 		}
@@ -463,7 +463,8 @@
 		//$result=searchPublicationSQL($idcategory,$form,$idfrom,$currentPage, $pageSize, $idarea,$tip_inf);
 		$result = searchBookSQL($form, $currentPage, $pageSize);
 		$html = "";
-		$sql = $result["Query"];
+		// $sql = $result["Query"];
+
 		$i = 0;
 		if($result["Count"]>0){
 			foreach ($result["book_data"] as $xmldata){
@@ -527,9 +528,16 @@
                                 	$author ="";
                                 }
                                 if (isset($xmlt->Resumen)) {
-                                	$resumen = (string)$xmlt->Resumen;
-                                	$resumen = substr($resumen, 0,400);
-                                	$resumen = "<p class='res'>".$resumen."...</p>";
+                                	$resumen = (string)$xmlt->Resumen;                                	
+                                	$resumen = "<p class='res'>".substr($resumen, 0,400)."...</p>";
+                                }
+                                if (isset($xmlt->NoteConte)) {
+                                	$NoteConte = (string)$xmlt->NoteConte;
+                                	$NoteConte = "<p class='res'>".substr($NoteConte, 0,400)."...</p>";
+                                }
+                                if (isset($xmlt->UbicFis)) {
+                                	$UbicFis = (string)$xmlt->UbicFis;
+                                	$UbicFis = "<p class='res'>".$UbicFis."...</p>";
                                 }
                                 
 
@@ -551,15 +559,15 @@
 					
 				$html.="<div class='resultado-busqueda ".$class_list."'>";				
 				$pag=($currentPage-1)*$pageSize+($i+1);
-				$html.="<span class='list_number'>" .$pag.".</span> ".$titulo.$author.$resumen;
+				$html.="<span class='list_number'>" .$pag.".</span> ".$titulo.$author.$resumen.$NoteConte.$UbicFis;
 
-				$html .= "</div>";
+				$html .= "".$sql."</div>";
 
 			$i++;
 			}
 		}
 		else{
-			$html .= "<p>NO SE ENCONTRARON RESULTADOS </p>";
+			$html .= "<p>NO SE ENCONTRARON RESULTADOS  ".$sql."</p>";
 		}
 
         //return array($html, $strModal2, $strAutor2,$md5iddata2,$count);
