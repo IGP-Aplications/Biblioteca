@@ -526,6 +526,12 @@
                                 if ($result_author["Error"]==1) {
                                 	$author ="";
                                 }
+                                if (isset($xmlt->Resumen)) {
+                                	$resumen = (string)$xmlt->Resumen;
+                                	$resumen = substr($resumen, 0,400);
+                                	$resumen = "<p class='res'>".$resumen."...</p>";
+                                }
+                                
 
 
 				// if(($xmlflag) and ($enlace!="")){
@@ -545,7 +551,7 @@
 					
 				$html.="<div class='resultado-busqueda ".$class_list."'>";				
 				$pag=($currentPage-1)*$pageSize+($i+1);
-				$html.="<span class='list_number'>" .$pag.".</span> ".$titulo.$author;
+				$html.="<span class='list_number'>" .$pag.".</span> ".$titulo.$author.$resumen;
 
 				$html .= "</div>";
 

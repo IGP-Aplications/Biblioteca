@@ -244,3 +244,6 @@ body .tabactive a{
 .none {
     display: none;
 }
+a .inline, .inline{
+    display: inline-block;  
+}

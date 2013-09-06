@@ -1272,10 +1272,14 @@
 								    ";
 							// $respuesta["html"] .=($k==0?$respuesta["add"]:$respuesta["del"]);	    
 							  if ($k==0) {						 	
-								$respuesta["html"] .= "<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span> ";
+								$respuesta["html"] .= "<span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>
+															<span class='ui-icon ui-icon-circle-plus inline'></span></a>
+														</span> ";
 							  }
 							  else{						 	
-								$respuesta["html"] .= "<span><a href='#' onclick='xajax_delCampos(\" \",\"".$id."_".($k+1)."\");  return false;'>(-)Eliminar</a></span>";
+								$respuesta["html"] .= "<span><a href='#' onclick='xajax_delCampos(\" \",\"".$id."_".($k+1)."\");  return false;'>
+															<span class='ui-icon ui-icon-circle-minus inline'></span></a>
+														</span>";
 							  }
 							 $respuesta["html"] .="</div>";							
 							}
@@ -1285,7 +1289,8 @@
 							    <label class='control-label' for='$idinput'>".$respuesta["labelinput"]."</label> 
 							    <div class='controls' id='".$id."_".($k+1)."'>
 							      <input type='text' name='".$idinput."[]' placeholder='".$respuesta["labelinput"]."' onchange='xajax_register_input(this.value,\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;' value=''>
-							      <span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
+							      <span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>
+							      	<span class='ui-icon ui-icon-circle-plus inline'></span></a></span>
 							    </div>
 							";
 					}
@@ -1297,7 +1302,9 @@
 							    <label class='control-label' for='$idinput'>".$respuesta["labelinput"]."</label> 
 							    <div class='controls' id='".$id."_1'>
 							      <input type='text' name='".$idinput."[]' placeholder='".$respuesta["labelinput"]."' onchange='xajax_register_input(this.value,\"Idioma\",\"languaje\"); return false;' value=''>
-							      <span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>(+)Aumentar</a></span>
+							      <span><a href='#' onclick='xajax_AddInput(\"".$id."\",\"".$respuesta["labelinput"]."\",\"".$respuesta["idinput"]."\"); return false;'>
+							      	<span class='ui-icon ui-icon-circle-plus inline'></span></a>
+							      </span>
 							      <span id='".$respuesta["idinput"]."_0_error' class='msg_error color_red'></span>
 							    </div>
 						";					
@@ -1325,7 +1332,9 @@
 		$objResponse = new xajaxResponse();
 		$html = "<div class='controls' >
 								<input type='text'  value=''  name='".$idinput."[]'  />
-								<span><a href='#' class='del_input' onclick='xajax_delInput($(this).parents(\"div\").attr(\"id\"),\"".$labelinput."\",\"".$idinput."\")'>(-)Eliminar</a></span>
+								<span><a href='#' class='del_input' onclick='xajax_delInput($(this).parents(\"div\").attr(\"id\"),\"".$labelinput."\",\"".$idinput."\")'>
+									<span class='ui-icon ui-icon-circle-minus inline'></span></a>
+								</span>
 								<span  class='msg_error color_red'></span>
 								</div>";
 		$html = eregi_replace("[\n|\r|\n\r]", ' ', $html);
